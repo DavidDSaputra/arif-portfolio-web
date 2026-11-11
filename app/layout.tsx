@@ -3,6 +3,7 @@ import { Archivo, IBM_Plex_Mono, Pinyon_Script } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import ScrollToTop from "@/components/ScrollToTop";
+import SiteDock from "@/components/SiteDock";
 import { site, profile } from "@/lib/content";
 
 const archivo = Archivo({
@@ -22,7 +23,7 @@ const plexMono = IBM_Plex_Mono({
 const script = Pinyon_Script({
   subsets: ["latin"],
   weight: "400",
-  variable: "--font-script",
+  variable: "--font-pinyon",
   display: "swap",
 });
 
@@ -44,7 +45,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#141414",
+  themeColor: "#ffffff",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -53,12 +54,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="grain min-h-dvh">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-orange focus:px-4 focus:py-2 focus:text-ink"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-blue focus:px-4 focus:py-2 focus:text-white"
         >
           Lompat ke konten
         </a>
         <SmoothScroll>
           {children}
+          <SiteDock />
           <ScrollToTop />
         </SmoothScroll>
       </body>

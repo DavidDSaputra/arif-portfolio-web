@@ -15,6 +15,42 @@ export const ArrowRight = (p: P) => (
   </svg>
 );
 
+export const Home = (p: P) => (
+  <svg viewBox="0 0 24 24" aria-hidden {...base} {...p}>
+    <path d="M4 11.5 12 5l8 6.5" />
+    <path d="M6.5 10v9h11v-9M10 19v-5h4v5" />
+  </svg>
+);
+
+export const User = (p: P) => (
+  <svg viewBox="0 0 24 24" aria-hidden {...base} {...p}>
+    <circle cx="12" cy="8.5" r="3.5" />
+    <path d="M5 19.5c1.2-3.4 3.8-5 7-5s5.8 1.6 7 5" />
+  </svg>
+);
+
+export const Briefcase = (p: P) => (
+  <svg viewBox="0 0 24 24" aria-hidden {...base} {...p}>
+    <rect x="3.5" y="7.5" width="17" height="12" rx="2" />
+    <path d="M9 7.5V5.8c0-.7.6-1.3 1.3-1.3h3.4c.7 0 1.3.6 1.3 1.3v1.7M3.5 12.5h17" />
+  </svg>
+);
+
+export const Chart = (p: P) => (
+  <svg viewBox="0 0 24 24" aria-hidden {...base} {...p}>
+    <path d="M4 19.5h16" />
+    <path d="M7 16v-4M11.5 16V8M16 16v-6" />
+    <path d="M6 9.5 10.5 6l3 2.5L18 4.5" />
+  </svg>
+);
+
+export const Layers = (p: P) => (
+  <svg viewBox="0 0 24 24" aria-hidden {...base} {...p}>
+    <path d="m12 4 8 4.2-8 4.3-8-4.3z" />
+    <path d="m4 12.3 8 4.2 8-4.2M4 16.3l8 4.2 8-4.2" />
+  </svg>
+);
+
 export const ArrowUp = (p: P) => (
   <svg viewBox="0 0 24 24" aria-hidden {...base} {...p}>
     <path d="M12 20V4M6 10l6-6 6 6" />

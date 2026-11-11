@@ -55,7 +55,8 @@ export default function Header() {
             role="dialog"
             aria-modal="true"
             aria-label="Menu navigasi"
-            className="fixed inset-0 z-50 flex flex-col bg-orange text-ink"
+            data-lenis-prevent
+            className="fixed inset-0 z-50 flex flex-col overflow-y-auto overscroll-contain bg-orange text-ink"
             initial={reduce ? { opacity: 0 } : { clipPath: "circle(0% at 95% 4%)" }}
             animate={reduce ? { opacity: 1 } : { clipPath: "circle(150% at 95% 4%)" }}
             exit={reduce ? { opacity: 0 } : { clipPath: "circle(0% at 95% 4%)" }}
@@ -74,8 +75,9 @@ export default function Header() {
               </button>
             </div>
 
-            <nav className="mx-auto flex w-full max-w-[1440px] flex-1 flex-col justify-center px-4 sm:px-8" aria-label="Utama">
-              <ul>
+            <nav className="mx-auto flex w-full max-w-[1440px] flex-1 flex-col px-4 sm:px-8" aria-label="Utama">
+              {/* my-auto = tengah vertikal, tapi tidak memotong bagian atas bila layar terlalu pendek */}
+              <ul className="my-auto py-4">
                 {nav.map((n, i) => (
                   <motion.li
                     key={n.href}
@@ -89,7 +91,8 @@ export default function Header() {
                       className="group flex items-baseline gap-4 border-b border-ink/20 py-2 sm:py-3"
                     >
                       <span className="font-mono text-xs font-semibold">0{i + 1}</span>
-                      <span className="display text-[clamp(2.75rem,10vw,7.5rem)] transition-transform duration-300 group-hover:translate-x-4">
+                      {/* ukuran ikut lebar DAN tinggi layar → muat di laptop lebar-pendek (zoom 100%) */}
+                      <span className="display text-[clamp(2.25rem,min(12vw,11vh),7.5rem)] transition-transform duration-300 group-hover:translate-x-4">
                         {n.label}
                       </span>
                     </Link>

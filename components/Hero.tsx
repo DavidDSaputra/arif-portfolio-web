@@ -29,7 +29,7 @@ export default function Hero() {
   return (
     <section id="top" aria-label="Perkenalan" className="relative overflow-hidden">
       {/* Layout Fearless (nama besar + foto lengkung + kotak ngebuka) dengan animasi piksel ala andreas.vision */}
-      <div ref={heroRef} className="relative">
+      <div ref={heroRef} className="relative bg-white">
         {/* Langit piksel: awan hanya di tepi & sudut, tengah bersih untuk konten */}
         <PixelSky
           className="absolute inset-0"

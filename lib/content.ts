@@ -113,6 +113,18 @@ export const experience: { no: string; company: string; role?: string; period?: 
 export const skills = {
   expertise: ["Strategi Konten", "Video Editing", "Fotografi", "Desain Grafis", "Cinematic Video", "Event Project"],
   software: ["Canva", "CapCut", "Photoshop", "VN", "PicsArt", "Lightroom", "Microsoft Excel", "Microsoft Word"],
+  /** Logo dari slide "Software Skills" di PDF (urutan sama dengan grid 3×3 di PDF). */
+  logos: [
+    { name: "Canva", src: "/assets/software/canva.png", w: 221, h: 221 },
+    { name: "CapCut", src: "/assets/software/capcut.png", w: 200, h: 200 },
+    { name: "VN", src: "/assets/software/vn.png", w: 168, h: 169 },
+    { name: "Photoshop", src: "/assets/software/photoshop.png", w: 188, h: 189 },
+    { name: "Premiere Pro", src: "/assets/software/premiere-pro.png", w: 256, h: 250 },
+    { name: "Illustrator", src: "/assets/software/illustrator.png", w: 273, h: 267 },
+    { name: "Lightroom", src: "/assets/software/lightroom.png", w: 256, h: 256 },
+    { name: "Microsoft Word", src: "/assets/software/word.png", w: 230, h: 212 },
+    { name: "Microsoft Excel", src: "/assets/software/excel.png", w: 198, h: 174 },
+  ],
   /** Bidang proyek yang disebut di bio. */
   fields: ["Brand", "Wedding", "Event Konser"],
 };
@@ -150,6 +162,28 @@ export const insightTotals = {
 
 /* ───────────────────────── KARYA ───────────────────────── */
 
+/** Semua aset Keranggan Festival (slide "Event Project" di PDF). */
+const kf = {
+  poster: { src: "/assets/work/poster-keranggan-fest.webp", w: 692, h: 864, alt: "Poster utama Keranggan Fest Vol.1" },
+  bannerTop: { src: "/assets/work/kf-banner-top.png", w: 1200, h: 220, alt: "Banner segitiga atap panggung Keranggan Fest" },
+  banner: { src: "/assets/work/kf-banner.jpg", w: 4671, h: 857, alt: "Banner panggung Keranggan Fest bertema galaksi" },
+  ticket: { src: "/assets/work/kf-ticket.png", w: 1000, h: 87, alt: "Desain gelang tiket Keranggan Fest Music Festival 7 Desember 2024" },
+  workshirt: { src: "/assets/work/kf-merch-workshirt.png", w: 608, h: 1080, alt: "Poster merchandise workshirt official Keranggan Fest IDR 200K" },
+  tshirt: { src: "/assets/work/kf-merch-tshirt.png", w: 608, h: 1080, alt: "Poster merchandise T-shirt official Keranggan Fest IDR 150K" },
+  feed: { src: "/assets/work/kf-social-feed.jpg", w: 334, h: 720, alt: "Feed Instagram Keranggan Fest berisi dokumentasi konser" },
+} satisfies Record<string, Img>;
+
+/** Section "Event Project" di beranda — komposisi mengikuti slide PDF. */
+export const eventProject = {
+  slug: "keranggan-festival",
+  title: "Keranggan Festival",
+  tag: "[A DECADE TOGETHER — 7 DESEMBER 2024]",
+  banner: [kf.bannerTop, kf.banner],
+  ticket: kf.ticket,
+  merchandise: [kf.workshirt, kf.tshirt],
+  socialMedia: kf.feed,
+};
+
 const reelPoster = (n: number, w: number, h: number, alt: string): Img => ({
   src: `/assets/work/reel-${n}.jpg`,
   w,
@@ -180,13 +214,13 @@ export const works: Work[] = [
       { label: "Merch", value: "Workshirt IDR 200K · T-Shirt IDR 150K" },
     ],
     media: [
-      { kind: "image", src: "/assets/work/poster-keranggan-fest.webp", w: 692, h: 864, alt: "Poster utama Keranggan Fest Vol.1", caption: "Poster" },
-      { kind: "image", src: "/assets/work/kf-banner-top.png", w: 1200, h: 220, alt: "Banner segitiga atap panggung Keranggan Fest", caption: "Banner — atap panggung" },
-      { kind: "image", src: "/assets/work/kf-banner.jpg", w: 4671, h: 857, alt: "Banner panggung Keranggan Fest bertema galaksi", caption: "Banner panggung" },
-      { kind: "image", src: "/assets/work/kf-ticket.png", w: 1000, h: 87, alt: "Desain gelang tiket Keranggan Fest Music Festival 7 Desember 2024", caption: "Ticket" },
-      { kind: "image", src: "/assets/work/kf-merch-workshirt.png", w: 608, h: 1080, alt: "Poster merchandise workshirt official Keranggan Fest IDR 200K", caption: "Merchandise — Workshirt" },
-      { kind: "image", src: "/assets/work/kf-merch-tshirt.png", w: 608, h: 1080, alt: "Poster merchandise T-shirt official Keranggan Fest IDR 150K", caption: "Merchandise — T-Shirt" },
-      { kind: "image", src: "/assets/work/kf-social-feed.jpg", w: 334, h: 720, alt: "Feed Instagram Keranggan Fest berisi dokumentasi konser", caption: "Social Media" },
+      { kind: "image", ...kf.poster, caption: "Poster" },
+      { kind: "image", ...kf.bannerTop, caption: "Banner — atap panggung" },
+      { kind: "image", ...kf.banner, caption: "Banner panggung" },
+      { kind: "image", ...kf.ticket, caption: "Ticket" },
+      { kind: "image", ...kf.workshirt, caption: "Merchandise — Workshirt" },
+      { kind: "image", ...kf.tshirt, caption: "Merchandise — T-Shirt" },
+      { kind: "image", ...kf.feed, caption: "Social Media" },
     ],
   },
   {

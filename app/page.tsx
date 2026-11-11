@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import SelectedWork from "@/components/SelectedWork";
+import EventProject from "@/components/EventProject";
 import Insight from "@/components/Insight";
 import Skills from "@/components/Skills";
 import Brief from "@/components/Brief";
@@ -16,6 +17,7 @@ export default function Home() {
         <Hero />
         <About />
         <SelectedWork />
+        <EventProject />
         <Insight />
         <Skills />
         <Brief />

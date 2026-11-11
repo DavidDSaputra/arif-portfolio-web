@@ -6,7 +6,6 @@ import { motion, useReducedMotion, useScroll, useTransform } from "motion/react"
 import { contact, marquee, profile, socials } from "@/lib/content";
 import { ArrowRight, Instagram, LongArrow, Mail, Spark, WhatsApp } from "./icons";
 import { Marquee, OpenBox, Pill, Reveal, outExpo } from "./ui";
-import Crosshair from "./reactbits/Crosshair";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -37,19 +36,6 @@ export default function Hero() {
 
   return (
     <section ref={ref} id="top" aria-label="Perkenalan" className="relative overflow-hidden">
-      {/* React Bits — Crosshair: garis bidik mengikuti kursor, mengunci tombol & link di hero */}
-      <Crosshair
-        containerRef={ref}
-        color="#005A9C"
-        targetEffect="lock"
-        thickness={1}
-        opacity={0.55}
-        smoothing={0.35}
-        gap={8}
-        fade={0.35}
-        showCoordinates
-        style={{ zIndex: 30 }}
-      />
       <div className="relative mx-auto grid min-h-[100svh] max-w-[1440px] grid-cols-1 px-4 pb-10 pt-24 sm:px-8 lg:grid-cols-12 lg:gap-8 lg:pt-28">
         {/* Foto (arch, gaya PDF) */}
         <div className="relative order-1 mx-auto mb-8 w-[72%] max-w-[420px] lg:order-2 lg:col-span-5 lg:mb-0 lg:w-full lg:max-w-none lg:self-stretch">

@@ -4,6 +4,7 @@ import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import ScrollToTop from "@/components/ScrollToTop";
 import SiteDock from "@/components/SiteDock";
+import Crosshair from "@/components/reactbits/Crosshair";
 import { site, profile } from "@/lib/content";
 
 const archivo = Archivo({
@@ -63,6 +64,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SiteDock />
           <ScrollToTop />
         </SmoothScroll>
+        {/* React Bits — Crosshair di seluruh halaman (tanpa containerRef = menutupi viewport).
+            Navy agar tetap terlihat di latar putih maupun blok biru; pointer-events none, jadi tidak menghalangi klik. */}
+        <Crosshair
+          color="#1B365D"
+          targetEffect="lock"
+          thickness={1}
+          opacity={0.5}
+          smoothing={0.35}
+          gap={8}
+          fade={0.35}
+          showCoordinates
+        />
       </body>
     </html>
   );

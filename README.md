@@ -20,7 +20,7 @@ Token warna ada di `app/globals.css` (blok `@theme`) dan dipakai sebagai kelas T
 
 Disalin apa adanya (varian JavaScript + CSS) ke `components/reactbits/`, dengan tipe props di file `.d.ts`:
 
-- **Crosshair** (`Hero.tsx`): garis bidik biru mengikuti kursor di hero dan mengunci tombol/link.
+- **Crosshair** (`app/layout.tsx`): garis bidik navy mengikuti kursor di seluruh halaman dan mengunci tombol/link. Untuk membatasinya ke satu section, pindahkan ke section itu dan beri prop `containerRef`.
 - **Lanyard** (`IdLanyard.tsx` → section About): kartu ID 3D yang bisa ditarik dan diklik untuk dibalik. Gambar kartu depan/belakang dan talinya digambar otomatis di `lib/idCard.ts` dari data `lib/content.ts`.
 - **Dock** (`SiteDock.tsx`): navigasi bawah gaya macOS dengan warna tema. Item di-dock dan warnanya diatur di file itu.
 

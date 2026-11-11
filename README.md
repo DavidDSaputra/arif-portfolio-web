@@ -26,6 +26,7 @@ Semua teks, kontak, karya, skill, dan angka insight ada di **`lib/content.ts`**.
 | Skill & software | `skills` (logo: `skills.logos`) |
 | Angka TikTok Studio | `insights` (total dihitung otomatis) |
 | Karya + halaman detail | `works` (1 item = 1 halaman `/work/<slug>`) |
+| Slide Video Editing / Design Graphics / Cinematic di beranda | `showcases` (gambar & video diambil dari `works`) |
 | Section Event Project di beranda | `eventProject` |
 | Kicker/judul section | `sectionCopy` |
 

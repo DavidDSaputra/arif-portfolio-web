@@ -19,7 +19,7 @@ export default function MediaItem({ m, index }: { m: Media; index: number }) {
       transition={{ duration: 0.8, delay: (index % 3) * 0.06, ease: [0.22, 1, 0.36, 1] }}
       className={wide ? "sm:col-span-2 lg:col-span-3" : ""}
     >
-      <div className="relative overflow-hidden rounded-xl bg-ink-2" style={{ aspectRatio: `${ratio}` }}>
+      <div className="relative overflow-hidden rounded-xl bg-surface" style={{ aspectRatio: `${ratio}` }}>
         {m.kind === "image" ? (
           <Image src={m.src} alt={m.alt} fill sizes={wide ? "100vw" : "(min-width: 768px) 33vw, 100vw"} className="object-contain" />
         ) : m.src ? (
@@ -35,12 +35,12 @@ export default function MediaItem({ m, index }: { m: Media; index: number }) {
         ) : (
           <>
             <Image src={m.poster.src} alt={m.poster.alt} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover opacity-70" />
-            <div className="absolute inset-0 grid place-items-center bg-gradient-to-t from-ink/80 via-transparent to-transparent">
-              <span className="grid h-16 w-16 place-items-center rounded-full bg-orange text-ink">
+            <div className="absolute inset-0 grid place-items-center bg-gradient-to-t from-navy/50 via-transparent to-transparent">
+              <span className="grid h-16 w-16 place-items-center rounded-full bg-blue text-white">
                 <Play className="ml-1 h-7 w-7" />
               </span>
             </div>
-            <span className="absolute bottom-3 left-3 rounded-full bg-ink/85 px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-orange">
+            <span className="absolute bottom-3 left-3 rounded-full bg-white/85 px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-blue">
               Video menyusul
             </span>
           </>
@@ -48,7 +48,7 @@ export default function MediaItem({ m, index }: { m: Media; index: number }) {
       </div>
       {m.caption && (
         <figcaption className="mt-3 font-mono text-xs uppercase tracking-[0.14em] text-mute">
-          <span className="text-orange">{String(index + 1).padStart(2, "0")}</span> — {m.caption}
+          <span className="text-blue">{String(index + 1).padStart(2, "0")}</span> — {m.caption}
         </figcaption>
       )}
     </motion.figure>

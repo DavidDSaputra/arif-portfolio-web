@@ -24,19 +24,19 @@ export default function SelectedWork() {
   };
 
   return (
-    <section id="work" aria-labelledby="work-title" className="relative scroll-mt-20 bg-paper text-ink">
+    <section id="work" aria-labelledby="work-title" className="relative scroll-mt-20 bg-surface text-navy">
       <div className="mx-auto max-w-[1440px] px-4 py-24 sm:px-8 md:py-32">
         <Reveal className="grid gap-6 md:grid-cols-12 md:items-end">
-          <p className="display text-[clamp(3rem,9vw,7.5rem)] text-orange-deep md:col-span-7">{sectionCopy.work.range}</p>
+          <p className="display text-[clamp(3rem,9vw,7.5rem)] text-blue md:col-span-7">{sectionCopy.work.range}</p>
           <div className="md:col-span-5 md:pb-3 md:text-right">
             <h2 id="work-title" className="font-mono text-xs font-semibold uppercase tracking-[0.18em] sm:text-sm">
-              <span className="text-orange-deep">{sectionCopy.work.kicker}</span>{" "}
-              <span className="mt-1 block text-ink/60 sm:inline">{sectionCopy.work.tag}</span>
+              <span className="text-blue">{sectionCopy.work.kicker}</span>{" "}
+              <span className="mt-1 block text-mute sm:inline">{sectionCopy.work.tag}</span>
             </h2>
           </div>
         </Reveal>
 
-        <ul className="relative mt-14 border-t-2 border-ink" onPointerMove={onMove} onPointerLeave={() => setActive(null)}>
+        <ul className="relative mt-14 border-t-2 border-navy" onPointerMove={onMove} onPointerLeave={() => setActive(null)}>
           {works.map((w, i) => (
             <li
               key={w.slug}
@@ -52,19 +52,19 @@ export default function SelectedWork() {
                 y.set(e.clientY - r.top);
                 setActive(i);
               }}
-              className="border-b-2 border-ink"
+              className="border-b-2 border-navy"
             >
               <Link
                 href={`/work/${w.slug}`}
                 onFocus={() => setActive(null)}
-                className="group relative grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-3 py-6 outline-none transition-colors duration-300 hover:bg-orange focus-visible:bg-orange sm:px-4 sm:py-8 md:grid-cols-[11rem_6rem_1fr_auto]"
+                className="group relative grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-3 py-6 outline-none transition-colors duration-300 hover:bg-ice focus-visible:bg-ice sm:px-4 sm:py-8 md:grid-cols-[11rem_6rem_1fr_auto]"
               >
                 <span className="font-mono text-xs font-semibold uppercase tracking-[0.14em] md:text-sm">{w.category}</span>
                 <span className="hidden font-mono text-xs font-semibold md:block md:text-sm">{w.year ?? "—"}</span>
                 <span className="display col-span-2 text-[clamp(2rem,6.5vw,5.25rem)] transition-transform duration-500 group-hover:translate-x-3 md:col-span-1">
                   {w.title}
                 </span>
-                <span className="col-start-2 row-start-1 grid h-11 w-11 place-items-center rounded-full border-2 border-ink transition-all duration-300 group-hover:rotate-45 group-hover:bg-ink group-hover:text-orange md:col-start-4 md:h-14 md:w-14">
+                <span className="col-start-2 row-start-1 grid h-11 w-11 place-items-center rounded-full border-2 border-navy transition-all duration-300 group-hover:rotate-45 group-hover:bg-navy group-hover:text-white md:col-start-4 md:h-14 md:w-14">
                   <ArrowUpRight className="h-5 w-5" />
                 </span>
                 {/* thumbnail mobile */}
@@ -92,7 +92,7 @@ export default function SelectedWork() {
                 className="pointer-events-none absolute left-0 top-0 z-10 hidden md:block"
               >
                 <div className="-translate-x-1/2 -translate-y-1/2 rotate-[-6deg]">
-                  <div className="relative h-72 w-56 overflow-hidden rounded-xl border-4 border-ink shadow-2xl">
+                  <div className="relative h-72 w-56 overflow-hidden rounded-xl border-4 border-navy shadow-2xl">
                     {works.map((w, i) => (
                       <Image
                         key={w.slug}

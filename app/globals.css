@@ -1,19 +1,19 @@
 @import "tailwindcss";
 
-/* ── Design tokens (gaya "Fearless": gelap + oranye) ── */
+/* ── Design tokens — palet colorhunt.co/palette/1b365d005a9c60c1e5a0e0ef, latar putih ── */
 @theme {
-  --color-ink: #141414;
-  --color-ink-2: #1c1c1c;
-  --color-ink-3: #262626;
-  --color-line: #2e2e2e;
-  --color-paper: #f4efe8;
-  --color-orange: #f7744a;
-  --color-orange-deep: #e35a2d;
-  --color-mute: #a3a3a3;
+  --color-navy: #1b365d; /* teks utama */
+  --color-blue: #005a9c; /* aksen utama: judul, tombol */
+  --color-sky: #60c1e5; /* aksen kedua: glow, dekorasi */
+  --color-ice: #a0e0ef; /* tint terang: hover, sorotan */
+  --color-surface: #f2f9fc; /* permukaan sangat terang */
+  --color-surface-2: #e4f3f9;
+  --color-line: #d5e5ef; /* garis/border */
+  --color-mute: #5c7290; /* teks sekunder (kontras AA di putih) */
 
   --font-display: var(--font-archivo), "Arial Black", sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
-  --font-script: var(--font-script), cursive;
+  --font-script: var(--font-pinyon), cursive;
 
   --animate-marquee: marquee var(--marquee-duration, 30s) linear infinite;
   --animate-spin-slow: spin 18s linear infinite;
@@ -32,30 +32,30 @@
 }
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 html {
   overflow-x: clip;
-  background: var(--color-ink);
-  color: #fff;
+  background: #ffffff;
+  color: var(--color-navy);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--color-ink);
+  background: #ffffff;
   font-family: var(--font-mono);
   overflow-x: clip;
 }
 
 ::selection {
-  background: var(--color-orange);
-  color: var(--color-ink);
+  background: var(--color-blue);
+  color: #ffffff;
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-orange);
+  outline: 2px solid var(--color-blue);
   outline-offset: 3px;
 }
 
@@ -66,7 +66,7 @@ body {
   inset: 0;
   pointer-events: none;
   z-index: 60;
-  opacity: 0.06;
+  opacity: 0.035;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -79,17 +79,23 @@ body {
   text-transform: uppercase;
 }
 
-/* Huruf script bercahaya — aksen dari PDF */
+/* Huruf script bercahaya — aksen dari PDF, kini navy dengan glow biru langit */
 .script-glow {
   font-family: var(--font-script);
   font-weight: 400;
-  color: #fff;
-  text-shadow: 0 0 18px rgba(255, 255, 255, 0.55), 0 0 2px rgba(255, 255, 255, 0.9);
+  color: var(--color-navy);
+  text-shadow: 0 0 18px rgba(96, 193, 229, 0.65), 0 0 2px rgba(96, 193, 229, 0.6);
 }
 
 .text-outline {
-  -webkit-text-stroke: 1.5px var(--color-orange);
+  -webkit-text-stroke: 1.5px var(--color-blue);
   color: transparent;
+}
+
+/* Dock (React Bits) — tile "Unduh Portofolio" disorot biru */
+.dock-item.dock-cv .dock-face {
+  background: linear-gradient(180deg, #0a6bb3 0%, var(--color-blue) 100%);
+  color: #ffffff;
 }
 
 /* Lenis */

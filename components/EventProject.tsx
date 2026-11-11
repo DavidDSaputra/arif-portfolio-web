@@ -13,8 +13,8 @@ export default function EventProject() {
   return (
     <section id="event" aria-labelledby="event-title" className="relative scroll-mt-20 overflow-hidden border-b border-line py-24 md:py-32">
       {/* glow oranye seperti slide PDF */}
-      <div aria-hidden className="pointer-events-none absolute -left-40 bottom-0 h-[26rem] w-[26rem] rounded-full bg-orange/25 blur-[130px]" />
-      <div aria-hidden className="pointer-events-none absolute -right-40 top-28 h-80 w-80 rounded-full bg-orange/20 blur-[120px]" />
+      <div aria-hidden className="pointer-events-none absolute -left-40 bottom-0 h-[26rem] w-[26rem] rounded-full bg-sky/25 blur-[130px]" />
+      <div aria-hidden className="pointer-events-none absolute -right-40 top-28 h-80 w-80 rounded-full bg-sky/20 blur-[120px]" />
 
       <div className="relative mx-auto max-w-[1440px] px-4 sm:px-8">
         <SlideHeader id="event-title" words={ep.words} subtitle={ep.title} tag={ep.tag} />
@@ -73,7 +73,7 @@ export default function EventProject() {
                     width={m.w}
                     height={m.h}
                     sizes="(min-width: 1024px) 16vw, 45vw"
-                    className="h-auto w-full shadow-[0_24px_60px_-20px_rgba(0,0,0,0.9)]"
+                    className="h-auto w-full shadow-[0_24px_60px_-20px_rgba(27,54,93,0.35)]"
                   />
                 </motion.div>
               ))}

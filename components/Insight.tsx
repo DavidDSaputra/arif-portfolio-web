@@ -39,7 +39,7 @@ const stats = [
 export default function Insight() {
   return (
     <section id="insight" aria-labelledby="insight-title" className="relative scroll-mt-20 overflow-hidden py-24 md:py-32">
-      <div aria-hidden className="pointer-events-none absolute -right-40 top-20 h-96 w-96 rounded-full bg-orange/25 blur-[120px]" />
+      <div aria-hidden className="pointer-events-none absolute -right-40 top-20 h-96 w-96 rounded-full bg-sky/25 blur-[120px]" />
       <div className="mx-auto max-w-[1440px] px-4 sm:px-8">
         <Reveal>
           <Kicker title={sectionCopy.insight.kicker} tag={sectionCopy.insight.tag} />
@@ -50,7 +50,7 @@ export default function Insight() {
           {stats.map((s, i) => (
             <Reveal key={s.label} delay={i * 0.08} className="flex min-w-0 flex-col-reverse justify-end gap-3 border-b border-r border-line p-4 sm:p-8">
               <dt className="font-mono text-[11px] uppercase leading-snug tracking-[0.12em] text-mute sm:text-xs">{s.label}</dt>
-              <dd className="display whitespace-nowrap text-[clamp(1.75rem,8vw,4.5rem)] text-orange lg:text-[clamp(2rem,3.6vw,4.5rem)]">
+              <dd className="display whitespace-nowrap text-[clamp(1.75rem,8vw,4.5rem)] text-blue lg:text-[clamp(2rem,3.6vw,4.5rem)]">
                 <CountUp value={s.value} format={s.fmt} />
               </dd>
             </Reveal>
@@ -74,7 +74,7 @@ export default function Insight() {
                 <figcaption className="mt-3 flex items-baseline justify-between font-mono text-xs uppercase">
                   <span className="text-mute">#{String(i + 1).padStart(2, "0")}</span>
                   <span>
-                    <span className="font-semibold text-orange">{full.format(d.views)}</span> views
+                    <span className="font-semibold text-blue">{full.format(d.views)}</span> views
                   </span>
                 </figcaption>
               </figure>

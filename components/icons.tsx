@@ -15,6 +15,12 @@ export const ArrowRight = (p: P) => (
   </svg>
 );
 
+export const ArrowUp = (p: P) => (
+  <svg viewBox="0 0 24 24" aria-hidden {...base} {...p}>
+    <path d="M12 20V4M6 10l6-6 6 6" />
+  </svg>
+);
+
 export const ArrowLeft = (p: P) => (
   <svg viewBox="0 0 24 24" aria-hidden {...base} {...p}>
     <path d="M20 12H4M10 6l-6 6 6 6" />

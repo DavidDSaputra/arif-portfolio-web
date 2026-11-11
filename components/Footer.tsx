@@ -45,7 +45,8 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-line">
-      <div className="mx-auto max-w-[1440px] px-4 pb-8 pt-16 sm:px-8">
+      {/* pb ekstra agar baris terakhir tidak tertutup tombol scroll-to-top */}
+      <div className="mx-auto max-w-[1440px] px-4 pb-24 pt-16 sm:px-8 sm:pb-28">
         <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-5">
             <p className="display text-[clamp(2.5rem,7vw,5rem)] text-orange">

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Archivo, IBM_Plex_Mono, Pinyon_Script } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
+import ScrollToTop from "@/components/ScrollToTop";
 import { site, profile } from "@/lib/content";
 
 const archivo = Archivo({
@@ -56,7 +57,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Lompat ke konten
         </a>
-        <SmoothScroll>{children}</SmoothScroll>
+        <SmoothScroll>
+          {children}
+          <ScrollToTop />
+        </SmoothScroll>
       </body>
     </html>
   );

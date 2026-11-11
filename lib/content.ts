@@ -33,9 +33,10 @@ export type Work = {
 /* ───────────────────────── IDENTITAS ───────────────────────── */
 
 export const profile = {
-  /** Nama tampilan. Dari metadata PDF (author "arifsmithhh23") & handle ARSMTHHH — ganti bila perlu. */
-  firstName: "ARIF",
-  lastName: "SMITH",
+  /** Nama tampilan (hero memakai firstName + lastName). */
+  fullName: "Samsul Maarif",
+  firstName: "SAMSUL",
+  lastName: "MAARIF",
   handle: "arsmthhh",
   role: "Social Media Specialist",
   label: "Creative Design",
@@ -55,13 +56,13 @@ export const profile = {
       src: "/assets/photos/hero.jpg",
       w: 651,
       h: 1156,
-      alt: "Potret hitam-putih Arif di hutan pinus, mengenakan masker dan jaket hitam",
+      alt: "Potret hitam-putih Samsul Maarif di hutan pinus, mengenakan masker dan jaket hitam",
     },
     about: {
       src: "/assets/photos/about.jpg",
       w: 900,
       h: 1600,
-      alt: "Potret Arif duduk santai berbaju hitam dengan poster-poster di dinding belakang",
+      alt: "Potret Samsul Maarif duduk santai berbaju hitam dengan poster-poster di dinding belakang",
     },
   } satisfies Record<string, Img>,
   cv: { href: "/cv/portfolio-arsmthhh.pdf", label: "Unduh Portofolio (PDF)" },
@@ -292,9 +293,9 @@ export const sectionCopy = {
 };
 
 export const site = {
-  title: "Arif — Social Media Specialist | ARSMTHHH",
+  title: "Samsul Maarif — Social Media Specialist | ARSMTHHH",
   description:
-    "Portofolio Arif (ARSMTHHH): Social Media Specialist — video editing, desain grafis, cinematic video, dan event project.",
+    "Portofolio Samsul Maarif (ARSMTHHH): Social Media Specialist — video editing, desain grafis, cinematic video, dan event project.",
   timeZone: "Asia/Jakarta",
   locale: "id-ID",
 };

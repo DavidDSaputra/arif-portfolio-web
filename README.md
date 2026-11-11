@@ -1,6 +1,6 @@
 # Portofolio ARSMTHHH
 
-Website portofolio Arif (ARSMTHHH), Social Media Specialist. Kontennya diambil dari PDF "NEW PORTFOLIO ARSMTHHH". Gayanya mengikuti template **Fearless**: latar gelap, aksen oranye, judul besar, kicker `[DALAM KURUNG SIKU]`, dan marquee.
+Website portofolio Samsul Maarif (ARSMTHHH), Social Media Specialist. Kontennya diambil dari PDF "NEW PORTFOLIO ARSMTHHH". Gayanya mengikuti template **Fearless**: latar gelap, aksen oranye, judul besar, kicker `[DALAM KURUNG SIKU]`, dan marquee.
 
 **Stack:** Next.js 15 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · Motion (`motion/react`) · Lenis
 

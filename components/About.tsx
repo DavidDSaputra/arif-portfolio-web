@@ -40,7 +40,7 @@ export default function About() {
         <div className="lg:col-span-7 lg:pl-6">
           <Reveal>
             <Kicker title={sectionCopy.about.kicker} />
-            <h2 id="about-title" className="display mt-4 text-[clamp(5rem,20vw,15rem)] text-orange">
+            <h2 id="about-title" className="display mt-4 text-[clamp(3.5rem,17vw,10.5rem)] text-orange lg:text-[clamp(3.5rem,10.5vw,10.5rem)]">
               {profile.firstName}
             </h2>
             <p className="mt-2 font-mono text-xs font-semibold uppercase tracking-[0.14em] text-mute sm:text-sm">

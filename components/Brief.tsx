@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { contact, sectionCopy } from "@/lib/content";
+import { contact, profile, sectionCopy } from "@/lib/content";
 import { ArrowRight, LongArrow } from "./icons";
 
 type Fields = { name: string; email: string; location: string };
@@ -35,7 +35,7 @@ export default function Brief() {
       setStatus({ type: "error", errors });
       return;
     }
-    const text = `Halo Arif! Saya ${f.name.trim()} dari ${f.location.trim()} (${f.email.trim()}). Saya tertarik kerja sama — boleh ngobrol soal proyek saya?`;
+    const text = `Halo ${profile.fullName.split(" ")[0]}! Saya ${f.name.trim()} dari ${f.location.trim()} (${f.email.trim()}). Saya tertarik kerja sama — boleh ngobrol soal proyek saya?`;
     const link = `${contact.whatsapp.href}?text=${encodeURIComponent(text)}`;
     window.open(link, "_blank", "noopener,noreferrer");
     setStatus({ type: "success", link });

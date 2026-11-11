@@ -12,7 +12,7 @@ const ease = [0.22, 1, 0.36, 1] as const;
 function SplitLine({ text, delay }: { text: string; delay: number }) {
   const reduce = useReducedMotion();
   return (
-    <span className="block overflow-hidden pb-[0.04em]">
+    <span className="block overflow-hidden whitespace-nowrap pb-[0.04em]">
       <motion.span
         className="block"
         initial={reduce ? false : { y: "105%" }}
@@ -70,7 +70,7 @@ export default function Hero() {
             <LongArrow className="h-8 w-40 sm:w-52" />
           </div>
 
-          <motion.h1 style={{ x: nameX }} className="display text-orange text-[clamp(4rem,17vw,13.5rem)] lg:-mr-[30%]">
+          <motion.h1 style={{ x: nameX }} className="display text-orange text-[clamp(3rem,15vw,9rem)] lg:-mr-[30%] lg:text-[clamp(4rem,10.5vw,11rem)]">
             <SplitLine text={`${profile.firstName} -`} delay={0.25} />
             <SplitLine text={profile.lastName} delay={0.38} />
             <span className="sr-only">, {profile.role}</span>

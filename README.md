@@ -1,8 +1,28 @@
 # Portofolio ARSMTHHH
 
-Website portofolio Samsul Maarif (ARSMTHHH), Social Media Specialist. Kontennya diambil dari PDF "NEW PORTFOLIO ARSMTHHH". Gayanya mengikuti template **Fearless**: latar gelap, aksen oranye, judul besar, kicker `[DALAM KURUNG SIKU]`, dan marquee.
+Website portofolio Samsul Maarif (ARSMTHHH), Social Media Specialist. Kontennya diambil dari PDF "NEW PORTFOLIO ARSMTHHH". Struktur dan animasinya mengikuti template **Fearless**: judul besar, kicker `[DALAM KURUNG SIKU]`, dan marquee. Warnanya memakai latar putih dengan palet [Color Hunt](https://colorhunt.co/palette/1b365d005a9c60c1e5a0e0ef).
 
-**Stack:** Next.js 15 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · Motion (`motion/react`) · Lenis
+**Stack:** Next.js 15 (App Router) · React 19 · TypeScript · Tailwind CSS v4 · Motion (`motion/react`) · Lenis · three.js
+
+## Warna
+
+Token warna ada di `app/globals.css` (blok `@theme`) dan dipakai sebagai kelas Tailwind (`text-navy`, `bg-blue`, `bg-sky/25`, dst.):
+
+| Token | Warna | Dipakai untuk |
+| --- | --- | --- |
+| `navy` | `#1B365D` | teks utama |
+| `blue` | `#005A9C` | judul, tombol, aksen |
+| `sky` | `#60C1E5` | glow & dekorasi |
+| `ice` | `#A0E0EF` | hover & sorotan |
+| `surface`, `line`, `mute` | — | latar sekunder, garis, teks sekunder |
+
+## Komponen React Bits
+
+Disalin apa adanya (varian JavaScript + CSS) ke `components/reactbits/`, dengan tipe props di file `.d.ts`:
+
+- **Crosshair** (`Hero.tsx`): garis bidik biru mengikuti kursor di hero dan mengunci tombol/link.
+- **Lanyard** (`IdLanyard.tsx` → section About): kartu ID 3D yang bisa ditarik dan diklik untuk dibalik. Gambar kartu depan/belakang dan talinya digambar otomatis di `lib/idCard.ts` dari data `lib/content.ts`.
+- **Dock** (`SiteDock.tsx`): navigasi bawah gaya macOS dengan warna tema. Item di-dock dan warnanya diatur di file itu.
 
 ## Menjalankan di komputer
 

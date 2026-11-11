@@ -56,6 +56,10 @@
 .pw-word[data-side="right"] .pw-text { transform-origin: right bottom; }
 .pw-word[data-side="right"] .pw-mark { left: calc(100% + 0.06em); transform-origin: left bottom; }
 
+/* animasi ditahan sampai teks masuk layar (PixelHeadline memberi data-on) */
+.pw:not([data-on]) .pw-text,
+.pw:not([data-on]) .pw-mark { animation-play-state: paused; }
+
 @keyframes pw-mark {
   0% { opacity: 0; scale: 1; }
   1% { opacity: 1; scale: 1; }

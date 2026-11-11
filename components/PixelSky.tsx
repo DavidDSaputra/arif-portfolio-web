@@ -45,7 +45,21 @@ const LEVELS = [0.5, 0.56, 0.62, 0.68, 0.74, 0.8, 0.87];
 const FRAME_MS = 1000 / 24;
 const INTRO_MS = 1100;
 
-export default function PixelSky({ className = "" }: { className?: string }) {
+type Clear = { cx: number; cy: number; rx: number; ry: number };
+
+export default function PixelSky({
+  className = "",
+  clear = { cx: 0.5, cy: 0.47, rx: 0.4, ry: 0.27 },
+  clearNarrow = { cx: 0.5, cy: 0.5, rx: 0.62, ry: 0.34 },
+}: {
+  className?: string;
+  /** Elips kosong (pecahan lebar/tinggi) tempat konten berada — desktop */
+  clear?: Clear;
+  /** Elips kosong untuk layar sempit (<768px) */
+  clearNarrow?: Clear;
+}) {
+  const clearRef = useRef({ clear, clearNarrow });
+  clearRef.current = { clear, clearNarrow };
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -98,11 +112,11 @@ export default function PixelSky({ className = "" }: { className?: string }) {
       const t = time / 1000;
       const intro = reduce ? 1 : Math.floor(Math.min(1, (time - start) / INTRO_MS) * 6) / 6; // muncul dalam 6 langkah
       // elips kosong di tengah (lebih lebar di layar sempit karena teks lebih banyak baris)
-      const narrow = w < 768;
-      const cx = w * 0.5;
-      const cy = h * (narrow ? 0.5 : 0.47);
-      const rx = w * (narrow ? 0.62 : 0.4);
-      const ry = h * (narrow ? 0.34 : 0.27);
+      const zone = w < 768 ? clearRef.current.clearNarrow : clearRef.current.clear;
+      const cx = w * zone.cx;
+      const cy = h * zone.cy;
+      const rx = w * zone.rx;
+      const ry = h * zone.ry;
       // kursor menyibak awan (dihaluskan)
       pointer.x += (pointer.tx - pointer.x) * 0.25;
       pointer.y += (pointer.ty - pointer.y) * 0.25;

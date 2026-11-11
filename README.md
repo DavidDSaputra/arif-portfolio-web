@@ -27,7 +27,7 @@ Disalin apa adanya (varian JavaScript + CSS) ke `components/reactbits/`, dengan 
 ## Hero (gaya andreas.vision)
 
 - `components/PixelSky.tsx`: latar piksel ber-dither yang bergerak pelan, hanya di hero. Warna, ukuran kotak, dan seberapa padat awannya diatur di bagian atas file.
-- `components/PixelHeadline.tsx` + kelas `.pw-*` di `app/globals.css`: judul yang muncul per kata (kotak piksel → kata meletup bertahap). Teksnya dari `profile.headline`.
+- `components/PixelHeadline.tsx` + kelas `.pw-*` di `app/globals.css`: teks yang muncul per kata (kotak piksel → kata meletup bertahap), dipakai untuk nama besar dan tagline di hero.
 
 ## Menjalankan di komputer
 
@@ -47,8 +47,8 @@ Semua teks, kontak, karya, skill, dan angka insight ada di **`lib/content.ts`**.
 | Nama, role, bio | `profile` |
 | WhatsApp, email, Instagram | `contact` |
 | Pengalaman kerja (bisa tambah `role` & `period`) | `experience` |
-| Judul besar & paragraf hero | `profile.headline`, `profile.heroIntro` |
-| Teks di kotak ngebuka (blok "Let's work together") | `profile.statementBody` |
+| Nama besar, tagline serif & teks kotak di hero | `profile.firstName`/`lastName`, `profile.headline`, `profile.heroIntro` |
+| Paragraf blok "Let's work together" | `profile.statementBody` |
 | Skill & software | `skills` (logo: `skills.logos`) |
 | Angka TikTok Studio | `insights` (total dihitung otomatis) |
 | Karya + halaman detail | `works` (1 item = 1 halaman `/work/<slug>`) |

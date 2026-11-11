@@ -176,6 +176,7 @@ const kf = {
 /** Section "Event Project" di beranda — komposisi mengikuti slide PDF. */
 export const eventProject = {
   slug: "keranggan-festival",
+  words: ["Event", "Project"],
   title: "Keranggan Festival",
   tag: "[A DECADE TOGETHER — 7 DESEMBER 2024]",
   banner: [kf.bannerTop, kf.banner],
@@ -264,11 +265,12 @@ export const works: Work[] = [
       { label: "Event", value: "Keranggan Fest Vol.1 · HUT RI ke-80 (17/08/2025)" },
     ],
     media: [
-      { kind: "image", src: "/assets/work/promo-mazda-cx5.png", w: 486, h: 864, alt: "Poster promo Mazda CX-5 Elite 2019 TDP 0%", caption: "Promo — Lexus Auto Cars" },
-      { kind: "image", src: "/assets/work/pricelist-lexus.png", w: 486, h: 864, alt: "Car Pricelist New Stock Oktober Lexus Auto Cars", caption: "Car Pricelist — Lexus Auto Cars" },
-      { kind: "image", src: "/assets/work/pricelist-body-repair.png", w: 610, h: 864, alt: "Body Repair Price List Permata Mutia", caption: "Price List — Permata Mutia Body Repair" },
-      { kind: "image", src: "/assets/work/poster-hut-ri-80.webp", w: 611, h: 864, alt: "Poster peringatan HUT RI ke-80 sekaligus menyambut Maulid Nabi", caption: "Poster — HUT RI ke-80" },
+      // urutan sama dengan slide "Digital Design Graphics" di PDF
       { kind: "image", src: "/assets/work/poster-keranggan-fest.webp", w: 692, h: 864, alt: "Poster Keranggan Fest Vol.1", caption: "Poster — Keranggan Fest" },
+      { kind: "image", src: "/assets/work/poster-hut-ri-80.webp", w: 611, h: 864, alt: "Poster peringatan HUT RI ke-80 sekaligus menyambut Maulid Nabi", caption: "Poster — HUT RI ke-80" },
+      { kind: "image", src: "/assets/work/pricelist-lexus.png", w: 486, h: 864, alt: "Car Pricelist New Stock Oktober Lexus Auto Cars", caption: "Car Pricelist — Lexus Auto Cars" },
+      { kind: "image", src: "/assets/work/promo-mazda-cx5.png", w: 486, h: 864, alt: "Poster promo Mazda CX-5 Elite 2019 TDP 0%", caption: "Promo — Lexus Auto Cars" },
+      { kind: "image", src: "/assets/work/pricelist-body-repair.png", w: 610, h: 864, alt: "Body Repair Price List Permata Mutia", caption: "Price List — Permata Mutia Body Repair" },
     ],
   },
   {
@@ -296,6 +298,35 @@ export const works: Work[] = [
     ],
   },
 ];
+
+export const getWork = (slug: string) => works.find((w) => w.slug === slug);
+
+/* ───────────────────────── SLIDE SHOWCASE DI BERANDA ───────────────────────── */
+
+/**
+ * Teks untuk section "slide" di beranda (urutan mengikuti PDF).
+ * Gambar/video diambil otomatis dari `works` berdasarkan `slug` — cukup ubah media di sana.
+ */
+export const showcases = {
+  videoEditing: {
+    slug: "short-vertical-reels",
+    words: ["Video", "Editing"],
+    subtitle: "Short / Vertical / Reels Videos",
+    tag: "[KONTEN VERTIKAL 9:16 — SHOWROOM MOBIL]",
+  },
+  designGraphics: {
+    slug: "poster-pamflet-brosur",
+    words: ["Digital", "Design", "Graphics"],
+    subtitle: "Poster / Pamflet / Brosur",
+    tag: "[LEXUS AUTO CARS · PERMATA MUTIA · KERANGGAN]",
+  },
+  cinematic: {
+    slug: "trip-to-sukabumi",
+    words: ["Cinematic", "Video"],
+    subtitle: ["Trip to Sukabumi", "Bugel Beach"],
+    tag: "[CINEMATIC TRAVEL VIDEO — 16:9]",
+  },
+};
 
 /* ───────────────────────── NAVIGASI & SECTION ───────────────────────── */
 

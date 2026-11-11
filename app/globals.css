@@ -17,6 +17,13 @@
 
   --animate-marquee: marquee var(--marquee-duration, 30s) linear infinite;
   --animate-spin-slow: spin 18s linear infinite;
+  --animate-kenburns: kenburns 18s ease-in-out infinite alternate;
+}
+
+/* Zoom pelan ala sinema untuk poster video */
+@keyframes kenburns {
+  from { transform: scale(1) translate(0, 0); }
+  to { transform: scale(1.12) translate(-2%, -1.5%); }
 }
 
 @keyframes marquee {

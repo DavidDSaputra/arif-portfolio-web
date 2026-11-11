@@ -24,6 +24,10 @@ Disalin apa adanya (varian JavaScript + CSS) ke `components/reactbits/`, dengan 
 - **Lanyard** (`IdLanyard.tsx` → section About): kartu ID 3D yang bisa ditarik dan diklik untuk dibalik. Gambar kartu depan/belakang dan talinya digambar otomatis di `lib/idCard.ts` dari data `lib/content.ts`.
 - **Dock** (`SiteDock.tsx`): navigasi bawah gaya macOS dengan warna tema. Item di-dock dan warnanya diatur di file itu.
 
+## Hero (gaya andreas.vision)
+
+- `components/PixelSky.tsx`: latar piksel ber-dither yang bergerak pelan, hanya di hero. Warna, ukuran kotak, dan seberapa padat awannya diatur di bagian atas file.
+- `components/PixelHeadline.tsx` + kelas `.pw-*` di `app/globals.css`: judul yang muncul per kata (kotak piksel → kata meletup bertahap). Teksnya dari `profile.headline`.
 
 ## Menjalankan di komputer
 

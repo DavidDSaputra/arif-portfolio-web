@@ -9,15 +9,74 @@
   --color-surface: #f2f9fc; /* permukaan sangat terang */
   --color-surface-2: #e4f3f9;
   --color-line: #d5e5ef; /* garis/border */
-  --color-mute: #4a5f7e; /* teks sekunder (kontras AA di putih & di atas pola CRT pastel) */
+  --color-mute: #4a5f7e; /* teks sekunder (kontras AA di putih & di atas pola piksel pastel) */
 
   --font-display: var(--font-archivo), "Arial Black", sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
   --font-script: var(--font-pinyon), cursive;
+  --font-serif: var(--font-instrument), "Newsreader", Georgia, serif;
+  --font-sans: var(--font-archivo), system-ui, sans-serif;
 
   --animate-marquee: marquee var(--marquee-duration, 30s) linear infinite;
   --animate-spin-slow: spin 18s linear infinite;
   --animate-kenburns: kenburns 18s ease-in-out infinite alternate;
+}
+
+/* ── Judul hero: kata muncul bergiliran (gaya andreas.vision) ──
+   Tiap kata: kotak piksel kecil muncul di sisinya & membesar bertahap, lalu kata "meletup" dari kecil
+   ke penuh dalam beberapa lompatan (step-end = terasa piksel), lalu bergeser halus ke tempatnya. */
+.pw-word {
+  position: relative;
+  display: inline-block;
+  --at: calc(var(--pw-delay, 0ms) + var(--i) * var(--pw-stagger, 80ms));
+  /* efek keluar saat hero di-scroll: --out diisi dari JS (0 → 1) */
+  --gone: clamp(0, calc(var(--out, 0) * 1.8 - var(--i) * 0.16), 1);
+  opacity: calc(1 - var(--gone));
+  translate: 0 calc(var(--gone) * -0.25em);
+}
+.pw-text {
+  display: inline-block;
+  animation:
+    pw-text 520ms step-end var(--at) both,
+    pw-drift 260ms cubic-bezier(0.22, 1, 0.36, 1) calc(var(--at) + 290ms) both;
+}
+.pw-mark {
+  position: absolute;
+  bottom: 0.1em;
+  width: 0.16em;
+  height: 0.16em;
+  opacity: 0;
+  background: conic-gradient(var(--color-blue) 25%, var(--color-sky) 0 50%, var(--color-blue) 0 75%, var(--color-sky) 0);
+  animation: pw-mark 520ms step-end var(--at) both;
+}
+.pw-word[data-side="left"] { --dir: -1; }
+.pw-word[data-side="left"] .pw-text { transform-origin: left bottom; }
+.pw-word[data-side="left"] .pw-mark { right: calc(100% + 0.05em); transform-origin: right bottom; }
+.pw-word[data-side="right"] { --dir: 1; }
+.pw-word[data-side="right"] .pw-text { transform-origin: right bottom; }
+.pw-word[data-side="right"] .pw-mark { left: calc(100% + 0.06em); transform-origin: left bottom; }
+
+@keyframes pw-mark {
+  0% { opacity: 0; scale: 1; }
+  1% { opacity: 1; scale: 1; }
+  15% { scale: 1.6; }
+  30% { scale: 2.2; }
+  55% { opacity: 0; scale: 0; }
+  100% { opacity: 0; }
+}
+@keyframes pw-text {
+  0% { opacity: 0; scale: 0.3; }
+  30% { opacity: 1; scale: 0.3; }
+  45% { scale: 0.62; }
+  55%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes pw-drift {
+  from { translate: calc(var(--dir) * 0.08em) 0; }
+  to { translate: 0 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pw-text,
+  .pw-mark { animation: none; }
 }
 
 /* Zoom pelan ala sinema untuk poster video */

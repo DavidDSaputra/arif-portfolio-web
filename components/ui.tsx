@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { motion, useReducedMotion, type HTMLMotionProps } from "motion/react";
+import { useRef } from "react";
+import { motion, useInView, useReducedMotion, type HTMLMotionProps } from "motion/react";
 import { ArrowUpRight, Spark } from "./icons";
 
 /** Kicker ala Fearless: "SELECTED WORK [WITH THE FINEST TOUCH]" */
@@ -129,29 +130,35 @@ const boxCorners = [
 export function OpenBox({
   children,
   delay = 1,
+  trigger = "load",
   className = "",
 }: {
   children: React.ReactNode;
   delay?: number;
+  /** "load" = mulai saat halaman dimuat; "view" = mulai saat kotak terlihat di layar */
+  trigger?: "load" | "view";
   className?: string;
 }) {
   const reduce = useReducedMotion();
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-12% 0px" });
+  const on = reduce || trigger === "load" || inView;
   const lineDone = delay + 0.8;
 
   return (
-    <div className={`relative ${className}`}>
+    <div ref={ref} className={`relative ${className}`}>
       {/* Bingkai + sudut. Ukuran pakai % (0% → 100%) agar tetap responsif setelah animasi selesai. */}
       <motion.div
         aria-hidden
         className="pointer-events-none absolute inset-[10px]"
         initial={reduce ? false : { opacity: 0 }}
-        animate={{ opacity: 1 }}
+        animate={{ opacity: on ? 1 : 0 }}
         transition={{ delay, duration: 0.4, ease: outExpo }}
       >
         <motion.div
           className="absolute left-0 top-0 border-[1.6px] border-navy/40 bg-white/70"
           initial={reduce ? false : { width: "0%", height: "0%" }}
-          animate={{ width: "100%", height: "100%" }}
+          animate={on ? { width: "100%", height: "100%" } : { width: "0%", height: "0%" }}
           transition={{
             width: { delay, duration: 0.8, ease: outExpo },
             height: { delay: lineDone, duration: 1.3, ease: outExpo },
@@ -162,7 +169,7 @@ export function OpenBox({
               key={pos}
               className={`absolute size-3 border-[1.6px] border-blue bg-white ${pos}`}
               initial={reduce ? false : { scale: 0 }}
-              animate={{ scale: 1 }}
+              animate={{ scale: on ? 1 : 0 }}
               transition={{ delay, duration: 0.4, ease: outExpo }}
             />
           ))}
@@ -173,7 +180,7 @@ export function OpenBox({
       <motion.div
         className="relative p-[31.6px]"
         initial={reduce ? false : { opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
+        animate={on ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
         transition={{ delay: lineDone + 0.2, duration: 0.8, ease: outExpo }}
       >
         {children}

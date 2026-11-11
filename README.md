@@ -23,7 +23,7 @@ Disalin apa adanya (varian JavaScript + CSS) ke `components/reactbits/`, dengan 
 - **Crosshair** (`app/layout.tsx`): garis bidik navy mengikuti kursor di seluruh halaman dan mengunci tombol/link. Untuk membatasinya ke satu section, pindahkan ke section itu dan beri prop `containerRef`.
 - **Lanyard** (`IdLanyard.tsx` → section About): kartu ID 3D yang bisa ditarik dan diklik untuk dibalik. Gambar kartu depan/belakang dan talinya digambar otomatis di `lib/idCard.ts` dari data `lib/content.ts`.
 - **Dock** (`SiteDock.tsx`): navigasi bawah gaya macOS dengan warna tema. Item di-dock dan warnanya diatur di file itu.
-- **CRTWarp** (`CrtBackground.tsx`, dipasang di `app/layout.tsx`): latar animasi seluruh situs. Pola plasma biru langit dengan scanline di atas putih (`lightMode`), bereaksi seperti magnet terhadap kursor. Warna, kekuatan (`brightness`), dan efek CRT lainnya diatur di file itu. Untuk tampilan tabung CRT gelap klasik, hapus `lightMode` dan ganti `backgroundColor` ke warna gelap.
+
 
 ## Menjalankan di komputer
 
@@ -43,7 +43,8 @@ Semua teks, kontak, karya, skill, dan angka insight ada di **`lib/content.ts`**.
 | Nama, role, bio | `profile` |
 | WhatsApp, email, Instagram | `contact` |
 | Pengalaman kerja (bisa tambah `role` & `period`) | `experience` |
-| Deskripsi di kotak hero | `profile.summary` |
+| Judul besar & paragraf hero | `profile.headline`, `profile.heroIntro` |
+| Teks di kotak ngebuka (blok "Let's work together") | `profile.statementBody` |
 | Skill & software | `skills` (logo: `skills.logos`) |
 | Angka TikTok Studio | `insights` (total dihitung otomatis) |
 | Karya + halaman detail | `works` (1 item = 1 halaman `/work/<slug>`) |

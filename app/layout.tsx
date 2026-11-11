@@ -1,11 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, IBM_Plex_Mono, Pinyon_Script } from "next/font/google";
+import { Archivo, IBM_Plex_Mono, Instrument_Serif, Pinyon_Script } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import ScrollToTop from "@/components/ScrollToTop";
 import SiteDock from "@/components/SiteDock";
 import Crosshair from "@/components/reactbits/Crosshair";
-import CrtBackground from "@/components/CrtBackground";
 import { site, profile } from "@/lib/content";
 
 const archivo = Archivo({
@@ -26,6 +25,15 @@ const script = Pinyon_Script({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-pinyon",
+  display: "swap",
+});
+
+// Serif italic untuk judul hero (gaya andreas.vision)
+const serif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["italic"],
+  variable: "--font-instrument",
   display: "swap",
 });
 
@@ -52,10 +60,8 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="id" className={`${archivo.variable} ${plexMono.variable} ${script.variable}`}>
+    <html lang="id" className={`${archivo.variable} ${plexMono.variable} ${script.variable} ${serif.variable}`}>
       <body className="grain min-h-dvh">
-        {/* React Bits — CRTWarp sebagai latar animasi seluruh situs (fixed, di belakang konten) */}
-        <CrtBackground />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-blue focus:px-4 focus:py-2 focus:text-white"

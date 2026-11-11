@@ -23,7 +23,10 @@ Disalin apa adanya (varian JavaScript + CSS) ke `components/reactbits/`, dengan 
 - **Crosshair** (`app/layout.tsx`): garis bidik navy mengikuti kursor di seluruh halaman dan mengunci tombol/link. Untuk membatasinya ke satu section, pindahkan ke section itu dan beri prop `containerRef`.
 - **Lanyard** (`IdLanyard.tsx` → section About): kartu ID 3D yang bisa ditarik dan diklik untuk dibalik. Gambar kartu depan/belakang dan talinya digambar otomatis di `lib/idCard.ts` dari data `lib/content.ts`.
 - **Dock** (`SiteDock.tsx`): navigasi bawah gaya macOS dengan warna tema. Item di-dock dan warnanya diatur di file itu.
-- **ColorBends** (`BendsBackground.tsx`, dipasang di `app/layout.tsx`): latar pita warna biru muda yang bergerak pelan di belakang semua bagian setelah hero. Warna, kecepatan, dan kekuatannya (opacity) diatur di file itu.
+
+## Latar setelah hero
+
+`components/NoiseBackground.tsx`: shader noise (awan biru muda + butiran film) di belakang semua bagian setelah hero. Kekuatan, butiran, dan kecepatannya diatur lewat konstanta `STRENGTH`, `GRAIN`, `SPEED` di bagian atas file.
 
 ## Hero (gaya andreas.vision)
 

@@ -56,9 +56,51 @@
 .pw-word[data-side="right"] .pw-text { transform-origin: right bottom; }
 .pw-word[data-side="right"] .pw-mark { left: calc(100% + 0.06em); transform-origin: left bottom; }
 
-/* animasi ditahan sampai teks masuk layar (PixelHeadline memberi data-on) */
+/* animasi ditahan sampai teks masuk layar (PixelHeadline memberi data-on)
+   dan sampai layar loading selesai (Loader memberi <html data-loaded>) */
 .pw:not([data-on]) .pw-text,
-.pw:not([data-on]) .pw-mark { animation-play-state: paused; }
+.pw:not([data-on]) .pw-mark,
+html:not([data-loaded]) .pw-text,
+html:not([data-loaded]) .pw-mark { animation-play-state: paused; }
+
+/* ── Layar loading ── */
+.site-loader {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 0.75s cubic-bezier(0.76, 0, 0.24, 1);
+  /* pengaman: kalau JavaScript gagal, layar tetap hilang sendiri */
+  animation: loader-failsafe 0.4s ease 4s forwards;
+}
+.site-loader.is-exit { clip-path: inset(0 0 100% 0); }
+.loader-bg { animation: loader-pop 420ms step-end both; transform-box: fill-box; transform-origin: center; }
+.loader-px {
+  opacity: 0;
+  animation: loader-px 260ms step-end calc(var(--d) + 120ms) both;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.loader-text { animation: loader-fade 0.6s cubic-bezier(0.19, 1, 0.22, 1) 0.55s both; }
+@keyframes loader-pop {
+  0% { scale: 0.3; }
+  35% { scale: 0.65; }
+  70%, 100% { scale: 1; }
+}
+@keyframes loader-px {
+  0% { opacity: 0; scale: 0.4; }
+  40% { opacity: 1; scale: 1.5; }
+  70%, 100% { opacity: 1; scale: 1; }
+}
+@keyframes loader-fade {
+  from { opacity: 0; translate: 0 8px; }
+  to { opacity: 1; translate: 0 0; }
+}
+@keyframes loader-failsafe {
+  to { opacity: 0; visibility: hidden; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loader-bg,
+  .loader-px,
+  .loader-text { animation: none; opacity: 1; }
+}
 
 @keyframes pw-mark {
   0% { opacity: 0; scale: 1; }

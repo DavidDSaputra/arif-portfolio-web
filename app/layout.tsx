@@ -6,6 +6,7 @@ import ScrollToTop from "@/components/ScrollToTop";
 import SiteDock from "@/components/SiteDock";
 import Crosshair from "@/components/reactbits/Crosshair";
 import BendsBackground from "@/components/BendsBackground";
+import Loader from "@/components/Loader";
 import { site, profile } from "@/lib/content";
 
 const archivo = Archivo({
@@ -49,10 +50,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: site.title,
     description: site.description,
-    images: [{ url: profile.photos.hero.src, width: profile.photos.hero.w, height: profile.photos.hero.h }],
+    // gambar preview dibuat otomatis oleh app/opengraph-image.tsx
     locale: "id_ID",
     type: "website",
   },
+  twitter: { card: "summary_large_image", title: site.title, description: site.description },
 };
 
 export const viewport: Viewport = {
@@ -63,6 +65,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="id" className={`${archivo.variable} ${plexMono.variable} ${script.variable} ${serif.variable}`}>
       <body className="grain min-h-dvh">
+        <noscript>
+          <style>{"#site-loader{display:none}"}</style>
+        </noscript>
+        <Loader />
         {/* React Bits — ColorBends: latar animasi di belakang bagian setelah hero */}
         <BendsBackground />
         <a

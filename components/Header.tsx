@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { nav, profile, socials } from "@/lib/content";
 import { Close, MenuDots } from "./icons";
+import Logo from "./Logo";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -26,8 +27,9 @@ export default function Header() {
       <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-3 px-4 py-4 sm:px-8">
         <Link
           href="/"
-          className="rounded-full border border-navy/15 bg-white/70 px-4 py-2 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] backdrop-blur-md transition-colors hover:border-blue hover:text-blue sm:text-xs"
+          className="flex items-center gap-2 rounded-full border border-navy/15 bg-white/70 py-1.5 pl-1.5 pr-4 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] backdrop-blur-md transition-colors hover:border-blue hover:text-blue sm:text-xs"
         >
+          <Logo size={24} className="rounded-[7px]" />
           My Portfolio
         </Link>
 

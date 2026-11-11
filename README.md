@@ -22,9 +22,11 @@ Semua teks, kontak, karya, skill, dan angka insight ada di **`lib/content.ts`**.
 | Nama, role, bio | `profile` |
 | WhatsApp, email, Instagram | `contact` |
 | Pengalaman kerja (bisa tambah `role` & `period`) | `experience` |
-| Skill & software | `skills` |
+| Deskripsi di kotak hero | `profile.summary` |
+| Skill & software | `skills` (logo: `skills.logos`) |
 | Angka TikTok Studio | `insights` (total dihitung otomatis) |
 | Karya + halaman detail | `works` (1 item = 1 halaman `/work/<slug>`) |
+| Section Event Project di beranda | `eventProject` |
 | Kicker/judul section | `sectionCopy` |
 
 ## Slot aset
@@ -34,6 +36,7 @@ public/
 ├─ assets/photos/   hero.jpg, about.jpg            ← sudah ada (dari PDF)
 ├─ assets/work/     poster, banner, tiket, merch    ← sudah ada
 ├─ assets/insight/  insight-01..10.jpg             ← sudah ada (crop dari PDF)
+├─ assets/software/ 9 logo software (PNG transparan) ← sudah ada (dari PDF)
 ├─ videos/          ← BELUM ADA: taruh file .mp4 di sini
 └─ cv/              portfolio-arsmthhh.pdf         ← sudah ada (PDF asli, 13 MB)
 ```

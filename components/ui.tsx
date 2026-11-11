@@ -1,7 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { motion, useReducedMotion, type HTMLMotionProps } from "motion/react";
-import { Spark } from "./icons";
+import { ArrowUpRight, Spark } from "./icons";
 
 /** Kicker ala Fearless: "SELECTED WORK [WITH THE FINEST TOUCH]" */
 export function Kicker({ title, tag, className = "" }: { title: string; tag?: string; className?: string }) {
@@ -37,6 +38,75 @@ export function ScriptTitle({
       ))}
       <span className="sr-only">{words.join(" ")}</span>
     </Tag>
+  );
+}
+
+/* ── Bagian bersama untuk section "slide" (gaya slide PDF) ── */
+
+/** Header slide: judul ber-huruf script + subjudul putih bercahaya + tag. */
+export function SlideHeader({
+  id,
+  words,
+  subtitle,
+  tag,
+  titleClassName = "text-[clamp(3rem,9vw,7.5rem)]",
+}: {
+  id: string;
+  words: string[];
+  subtitle: string | string[];
+  tag?: string;
+  titleClassName?: string;
+}) {
+  const lines = Array.isArray(subtitle) ? subtitle : [subtitle];
+  return (
+    <Reveal className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+      <ScriptTitle id={id} words={words} className={titleClassName} />
+      <div className="lg:max-w-[46%] lg:shrink-0 lg:pb-3 lg:text-right">
+        <p className="display text-[clamp(1.5rem,3.6vw,3rem)] text-white [text-shadow:0_0_28px_rgba(255,255,255,0.35)]">
+          {lines.map((l) => (
+            <span key={l} className="block">
+              {l}
+            </span>
+          ))}
+        </p>
+        {tag && <p className="mt-2 font-mono text-xs uppercase tracking-[0.16em] text-mute sm:text-sm">{tag}</p>}
+      </div>
+    </Reveal>
+  );
+}
+
+/** Label kecil bernomor: "[01] BANNER" */
+export function NumLabel({ no, children }: { no: string; children: React.ReactNode }) {
+  return (
+    <p className="mb-4 flex items-baseline gap-2 font-mono text-xs font-semibold uppercase tracking-[0.2em] sm:text-sm">
+      <span className="text-orange">[{no}]</span>
+      <span>{children}</span>
+    </p>
+  );
+}
+
+/** Tombol oranye ke halaman detail karya. */
+export function DetailLink({ href, label = "Lihat detail project" }: { href: string; label?: string }) {
+  return (
+    <Link
+      href={href}
+      className="group inline-flex items-center gap-2 rounded-full bg-orange px-6 py-3 font-mono text-xs font-semibold uppercase tracking-[0.14em] text-ink transition-colors duration-300 hover:bg-paper sm:text-sm"
+    >
+      {label}
+      <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:rotate-45" />
+    </Link>
+  );
+}
+
+/** Bingkai HP (gaya mockup di PDF). */
+export function PhoneFrame({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return (
+    <div className={`rounded-[2.2rem] border-[3px] border-white/85 bg-black p-[7px] shadow-[0_30px_80px_-24px_rgba(247,116,74,0.5)] ${className}`}>
+      <div className="relative overflow-hidden rounded-[1.75rem]">
+        <span aria-hidden className="absolute left-1/2 top-1.5 z-10 h-3.5 w-[32%] -translate-x-1/2 rounded-full bg-black" />
+        {children}
+      </div>
+    </div>
   );
 }
 

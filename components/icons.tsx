@@ -85,15 +85,6 @@ export const LongArrow = (p: P) => (
   </svg>
 );
 
-/** Garis + dua titik kotak (dari hero Fearless) */
-export const Dumbbell = (p: P) => (
-  <svg viewBox="0 0 140 12" aria-hidden {...p}>
-    <rect x="1" y="1" width="10" height="10" fill="none" stroke="currentColor" strokeWidth="2" />
-    <rect x="129" y="1" width="10" height="10" fill="none" stroke="currentColor" strokeWidth="2" />
-    <path d="M11 6h118" stroke="currentColor" strokeWidth="2" />
-  </svg>
-);
-
 /** Bintang 4 sudut */
 export const Spark = (p: P) => (
   <svg viewBox="0 0 40 40" aria-hidden {...p}>

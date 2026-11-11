@@ -4,10 +4,12 @@ import Image from "next/image";
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { contact, marquee, profile, socials } from "@/lib/content";
-import { Dumbbell, LongArrow, Spark, ArrowRight } from "./icons";
-import { Marquee, Pill, Reveal } from "./ui";
+import { ArrowRight, Instagram, LongArrow, Mail, Spark, WhatsApp } from "./icons";
+import { Marquee, OpenBox, Pill, Reveal, outExpo } from "./ui";
 
 const ease = [0.22, 1, 0.36, 1] as const;
+
+const socialIcons = { Instagram, WhatsApp, Email: Mail } as const;
 
 function SplitLine({ text, delay }: { text: string; delay: number }) {
   const reduce = useReducedMotion();
@@ -76,29 +78,35 @@ export default function Hero() {
             <span className="sr-only">, {profile.role}</span>
           </motion.h1>
 
-          <Dumbbell className="my-6 w-36 text-white sm:w-44" />
+          <OpenBox delay={1} className="mt-4 max-w-2xl">
+            <p className="font-mono text-[13px] uppercase leading-[1.4] text-white sm:text-base sm:leading-[1.3]">{profile.summary}</p>
+          </OpenBox>
 
-          <Reveal delay={0.6} y={20}>
-            <p className="max-w-xl font-mono text-sm font-medium uppercase leading-relaxed sm:text-base">
-              <span className="text-orange">{profile.role}</span>
-              {profile.intro.slice(profile.role.length)}
-            </p>
-            <ul className="mt-6 flex flex-wrap gap-x-6 gap-y-2 font-mono text-sm" aria-label="Kontak & sosial media">
-              {socials.map((s) => (
+          <motion.ul
+            className="mt-3 flex flex-wrap gap-3 px-[10px] sm:gap-[18px]"
+            aria-label="Kontak & sosial media"
+            initial={reduce ? false : { opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 2.4, duration: 0.8, ease: outExpo }}
+          >
+            {socials.map((s) => {
+              const Icon = socialIcons[s.label];
+              return (
                 <li key={s.label}>
                   <a
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-mute transition-colors hover:text-orange"
                     aria-label={`${s.label}: ${s.handle}`}
+                    className="flex items-center gap-2 border-[0.8px] border-[#d6d6d6] px-2 py-2 font-mono text-[13px] text-white/80 transition-colors hover:border-orange hover:text-orange sm:text-sm"
                   >
-                    {s.handle}
+                    <Icon className="h-4 w-4 shrink-0" />
+                    <span>{s.handle}</span>
                   </a>
                 </li>
-              ))}
-            </ul>
-          </Reveal>
+              );
+            })}
+          </motion.ul>
         </div>
       </div>
 

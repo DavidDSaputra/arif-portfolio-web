@@ -40,6 +40,78 @@ export function ScriptTitle({
   );
 }
 
+/** Easing "outExpo" — sama dengan animasi Webflow di template Fearless. */
+export const outExpo = [0.19, 1, 0.22, 1] as const;
+
+/** Posisi 4 kotak sudut (sengaja sedikit tidak rata, persis referensi). */
+const boxCorners = [
+  "-left-[5px] -top-[7px]",
+  "-right-[7px] -top-[8px]",
+  "-bottom-[4px] -left-[5px]",
+  "-bottom-[5px] -right-[7px]",
+];
+
+/**
+ * Kotak "ngebuka" ala Fearless (timing dari animasi asli "Anime On Load Summery"):
+ * titik 20px → 4 sudut muncul & melebar jadi garis (0,8s) → membuka ke bawah (1,3s) → teks naik.
+ * Konten sudah menempati posisi akhirnya sejak awal, jadi layout di sekitarnya tidak melompat.
+ */
+export function OpenBox({
+  children,
+  delay = 1,
+  className = "",
+}: {
+  children: React.ReactNode;
+  delay?: number;
+  className?: string;
+}) {
+  const reduce = useReducedMotion();
+  const lineDone = delay + 0.8;
+
+  return (
+    <div className={`relative ${className}`}>
+      {/* Bingkai + sudut. Ukuran pakai % (0% → 100%) agar tetap responsif setelah animasi selesai. */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute inset-[10px]"
+        initial={reduce ? false : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay, duration: 0.4, ease: outExpo }}
+      >
+        <motion.div
+          className="absolute left-0 top-0 border-[1.6px] border-[#d9d9d9] bg-black/30"
+          initial={reduce ? false : { width: "0%", height: "0%" }}
+          animate={{ width: "100%", height: "100%" }}
+          transition={{
+            width: { delay, duration: 0.8, ease: outExpo },
+            height: { delay: lineDone, duration: 1.3, ease: outExpo },
+          }}
+        >
+          {boxCorners.map((pos) => (
+            <motion.span
+              key={pos}
+              className={`absolute size-3 border-[1.6px] border-orange bg-white ${pos}`}
+              initial={reduce ? false : { scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay, duration: 0.4, ease: outExpo }}
+            />
+          ))}
+        </motion.div>
+      </motion.div>
+
+      {/* Isi: padding = 10px holder + 1,6px garis + 20px paragraf */}
+      <motion.div
+        className="relative p-[31.6px]"
+        initial={reduce ? false : { opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: lineDone + 0.2, duration: 0.8, ease: outExpo }}
+      >
+        {children}
+      </motion.div>
+    </div>
+  );
+}
+
 /** Scroll-reveal sederhana */
 export function Reveal({
   children,

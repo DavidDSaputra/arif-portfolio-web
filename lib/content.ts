@@ -43,6 +43,9 @@ export const profile = {
   experienceYears: "2+",
   intro:
     "Social Media Specialist dengan pengalaman lebih dari 2 tahun di dunia digital kreatif.",
+  /** Deskripsi di "kotak ngebuka" hero (draf — silakan disesuaikan). */
+  summary:
+    "Samsul Maarif adalah Social Media Specialist dengan pengalaman lebih dari 2 tahun di dunia digital kreatif. Ia mengelola strategi konten, editing, dan fotografi untuk berbagai proyek — mulai dari brand, wedding, hingga event konser. Baginya, media sosial bukan sekadar posting, tapi cerita yang berkesan bagi audiens.",
   statement: ["LET'S WORK", "TOGETHER"],
   statementBody:
     "Saya percaya bahwa media sosial bukan sekadar posting, tapi tentang bagaimana menciptakan cerita dan pengalaman yang berkesan bagi audiens.",

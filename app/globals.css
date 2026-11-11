@@ -9,7 +9,7 @@
   --color-surface: #f2f9fc; /* permukaan sangat terang */
   --color-surface-2: #e4f3f9;
   --color-line: #d5e5ef; /* garis/border */
-  --color-mute: #5c7290; /* teks sekunder (kontras AA di putih) */
+  --color-mute: #4a5f7e; /* teks sekunder (kontras AA di putih & di atas pola CRT pastel) */
 
   --font-display: var(--font-archivo), "Arial Black", sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
@@ -44,7 +44,8 @@ html {
 }
 
 body {
-  background: #ffffff;
+  /* transparan: latar putih ada di <html>, dan latar animasi CRT (z-index negatif) harus terlihat di atasnya */
+  background: transparent;
   font-family: var(--font-mono);
   overflow-x: clip;
 }

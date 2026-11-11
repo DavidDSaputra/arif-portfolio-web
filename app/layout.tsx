@@ -5,6 +5,7 @@ import SmoothScroll from "@/components/SmoothScroll";
 import ScrollToTop from "@/components/ScrollToTop";
 import SiteDock from "@/components/SiteDock";
 import Crosshair from "@/components/reactbits/Crosshair";
+import CrtBackground from "@/components/CrtBackground";
 import { site, profile } from "@/lib/content";
 
 const archivo = Archivo({
@@ -53,6 +54,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="id" className={`${archivo.variable} ${plexMono.variable} ${script.variable}`}>
       <body className="grain min-h-dvh">
+        {/* React Bits — CRTWarp sebagai latar animasi seluruh situs (fixed, di belakang konten) */}
+        <CrtBackground />
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-blue focus:px-4 focus:py-2 focus:text-white"

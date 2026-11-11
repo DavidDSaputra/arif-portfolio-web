@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
 import { experience, profile, sectionCopy, skills } from "@/lib/content";
-import { CircleBadge, Clip, Squiggle } from "./icons";
+import { CircleBadge, Squiggle } from "./icons";
 import { Kicker, Reveal, ScriptTitle } from "./ui";
+import IdLanyard from "./IdLanyard";
 
 export default function About() {
   const reduce = useReducedMotion();
@@ -12,27 +12,15 @@ export default function About() {
   return (
     <section id="about" aria-labelledby="about-title" className="relative mx-auto max-w-[1440px] scroll-mt-20 px-4 py-24 sm:px-8 md:py-32">
       <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
-        {/* Foto + dekorasi */}
-        <div className="relative mx-auto w-full max-w-md lg:col-span-5 lg:max-w-none">
-          <motion.div
-            initial={reduce ? false : { rotate: 0, opacity: 0, y: 40 }}
-            whileInView={{ rotate: -4, opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-15%" }}
-            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-            className="relative aspect-[4/5] overflow-hidden rounded-2xl border-[10px] border-paper bg-paper shadow-[0_30px_80px_-20px_rgba(247,116,74,0.45)]"
-          >
-            <Image
-              src={profile.photos.about.src}
-              alt={profile.photos.about.alt}
-              fill
-              sizes="(min-width: 1024px) 38vw, 90vw"
-              className="object-cover object-[50%_55%]"
-            />
-          </motion.div>
-          <Clip className="absolute -top-10 left-8 h-28 w-12 rotate-[18deg] text-orange sm:h-36 sm:w-16" />
+        {/* Kartu ID 3D (React Bits — Lanyard); tali menggantung dari tepi atas section */}
+        <div className="relative mx-auto -mt-24 w-full max-w-md md:-mt-32 lg:col-span-5 lg:max-w-none">
+          <IdLanyard className="h-[560px] sm:h-[640px] lg:h-[720px]" />
+          <p className="pointer-events-none mt-2 text-center font-mono text-[11px] uppercase tracking-[0.18em] text-mute">
+            [ Tarik kartunya · klik untuk membalik ]
+          </p>
           <CircleBadge
             text="ARSMTHHH • CREATIVE DESIGN • "
-            className="absolute -bottom-10 -right-2 h-32 w-32 text-orange motion-safe:animate-spin-slow sm:h-40 sm:w-40"
+            className="pointer-events-none absolute bottom-10 -right-2 h-28 w-28 text-blue motion-safe:animate-spin-slow sm:h-36 sm:w-36"
           />
         </div>
 
@@ -40,7 +28,7 @@ export default function About() {
         <div className="lg:col-span-7 lg:pl-6">
           <Reveal>
             <Kicker title={sectionCopy.about.kicker} />
-            <h2 id="about-title" className="display mt-4 text-[clamp(3.5rem,17vw,10.5rem)] text-orange lg:text-[clamp(3.5rem,10.5vw,10.5rem)]">
+            <h2 id="about-title" className="display mt-4 text-[clamp(3.5rem,17vw,10.5rem)] text-blue lg:text-[clamp(3.5rem,10.5vw,10.5rem)]">
               {profile.firstName}
             </h2>
             <p className="mt-2 font-mono text-xs font-semibold uppercase tracking-[0.14em] text-mute sm:text-sm">
@@ -48,12 +36,12 @@ export default function About() {
             </p>
           </Reveal>
 
-          <Squiggle className="my-8 w-36 text-orange" />
+          <Squiggle className="my-8 w-36 text-blue" />
 
           <div className="space-y-5">
             {profile.bio.map((p, i) => (
               <Reveal key={i} delay={i * 0.08} y={24}>
-                <p className={`font-mono leading-relaxed ${i === 2 ? "text-lg text-orange sm:text-xl" : "text-base text-white/85 sm:text-lg"}`}>{p}</p>
+                <p className={`font-mono leading-relaxed ${i === 2 ? "text-lg text-blue sm:text-xl" : "text-base text-navy/85 sm:text-lg"}`}>{p}</p>
               </Reveal>
             ))}
           </div>
@@ -62,7 +50,7 @@ export default function About() {
             <p className="mb-3 font-mono text-xs uppercase tracking-[0.18em] text-mute">[ Proyek untuk ]</p>
             <ul className="flex flex-wrap gap-2">
               {skills.fields.map((f) => (
-                <li key={f} className="rounded-full border border-orange/60 px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-orange">
+                <li key={f} className="rounded-full border border-blue/60 px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-blue">
                   {f}
                 </li>
               ))}
@@ -86,10 +74,10 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-10% 0px" }}
                 transition={{ duration: 0.7, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
-                className="group grid grid-cols-[3rem_1fr] items-baseline gap-4 border-b border-line py-6 transition-colors hover:bg-ink-2 sm:grid-cols-[5rem_1fr_auto] sm:px-4 sm:py-8"
+                className="group grid grid-cols-[3rem_1fr] items-baseline gap-4 border-b border-line py-6 transition-colors hover:bg-surface sm:grid-cols-[5rem_1fr_auto] sm:px-4 sm:py-8"
               >
-                <span className="font-mono text-sm font-semibold text-orange sm:text-base">{e.no}</span>
-                <span className="display text-[clamp(1.6rem,5vw,3.75rem)] transition-all duration-300 group-hover:translate-x-2 group-hover:text-orange">
+                <span className="font-mono text-sm font-semibold text-blue sm:text-base">{e.no}</span>
+                <span className="display text-[clamp(1.6rem,5vw,3.75rem)] transition-all duration-300 group-hover:translate-x-2 group-hover:text-blue">
                   {e.company}
                 </span>
                 {(e.role || e.period) && (

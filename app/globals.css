@@ -319,20 +319,37 @@ html:not([data-loaded]) .flicker-c { opacity: 0; }
   .ld-step { left: auto; right: 0; top: -1.6em; }
   .ld-meta-tr { display: none; }
 }
-.ld-step::before { content: ""; width: 7px; height: 7px; background: var(--color-blue); }
+.ld-step::before { content: ""; width: 10px; height: 8px; background: var(--color-blue); clip-path: polygon(50% 0, 100% 100%, 0 100%); }
 .ld-count {
+  --cell: 0.92em;
+  position: relative;
   display: block;
   font-family: var(--font-display);
   font-size: clamp(7rem, 24vw, 15rem);
-  line-height: 0.9;
-  font-variant-numeric: tabular-nums;
-  color: transparent;
-  -webkit-text-stroke: 1.5px var(--color-blue);
-  /* isian naik dari bawah sesuai progres */
-  background: linear-gradient(to top, var(--color-blue) var(--p, 0%), transparent var(--p, 0%));
-  -webkit-background-clip: text;
-  background-clip: text;
+  line-height: 1;
 }
+/* odometer: tiap kolom angka = jendela setinggi satu angka berisi pita 0–9 yang digeser */
+.ld-odo { display: flex; }
+.ld-odo-fill {
+  position: absolute;
+  inset: 0;
+  color: var(--color-blue);
+  /* isian naik dari bawah sesuai progres */
+  clip-path: inset(calc(100% - var(--p, 0%)) 0 0 0);
+}
+.ld-odo-line {
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--color-blue) 45%, transparent);
+}
+.ld-digit {
+  display: block;
+  width: 0.5em;
+  height: var(--cell);
+  overflow: hidden;
+  text-align: center;
+}
+.ld-strip { display: block; will-change: transform; }
+.ld-strip > span { display: block; height: var(--cell); line-height: var(--cell); }
 .ld-hint {
   position: absolute;
   left: 50%;

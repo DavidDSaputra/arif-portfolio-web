@@ -14,8 +14,10 @@ import { profile } from "@/lib/content";
 
 type Phase = "count" | "ready" | "hello" | "exit" | "done";
 
+const DIGITS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0]; // 0 di akhir agar 9 → 0 berputar mulus
+
 const STEPS = ["Brief", "Konsep", "Produksi", "Editing", "Siap tayang"];
-const BASE_MS = 3200; // durasi 0 → 100 tanpa dipercepat
+const BASE_MS = 6000; // durasi 0 → 100 tanpa dipercepat (halus, tidak terburu-buru)
 const BOOST = 3.5; // kelipatan kecepatan saat ditahan
 const HELLO_MS = 2000; // lama "YO, WHAT'S UP!" tampil sebelum tirai terbuka
 const CURTAIN_MS = 1700; // durasi tirai terbuka (samakan dengan .ld-door di globals.css)
@@ -92,7 +94,7 @@ export default function Loader() {
     } catch {}
 
     // kunjungan berikutnya: lift lebih cepat, tapi tetap menunggu klik
-    const total = reduce ? 1 : seen ? 1600 : BASE_MS;
+    const total = reduce ? 1 : seen ? BASE_MS * 0.5 : BASE_MS;
     let value = 0; // 0..1
     let last = performance.now();
     const t0 = last;
@@ -100,10 +102,19 @@ export default function Loader() {
     let raf = 0;
 
     const render = (p: number, now: number) => {
-      const n = Math.round(p * 100);
+      const x = p * 100;
+      const n = Math.floor(x + 1e-6);
       if (countRef.current) {
-        countRef.current.textContent = String(n).padStart(3, "0");
-        countRef.current.style.setProperty("--p", `${Math.round(p * 100)}%`);
+        // odometer: satuan berputar terus, puluhan & ratusan ikut berputar hanya saat "membawa" (9 → 10)
+        const ones = x % 10;
+        const tens = (Math.floor(x / 10) % 10) + Math.max(0, ones - 9);
+        const hundreds = Math.floor(x / 100) + Math.max(0, (x % 100) - 99);
+        const pos = [hundreds, tens, ones];
+        countRef.current.querySelectorAll<HTMLElement>("[data-col]").forEach((el) => {
+          el.style.transform = `translateY(calc(${(-pos[Number(el.dataset.col)]).toFixed(4)} * var(--cell)))`;
+        });
+        countRef.current.style.setProperty("--p", `${p * 100}%`);
+        countRef.current.setAttribute("aria-label", `${n} persen`);
       }
       if (timerRef.current) timerRef.current.textContent = `T+${((now - t0) / 1000).toFixed(2).padStart(5, "0")}`;
       const s = Math.min(STEPS.length - 1, Math.floor(p * STEPS.length));
@@ -120,8 +131,8 @@ export default function Loader() {
       const dt = now - last;
       last = now;
       value = Math.min(1, value + (dt / total) * (boostRef.current ? BOOST : 1));
-      // sedikit "tersendat" seperti lift: melambat menjelang 100
-      const eased = value < 1 ? 1 - Math.pow(1 - value, 1.6) : 1;
+      // gerak lift halus: pelan saat berangkat, lancar di tengah, pelan lagi saat tiba (ease-in-out)
+      const eased = value < 1 ? (value < 0.5 ? 4 * value ** 3 : 1 - (-2 * value + 2) ** 3 / 2) : 1;
       render(eased, now);
       if (value < 1) raf = requestAnimationFrame(tick);
       else {
@@ -269,8 +280,21 @@ export default function Loader() {
           <span ref={timerRef} className="ld-timer">
             T+00.00
           </span>
-          <span ref={countRef} className="ld-count" aria-hidden style={{ "--p": "0%" } as CSSProperties}>
-            000
+          <span ref={countRef} className="ld-count" role="img" aria-label="0 persen" style={{ "--p": "0%" } as CSSProperties}>
+            {/* dua lapis odometer yang sama: garis luar (redup) + isian yang naik dari bawah */}
+            {(["ld-odo-line", "ld-odo-fill"] as const).map((layer) => (
+              <span key={layer} className={`ld-odo ${layer}`} aria-hidden>
+                {[0, 1, 2].map((col) => (
+                  <span key={col} className="ld-digit">
+                    <span className="ld-strip" data-col={col}>
+                      {DIGITS.map((d, k) => (
+                        <span key={k}>{d}</span>
+                      ))}
+                    </span>
+                  </span>
+                ))}
+              </span>
+            ))}
           </span>
           <span className="ld-step">
             <span ref={stepRef}>{STEPS[0]}</span>

@@ -256,6 +256,8 @@ export function PhoneFrame({ children, className = "" }: { children: React.React
 
 /** Easing "outExpo" — sama dengan animasi Webflow di template Fearless. */
 export const outExpo = [0.19, 1, 0.22, 1] as const;
+/** ease-in-out lembut: mulai pelan, tengah mengalir, berhenti pelan */
+export const smoothInOut = [0.65, 0, 0.35, 1] as const;
 
 /** true setelah layar loading selesai (Loader memberi <html data-loaded>). */
 export function usePageLoaded() {
@@ -309,7 +311,11 @@ export function OpenBox({
   const loaded = usePageLoaded();
   // tunggu layar loading selesai, supaya animasinya tidak terlewat di balik loader
   const on = reduce || (loaded && (trigger === "load" || inView));
-  const lineDone = delay + 0.8;
+  // durasi tiap tahap — sengaja pelan, dengan ease-in-out agar mulai & berhenti sama-sama halus
+  const tCorner = 0.9;
+  const tLine = 1.6;
+  const tOpen = 2.2;
+  const lineDone = delay + tLine;
 
   return (
     <div ref={ref} className={`relative ${className}`}>
@@ -319,15 +325,15 @@ export function OpenBox({
         className="pointer-events-none absolute inset-[10px]"
         initial={reduce ? false : { opacity: 0 }}
         animate={{ opacity: on ? 1 : 0 }}
-        transition={{ delay, duration: 0.4, ease: outExpo }}
+        transition={{ delay, duration: tCorner, ease: smoothInOut }}
       >
         <motion.div
           className="absolute left-0 top-0 border border-blue/50 bg-deep/80"
           initial={reduce ? false : { width: "0%", height: "0%" }}
           animate={on ? { width: "100%", height: "100%" } : { width: "0%", height: "0%" }}
           transition={{
-            width: { delay, duration: 0.8, ease: outExpo },
-            height: { delay: lineDone, duration: 1.3, ease: outExpo },
+            width: { delay, duration: tLine, ease: smoothInOut },
+            height: { delay: lineDone - 0.15, duration: tOpen, ease: smoothInOut },
           }}
         >
           {boxCorners.map((pos) => (
@@ -336,7 +342,7 @@ export function OpenBox({
               className={`absolute size-3 border border-blue bg-paper ${pos}`}
               initial={reduce ? false : { scale: 0 }}
               animate={{ scale: on ? 1 : 0 }}
-              transition={{ delay, duration: 0.4, ease: outExpo }}
+              transition={{ delay, duration: tCorner, ease: smoothInOut }}
             />
           ))}
         </motion.div>
@@ -345,9 +351,9 @@ export function OpenBox({
       {/* Isi: padding = 10px holder + 1,6px garis + 20px paragraf */}
       <motion.div
         className="relative p-[31.6px]"
-        initial={reduce ? false : { opacity: 0, y: 10 }}
-        animate={on ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
-        transition={{ delay: lineDone + 0.2, duration: 0.8, ease: outExpo }}
+        initial={reduce ? false : { opacity: 0, y: 14 }}
+        animate={on ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
+        transition={{ delay: lineDone + tOpen * 0.55, duration: 1.4, ease: smoothInOut }}
       >
         {children}
       </motion.div>

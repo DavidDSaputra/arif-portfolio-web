@@ -43,7 +43,7 @@ function StatusBar() {
       <p className="flex items-center gap-2 text-blue">
         <i className="h-2 w-2 animate-pulse bg-blue" /> <Scramble text="Tersedia untuk proyek" />
       </p>
-      <p className="text-fg">Indonesia — WIB</p>
+      <p className="text-fg">{profile.location} — WIB</p>
       <p className="text-fg sm:text-center">
         <time suppressHydrationWarning>{now ? `${clockFmt.format(now)} WIB` : "--:--:-- WIB"}</time>
         <span className="mt-1 block text-[11px] text-mute" suppressHydrationWarning>

@@ -40,6 +40,8 @@ export const profile = {
   handle: "arsmthhh",
   role: "Social Media Specialist",
   label: "Creative Design",
+  /** Dari CV (Juni 2026). */
+  location: "Serpong, Tangerang Selatan",
   experienceYears: "2+",
   intro:
     "Social Media Specialist dengan pengalaman lebih dari 2 tahun di dunia digital kreatif.",
@@ -54,6 +56,7 @@ export const profile = {
   bio: [
     "Saya seorang Social Media Specialist dengan pengalaman lebih dari 2 tahun di dunia digital kreatif.",
     "Berpengalaman mengelola strategi konten, editing, dan fotografi untuk berbagai proyek — mulai dari brand, wedding, hingga event konser.",
+    "Terampil membuat strategi konten, editing foto dan video, copywriting, serta membangun hubungan yang baik dengan pelanggan — berorientasi pada hasil dan terus belajar.",
     "Saya percaya bahwa media sosial bukan sekadar posting, tapi tentang bagaimana menciptakan cerita dan pengalaman yang berkesan bagi audiens.",
   ],
   photos: {
@@ -102,19 +105,76 @@ export const socials = [
 
 /* ───────────────────────── PENGALAMAN ───────────────────────── */
 
-/** PDF hanya mencantumkan nama tempat. Isi `role` / `period` bila ingin ditampilkan. */
-export const experience: { no: string; company: string; role?: string; period?: string }[] = [
-  { no: "01", company: "Lexus Auto Cars" },
-  { no: "02", company: "Keranggan Fest" },
-  { no: "03", company: "Permata Mutia Autocars" },
-  { no: "04", company: "Permata Mutia Body Repair" },
+/** Riwayat kerja dari CV (Juni 2026), terbaru di atas. */
+export const experience: { no: string; company: string; role: string; period: string; points: string[] }[] = [
+  {
+    no: "01",
+    company: "PT. Yuro Auto",
+    role: "Social Media Specialist",
+    period: "2025 — 2026",
+    points: [
+      "Mengembangkan strategi konten media sosial untuk meningkatkan brand awareness dan engagement.",
+      "Membuat, mengoptimalkan, dan mempublikasikan konten di Instagram, TikTok, Facebook, dan lainnya.",
+      "Memantau tren media sosial dan menerapkan ide konten yang relevan dengan target audiens.",
+      "Menyusun laporan performa media sosial dan rekomendasi berbasis data untuk kampanye berikutnya.",
+    ],
+  },
+  {
+    no: "02",
+    company: "PT. Lexus Auto Cars",
+    role: "Social Media Specialist",
+    period: "2023 — 2025",
+    points: [
+      "Mengembangkan strategi konten media sosial untuk meningkatkan brand awareness dan engagement.",
+      "Membuat, mengoptimalkan, dan mempublikasikan konten di Instagram, TikTok, Facebook, dan lainnya.",
+      "Memantau tren media sosial dan menerapkan ide konten yang relevan dengan target audiens.",
+      "Menyusun laporan performa media sosial dan rekomendasi berbasis data untuk kampanye berikutnya.",
+    ],
+  },
+  {
+    no: "03",
+    company: "PT. Smart Multi Finance",
+    role: "Telemarketing",
+    period: "2022 — 2023",
+    points: [
+      "Melakukan outbound call untuk menawarkan produk dan layanan perusahaan.",
+      "Menjelaskan produk, manfaat, harga, dan promo secara jelas dan persuasif.",
+      "Membangun hubungan baik dengan pelanggan untuk meningkatkan penjualan dan loyalitas.",
+      "Mengelola data pelanggan dan hasil follow-up di sistem perusahaan.",
+    ],
+  },
+  {
+    no: "04",
+    company: "PT. BFI Finance",
+    role: "Telemarketing",
+    period: "2021 — 2022",
+    points: [
+      "Melakukan outbound call untuk menawarkan produk dan layanan perusahaan.",
+      "Menjelaskan produk, manfaat, harga, dan promo secara jelas dan persuasif.",
+      "Membangun hubungan baik dengan pelanggan untuk meningkatkan penjualan dan loyalitas.",
+      "Mengelola data pelanggan dan hasil follow-up di sistem perusahaan.",
+    ],
+  },
 ];
+
+/** Pendidikan, pelatihan & kemampuan dari CV (Juni 2026). */
+export const credentials = {
+  education: { school: "SMA Al-Ghozali", major: "Ilmu Pengetahuan Sosial" },
+  training: [
+    "Pelatihan dan Seminar Videografi dari Kecamatan",
+    "Tingkatkan Produktivitas dengan Microsoft Excel — Skill Academy (2020)",
+    "Workshop Fotografi dan Teknik Pengambilan Konten Media Sosial",
+  ],
+  languages: "Indonesia (aktif), Inggris (pasif)",
+  hardSkills: ["Microsoft Word", "Microsoft Excel", "Editing (CapCut, Canva, Premiere Pro)", "Videografi", "Fotografi"],
+  softSkills: ["Leadership", "Team Work", "Problem Solving", "Communication", "Time Management", "Kreativitas"],
+};
 
 /* ───────────────────────── SKILL ───────────────────────── */
 
 export const skills = {
   expertise: ["Strategi Konten", "Video Editing", "Fotografi", "Desain Grafis", "Cinematic Video", "Event Project"],
-  software: ["Canva", "CapCut", "Photoshop", "VN", "PicsArt", "Lightroom", "Microsoft Excel", "Microsoft Word"],
+  software: ["Canva", "CapCut", "Premiere Pro", "Photoshop", "VN", "PicsArt", "Lightroom", "Microsoft Excel", "Microsoft Word"],
   /** Logo dari slide "Software Skills" di PDF (urutan sama dengan grid 3×3 di PDF). */
   logos: [
     { name: "Canva", src: "/assets/software/canva.png", w: 221, h: 221 },
@@ -294,6 +354,7 @@ export const works: Work[] = [
     media: [
       {
         kind: "video",
+        src: "/videos/bugel-beach.mp4",
         poster: { src: "/assets/work/bugel-beach.jpg", w: 1280, h: 720, alt: "Matahari terbenam di Pantai Bugel, Sukabumi" },
         caption: "Bugel Beach",
       },
@@ -351,7 +412,7 @@ export const marquee = [
 
 export const sectionCopy = {
   about: { kicker: "WHO AM I ?", tag: "[SOCIAL MEDIA SPECIALIST — 2+ TAHUN DI DUNIA DIGITAL KREATIF]" },
-  experience: { kicker: "JOB EXPERIENCE", tag: "[TEMPAT SAYA BERKARYA]" },
+  experience: { kicker: "JOB EXPERIENCE", tag: "[RIWAYAT KERJA — DARI CV]" },
   work: { range: "2023 — 2025", kicker: "SELECTED WORK", tag: "[POSTER, REELS, EVENT & CINEMATIC]" },
   insight: { kicker: "INSIGHT CONTENT", tag: "[ANGKA ASLI DARI TIKTOK STUDIO]" },
   skills: { kicker: "SOFTWARE SKILLS", tag: "[ALAT TEMPUR SEHARI-HARI]" },

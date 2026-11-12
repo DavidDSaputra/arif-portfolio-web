@@ -1,52 +1,59 @@
 "use client";
 
 import Image from "next/image";
-import { getWork, showcases, type Media } from "@/lib/content";
+import { useRef, useState } from "react";
+import { getWork, showcases, works, type Media } from "@/lib/content";
+import TvScreen from "./TvScreen";
 import { Play } from "./icons";
 import { DetailLink, Reveal, ScriptTitle } from "./ui";
 
 type VideoMedia = Extract<Media, { kind: "video" }>;
 
-/** Mockup monitor (gaya slide PDF): layar hitam, dagu putih, kaki abu-abu. */
-function Monitor({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="mx-auto w-full max-w-[760px]">
-      <div className="rounded-t-[1.4rem] bg-black p-[2.6%] pb-[4%] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.6)] ring-1 ring-fg/10">
-        <div className="relative aspect-video overflow-hidden rounded-[0.3rem] bg-deep">{children}</div>
-      </div>
-      <div className="h-[clamp(26px,6vw,58px)] rounded-b-[1.4rem] bg-gradient-to-b from-[#efefef] to-[#d4d4d4]" />
-      <div aria-hidden className="mx-auto h-[clamp(36px,9vw,92px)] w-[22%] bg-gradient-to-b from-[#c4c4c4] to-[#a8a8a8] [clip-path:polygon(16%_0,84%_0,100%_100%,0_100%)]" />
-      <div aria-hidden className="mx-auto h-[6px] w-[34%] rounded-full bg-[#cfcfcf]" />
-    </div>
-  );
-}
+/** Siaran di TV tabung: poster + tombol putar → semburan "semut" → video diputar dengan kontrol. */
+function CinemaTv({ m, channel }: { m: VideoMedia; channel: string }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  const [on, setOn] = useState(false);
 
-function CinemaScreen({ m }: { m: VideoMedia }) {
-  if (m.src) {
-    return (
-      <video
-        src={m.src}
-        poster={m.poster.src}
-        controls
-        playsInline
-        preload="none"
-        className="absolute inset-0 h-full w-full object-cover"
-        aria-label={m.poster.alt}
-      />
-    );
-  }
+  const start = () => {
+    setOn(true);
+    // beri waktu semburan statis sebentar sebelum gambar muncul
+    window.setTimeout(() => ref.current?.play().catch(() => {}), 380);
+  };
+
   return (
-    <>
-      <Image src={m.poster.src} alt={m.poster.alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="animate-kenburns object-cover" />
-      <div className="absolute inset-0 grid place-items-center bg-gradient-to-t from-black/60 via-transparent to-transparent">
-        <span className="grid h-16 w-16 place-items-center rounded-full bg-blue text-white shadow-lg">
-          <Play className="ml-1 h-7 w-7" />
-        </span>
-      </div>
-      <span className="absolute bottom-3 left-3 rounded-full bg-paper/85 px-3 py-1 font-mono text-[11px] uppercase text-fg">
-        Video menyusul
-      </span>
-    </>
+    <TvScreen channel={channel} staticKey={on ? "on" : "off"}>
+      {m.src && on ? (
+        <video
+          ref={ref}
+          src={m.src}
+          poster={m.poster.src}
+          controls
+          playsInline
+          preload="metadata"
+          className="absolute inset-0 h-full w-full bg-black object-cover"
+          aria-label={m.poster.alt}
+        />
+      ) : (
+        <>
+          <Image src={m.poster.src} alt={m.poster.alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="animate-kenburns object-cover" />
+          {m.src ? (
+            <button
+              type="button"
+              onClick={start}
+              data-cursor="Putar"
+              aria-label={`Putar video: ${m.poster.alt}`}
+              className="group absolute inset-0 z-10 grid place-items-center bg-gradient-to-t from-black/60 via-transparent to-transparent"
+            >
+              <span className="flex items-center gap-3 border border-blue bg-paper/80 px-5 py-3 font-mono text-sm uppercase text-blue backdrop-blur-sm transition-colors group-hover:bg-blue group-hover:text-cream">
+                <Play className="h-4 w-4" /> [Putar]
+              </span>
+            </button>
+          ) : (
+            <span className="absolute bottom-[6%] left-[4%] z-10 bg-paper/85 px-3 py-1 font-mono text-[11px] uppercase text-fg">Video menyusul</span>
+          )}
+        </>
+      )}
+    </TvScreen>
   );
 }
 
@@ -64,9 +71,9 @@ export default function CinematicVideo() {
 
       <div className="relative mx-auto grid max-w-[1440px] items-center gap-14 px-4 sm:px-8 lg:grid-cols-12 lg:gap-10">
         <Reveal className="lg:col-span-5">
-          {/* di desktop kolomnya hanya 5/12 → ukuran dibatasi agar "CINEMATIC" tidak tertimpa monitor */}
+          {/* di desktop kolomnya hanya 5/12 → ukuran dibatasi agar "CINEMATIC" tidak tertimpa TV */}
           <ScriptTitle id="cinematic-title" words={s.words} className="text-[clamp(2.75rem,12.5vw,7rem)] lg:text-[clamp(3rem,5.2vw,6rem)]" />
-          <p className="display mt-6 text-[clamp(1.5rem,3.4vw,2.75rem)] text-fg [text-shadow:0_0_28px_rgba(96,193,229,0.55)]">
+          <p className="display mt-6 text-[clamp(1.5rem,3.4vw,2.75rem)] text-blue">
             {s.subtitle.map((l) => (
               <span key={l} className="block">
                 {l}
@@ -81,11 +88,7 @@ export default function CinematicVideo() {
         </Reveal>
 
         <Reveal delay={0.15} className="lg:col-span-7">
-          {video && (
-            <Monitor>
-              <CinemaScreen m={video} />
-            </Monitor>
-          )}
+          {video && <CinemaTv m={video} channel={`CH ${String(works.findIndex((w) => w.slug === s.slug) + 1).padStart(2, "0")}`} />}
         </Reveal>
       </div>
     </section>

@@ -1,13 +1,15 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
-import { experience, profile, sectionCopy, skills } from "@/lib/content";
+import { useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { credentials, experience, profile, sectionCopy, skills } from "@/lib/content";
 import { Squiggle } from "./icons";
-import { Kicker, Reveal, ScriptTitle } from "./ui";
+import { Kicker, Reveal, Scramble, ScriptTitle } from "./ui";
 import IdLanyard from "./IdLanyard";
 
 export default function About() {
   const reduce = useReducedMotion();
+  const [open, setOpen] = useState<number | null>(0);
 
   return (
     <section id="about" aria-labelledby="about-title" className="relative mx-auto max-w-[1440px] scroll-mt-20 px-4 py-24 sm:px-8 md:py-32">
@@ -63,27 +65,114 @@ export default function About() {
         </Reveal>
 
         <ol className="mt-10 border-t border-line">
-          {experience.map((e, i) => (
+          {experience.map((e, i) => {
+            const isOpen = open === i;
+            return (
               <motion.li
                 key={e.no}
                 initial={reduce ? false : { opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-10% 0px" }}
                 transition={{ duration: 0.7, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
-                className="group grid grid-cols-[3rem_1fr] items-baseline gap-4 border-b border-line py-6 transition-colors hover:bg-panel sm:grid-cols-[5rem_1fr_auto] sm:px-4 sm:py-8"
+                className="border-b border-line"
               >
-                <span className="font-mono text-sm text-blue sm:text-base">{e.no}</span>
-                <span className="display text-[clamp(1.6rem,5vw,3.75rem)] transition-all duration-300 group-hover:translate-x-2 group-hover:text-navy">
-                  {e.company}
-                </span>
-                {(e.role || e.period) && (
-                  <span className="col-start-2 font-mono text-xs uppercase text-mute sm:col-start-3">
-                    {[e.role, e.period].filter(Boolean).join(" · ")}
+                <button
+                  type="button"
+                  onClick={() => setOpen(isOpen ? null : i)}
+                  aria-expanded={isOpen}
+                  aria-controls={`exp-${e.no}`}
+                  data-cursor={isOpen ? "Tutup" : "Detail"}
+                  className="group grid w-full grid-cols-[2.5rem_1fr_auto] items-baseline gap-x-4 gap-y-2 py-6 text-left transition-colors hover:bg-panel sm:grid-cols-[4rem_1fr_auto_2rem] sm:px-4 sm:py-8"
+                >
+                  <span className="font-mono text-sm text-blue sm:text-base">{e.no}</span>
+                  <span className="display text-[clamp(1.75rem,5vw,4rem)] transition-transform duration-300 group-hover:translate-x-2">
+                    {e.company}
                   </span>
-                )}
+                  <span className="col-start-2 font-mono text-xs uppercase text-mute sm:col-start-3 sm:text-sm">
+                    {e.role} · {e.period}
+                  </span>
+                  <span
+                    aria-hidden
+                    className={`col-start-3 row-start-1 font-mono text-xl text-blue transition-transform duration-300 sm:col-start-4 ${isOpen ? "rotate-45" : ""}`}
+                  >
+                    +
+                  </span>
+                </button>
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      id={`exp-${e.no}`}
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.45, ease: [0.76, 0, 0.24, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <ul className="grid gap-2 pb-8 pl-[3.5rem] pr-4 font-mono text-sm text-fg/85 sm:pl-[5rem] sm:text-base">
+                        {e.points.map((p) => (
+                          <li key={p} className="flex gap-3">
+                            <span className="text-blue">→</span>
+                            <span>{p}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.li>
-          ))}
+            );
+          })}
         </ol>
+      </div>
+
+      {/* Pendidikan, pelatihan & kemampuan (dari CV) */}
+      <div className="mt-24 grid gap-px overflow-hidden border border-line bg-line md:grid-cols-3">
+        <div className="bg-paper p-6 sm:p-8">
+          <p className="font-mono text-xs uppercase text-blue sm:text-sm">
+            <Scramble text="[Pendidikan]" />
+          </p>
+          <p className="display mt-4 text-[clamp(1.75rem,3.5vw,2.75rem)]">{credentials.education.school}</p>
+          <p className="mt-2 font-mono text-sm uppercase text-mute">{credentials.education.major}</p>
+          <p className="mt-8 font-mono text-xs uppercase text-blue sm:text-sm">
+            <Scramble text="[Bahasa]" />
+          </p>
+          <p className="mt-3 font-mono text-sm text-fg/85">{credentials.languages}</p>
+        </div>
+        <div className="bg-paper p-6 sm:p-8">
+          <p className="font-mono text-xs uppercase text-blue sm:text-sm">
+            <Scramble text="[Pelatihan]" />
+          </p>
+          <ul className="mt-4 space-y-3 font-mono text-sm text-fg/85">
+            {credentials.training.map((tr) => (
+              <li key={tr} className="flex gap-3">
+                <span className="text-blue">→</span>
+                <span>{tr}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="bg-paper p-6 sm:p-8">
+          <p className="font-mono text-xs uppercase text-blue sm:text-sm">
+            <Scramble text="[Hard skills]" />
+          </p>
+          <ul className="mt-4 flex flex-wrap gap-2">
+            {credentials.hardSkills.map((s) => (
+              <li key={s} className="border border-fg/20 px-2.5 py-1 font-mono text-xs uppercase">
+                {s}
+              </li>
+            ))}
+          </ul>
+          <p className="mt-8 font-mono text-xs uppercase text-blue sm:text-sm">
+            <Scramble text="[Soft skills]" />
+          </p>
+          <ul className="mt-4 flex flex-wrap gap-2">
+            {credentials.softSkills.map((s) => (
+              <li key={s} className="border border-fg/20 px-2.5 py-1 font-mono text-xs uppercase">
+                {s}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );

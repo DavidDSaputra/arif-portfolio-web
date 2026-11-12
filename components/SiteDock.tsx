@@ -122,7 +122,7 @@ export default function SiteDock() {
   ];
 
   return (
-    <nav aria-label="Navigasi cepat" className="pointer-events-none fixed inset-x-0 bottom-0 z-40 h-28">
+    <nav aria-label="Navigasi cepat" className="pointer-events-none fixed inset-x-0 bottom-[var(--frame)] z-40 h-28">
       <Dock
         items={items}
         theme="dark"

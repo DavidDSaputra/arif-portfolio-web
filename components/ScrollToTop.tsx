@@ -33,7 +33,7 @@ export default function ScrollToTop() {
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.5, y: 24 }}
           transition={{ duration: 0.5, ease: outExpo }}
-          className="group fixed bottom-28 right-4 z-40 grid h-14 w-14 place-items-center border border-blue bg-paper/80 text-blue backdrop-blur-md shadow-[0_10px_30px_-8px_rgba(0,90,156,0.35)] backdrop-blur-md transition-colors hover:bg-blue hover:text-white md:bottom-8 md:right-8 md:h-16 md:w-16"
+          className="group fixed bottom-28 right-[calc(var(--frame)+12px)] z-40 grid h-14 w-14 place-items-center border border-blue bg-paper/80 text-blue backdrop-blur-md shadow-[0_10px_30px_-8px_rgba(0,90,156,0.35)] backdrop-blur-md transition-colors hover:bg-blue hover:text-white md:bottom-[calc(var(--frame)+16px)] md:right-[calc(var(--frame)+16px)] md:h-16 md:w-16"
         >
           <svg viewBox="0 0 64 64" aria-hidden className="absolute inset-0 h-full w-full -rotate-90">
             <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" strokeOpacity="0.2" strokeWidth="2.5" />

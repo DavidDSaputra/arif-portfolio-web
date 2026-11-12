@@ -81,6 +81,11 @@ html[data-palette="3"] {
 
 :root {
   color-scheme: dark;
+  /* tebal bingkai halaman (lavender, sudut dalam membulat) */
+  --frame: 8px;
+}
+@media (min-width: 768px) {
+  :root { --frame: 18px; }
 }
 
 html {
@@ -97,6 +102,22 @@ body {
   font-family: var(--font-mono);
   letter-spacing: -0.02em;
   overflow-x: clip;
+  /* isi tidak tertutup bingkai di kiri-kanan */
+  padding-inline: var(--frame);
+}
+
+/* ── Bingkai halaman ala yeahright.co: tepi terang + jendela gelap bersudut membulat ── */
+.page-frame {
+  position: fixed;
+  inset: var(--frame);
+  z-index: 250;
+  pointer-events: none;
+  border-radius: 14px;
+  box-shadow: 0 0 0 calc(var(--frame) + 40px) var(--color-fg);
+  transition: box-shadow 0.4s ease;
+}
+@media (min-width: 768px) {
+  .page-frame { border-radius: 18px; }
 }
 
 ::selection {
@@ -241,11 +262,11 @@ html:not([data-loaded]) .flicker-c { opacity: 0; }
 }
 .ld[data-phase="hello"] .ld-meta,
 .ld[data-phase="exit"] .ld-meta { opacity: 0; transition: opacity 0.3s ease; }
-.ld-meta-bl { bottom: 22px; left: 22px; }
-.ld-meta-br { bottom: 22px; right: 22px; font-variant-numeric: tabular-nums; }
-.ld-meta-bc { bottom: 22px; left: 50%; translate: -50% 0; color: var(--color-blue); white-space: nowrap; }
-.ld-meta-tl { top: 22px; left: 22px; color: var(--color-mute); }
-.ld-meta-tr { top: 22px; right: 22px; color: var(--color-mute); }
+.ld-meta-bl { bottom: calc(var(--frame) + 16px); left: calc(var(--frame) + 16px); }
+.ld-meta-br { bottom: calc(var(--frame) + 16px); right: calc(var(--frame) + 16px); font-variant-numeric: tabular-nums; }
+.ld-meta-bc { bottom: calc(var(--frame) + 16px); left: 50%; translate: -50% 0; color: var(--color-blue); white-space: nowrap; }
+.ld-meta-tl { top: calc(var(--frame) + 16px); left: calc(var(--frame) + 16px); color: var(--color-mute); }
+.ld-meta-tr { top: calc(var(--frame) + 16px); right: calc(var(--frame) + 16px); color: var(--color-mute); }
 .ld-sound {
   display: inline-flex;
   align-items: center;
@@ -295,6 +316,7 @@ html:not([data-loaded]) .flicker-c { opacity: 0; }
 }
 @media (max-width: 639px) {
   .ld-step { left: auto; right: 0; top: -1.6em; }
+  .ld-meta-tr { display: none; }
 }
 .ld-step::before { content: ""; width: 7px; height: 7px; background: var(--color-blue); }
 .ld-count {
@@ -368,7 +390,7 @@ html:not([data-loaded]) .flicker-c { opacity: 0; }
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 150;
+  z-index: 260;
   pointer-events: none;
   mix-blend-mode: difference;
 }
@@ -406,6 +428,36 @@ html:not([data-loaded]) .flicker-c { opacity: 0; }
   pointer-events: none;
   background: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.18) 0 1px, transparent 1px 3px);
   mix-blend-mode: multiply;
+}
+
+/* ── Layar TV tabung ── */
+.tv-screen {
+  /* sudut cembung khas CRT */
+  border-radius: 4% / 6%;
+  background: #000;
+  isolation: isolate;
+}
+.tv-picture {
+  filter: contrast(1.12) saturate(1.1) brightness(1.02);
+  animation: tv-flicker 6s steps(1, end) infinite;
+}
+.tv-fx {
+  border-radius: inherit;
+  background:
+    /* garis scan */
+    repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.28) 0 1px, transparent 1px 3px),
+    /* kilau kaca */
+    radial-gradient(120% 90% at 30% 15%, rgba(255, 255, 255, 0.07), transparent 45%),
+    /* vignette tepi tabung */
+    radial-gradient(ellipse at center, transparent 58%, rgba(0, 0, 0, 0.55) 100%);
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.75), inset 0 0 6px rgba(0, 0, 0, 0.9);
+}
+@keyframes tv-flicker {
+  0%, 100% { opacity: 1; }
+  41% { opacity: 0.96; }
+  42% { opacity: 1; }
+  77% { opacity: 0.97; translate: 0 0.5px; }
+  78% { opacity: 1; translate: 0 0; }
 }
 
 /* Dock (React Bits) — tile "Unduh Portofolio" disorot aksen */

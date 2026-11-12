@@ -13,7 +13,7 @@ const socialIcons = { Instagram, WhatsApp, Email: Mail } as const;
 /** Baris info "LABEL  NILAI" ala tabel spesifikasi. */
 const facts = [
   { label: "Role", value: profile.role },
-  { label: "Handle", value: `@${profile.handle}` },
+  { label: "Base", value: profile.location },
   { label: "Tools", value: skills.software.slice(0, 4).join(" / ") },
   { label: "Untuk", value: skills.fields.join(", ") },
 ];

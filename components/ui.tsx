@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { motion, useInView, useReducedMotion, type HTMLMotionProps } from "motion/react";
 import { ArrowUpRight, Spark } from "./icons";
 
@@ -46,17 +46,21 @@ export function WaveText({
       <span className="sr-only">{lines.join(" ")}</span>
       {lines.map((line, li) => (
         <span key={li} aria-hidden className={`block whitespace-nowrap ${lineClassName}`}>
-          {[...line].map((ch, ci) =>
-            ch === " " ? (
-              <span key={ci}> </span>
-            ) : (
-              <span key={ci} className="wv-c">
-                <span className="wv-i" style={{ "--i": i++ } as CSSProperties}>
-                  {ch}
-                </span>
+          {line.split(" ").map((word, wi, arr) => (
+            <Fragment key={wi}>
+              {/* huruf dikelompokkan per kata → pindah baris hanya di spasi */}
+              <span className="inline-block whitespace-nowrap">
+                {[...word].map((ch, ci) => (
+                  <span key={ci} className="wv-c">
+                    <span className="wv-i" style={{ "--i": i++ } as CSSProperties}>
+                      {ch}
+                    </span>
+                  </span>
+                ))}
               </span>
-            ),
-          )}
+              {wi < arr.length - 1 ? " " : null}
+            </Fragment>
+          ))}
         </span>
       ))}
     </Tag>

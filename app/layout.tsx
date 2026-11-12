@@ -49,7 +49,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0A0D1F",
+  themeColor: "#E4E8FF",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -73,6 +73,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </SmoothScroll>
         {/* Kursor kustom (kotak kecil, membesar di atas link) */}
         <Cursor />
+        {/* bingkai halaman (di atas semua konten, tidak menghalangi klik) */}
+        <div aria-hidden className="page-frame" />
       </body>
     </html>
   );

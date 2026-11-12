@@ -58,7 +58,7 @@ export default function Header() {
   }, [open]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
+    <header className="fixed inset-x-[var(--frame)] top-[var(--frame)] z-50">
       <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-3 px-4 py-4 font-mono text-xs uppercase sm:px-8 sm:text-sm">
         <Link href="/" className="flex items-center gap-2 mix-blend-difference" data-cursor="Beranda">
           <Logo size={22} className="rounded-[5px]" />

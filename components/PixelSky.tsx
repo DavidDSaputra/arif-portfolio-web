@@ -4,12 +4,13 @@ import { useEffect, useRef } from "react";
 
 /**
  * Latar animasi hero: "langit" piksel ber-dither (terinspirasi andreas.vision), digambar di Canvas 2D.
- * - Awan noise bergeser pelan → dikuantisasi ke 7 tingkat warna palet (biru es → biru langit → biru → navy).
+ * - Awan noise bergeser pelan → dikuantisasi ke 7 tingkat warna palet (biru → biru langit → biru es).
  * - Tengah dibiarkan kosong agar teks terbaca; awan tersibak di sekitar kursor.
  * - Muncul bertahap saat dimuat, 24 fps, berhenti saat tidak terlihat, statis bila reduced-motion.
  */
 
-const C = { ice: "#A0E0EF", sky: "#60C1E5", blue: "#005A9C", navy: "#1B365D" };
+// Tema gelap: tepi awan paling tipis = biru (dekat dengan latar navy), inti awan = biru es.
+const C = { ice: "#005A9C", sky: "#60C1E5", blue: "#A0E0EF", navy: "#C9EEF7" };
 
 /* ── value noise 3D kecil (tanpa dependensi) ── */
 const hash3 = (x: number, y: number, z: number) => {

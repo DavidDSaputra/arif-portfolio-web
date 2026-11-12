@@ -11,8 +11,8 @@ type VideoMedia = Extract<Media, { kind: "video" }>;
 function Monitor({ children }: { children: React.ReactNode }) {
   return (
     <div className="mx-auto w-full max-w-[760px]">
-      <div className="rounded-t-[1.4rem] bg-black p-[2.6%] pb-[4%] shadow-[0_40px_120px_-30px_rgba(0,90,156,0.5)] ring-1 ring-navy/10">
-        <div className="relative aspect-video overflow-hidden rounded-[0.3rem] bg-surface">{children}</div>
+      <div className="rounded-t-[1.4rem] bg-black p-[2.6%] pb-[4%] shadow-[0_40px_120px_-30px_rgba(0,90,156,0.5)] ring-1 ring-fg/10">
+        <div className="relative aspect-video overflow-hidden rounded-[0.3rem] bg-deep">{children}</div>
       </div>
       <div className="h-[clamp(26px,6vw,58px)] rounded-b-[1.4rem] bg-gradient-to-b from-[#efefef] to-[#d4d4d4]" />
       <div aria-hidden className="mx-auto h-[clamp(36px,9vw,92px)] w-[22%] bg-gradient-to-b from-[#c4c4c4] to-[#a8a8a8] [clip-path:polygon(16%_0,84%_0,100%_100%,0_100%)]" />
@@ -43,7 +43,7 @@ function CinemaScreen({ m }: { m: VideoMedia }) {
           <Play className="ml-1 h-7 w-7" />
         </span>
       </div>
-      <span className="absolute bottom-3 left-3 rounded-full bg-white/85 px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-blue">
+      <span className="absolute bottom-3 left-3 rounded-full bg-navy/85 px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-sky">
         Video menyusul
       </span>
     </>
@@ -66,7 +66,7 @@ export default function CinematicVideo() {
         <Reveal className="lg:col-span-5">
           {/* di desktop kolomnya hanya 5/12 → ukuran dibatasi agar "CINEMATIC" tidak tertimpa monitor */}
           <ScriptTitle id="cinematic-title" words={s.words} className="text-[clamp(2.75rem,12.5vw,7rem)] lg:text-[clamp(3rem,5.2vw,6rem)]" />
-          <p className="display mt-6 text-[clamp(1.5rem,3.4vw,2.75rem)] text-navy [text-shadow:0_0_28px_rgba(96,193,229,0.55)]">
+          <p className="display mt-6 text-[clamp(1.5rem,3.4vw,2.75rem)] text-fg [text-shadow:0_0_28px_rgba(96,193,229,0.55)]">
             {s.subtitle.map((l) => (
               <span key={l} className="block">
                 {l}
@@ -74,7 +74,7 @@ export default function CinematicVideo() {
             ))}
           </p>
           <p className="mt-3 font-mono text-xs uppercase tracking-[0.16em] text-mute sm:text-sm">{s.tag}</p>
-          <p className="mt-8 max-w-md font-mono text-sm leading-relaxed text-navy/80 sm:text-base">{work.summary}</p>
+          <p className="mt-8 max-w-md font-mono text-sm leading-relaxed text-fg/80 sm:text-base">{work.summary}</p>
           <div className="mt-10">
             <DetailLink href={`/work/${s.slug}`} />
           </div>

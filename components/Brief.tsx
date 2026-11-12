@@ -84,7 +84,7 @@ export default function Brief() {
 
           <button
             type="submit"
-            className="group mt-10 inline-flex items-center gap-3 rounded-full bg-white px-7 py-4 font-mono text-sm font-semibold uppercase tracking-[0.14em] text-blue transition-colors hover:bg-navy hover:text-white"
+            className="group mt-10 inline-flex items-center gap-3 rounded-full bg-navy px-7 py-4 font-mono text-sm font-semibold uppercase tracking-[0.14em] text-fg transition-colors hover:bg-sky hover:text-navy"
           >
             Kirim via WhatsApp
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />

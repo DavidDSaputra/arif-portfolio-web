@@ -20,20 +20,20 @@ type Key = keyof typeof SECTIONS;
 
 /** Warna dock disesuaikan dengan palet portofolio (navy / biru / biru langit / biru es). */
 const THEME = {
-  "--dock-panel": "rgba(255, 255, 255, 0.78)",
-  "--dock-panel-edge": "rgba(27, 54, 93, 0.12)",
-  "--dock-panel-highlight": "rgba(255, 255, 255, 0.95)",
-  "--dock-panel-shadow": "0 22px 44px -22px rgba(27, 54, 93, 0.45), 0 6px 18px -10px rgba(0, 90, 156, 0.3)",
-  "--dock-tile": "linear-gradient(180deg, #ffffff 0%, #e4f3f9 100%)",
-  "--dock-tile-edge": "rgba(27, 54, 93, 0.1)",
-  "--dock-tile-highlight": "#ffffff",
-  "--dock-tile-shadow": "0 4px 10px -5px rgba(27, 54, 93, 0.4)",
-  "--dock-ink": "#005A9C",
-  "--dock-label": "#1B365D",
-  "--dock-label-ink": "#ffffff",
-  "--dock-dot": "#005A9C",
-  "--dock-separator": "rgba(27, 54, 93, 0.16)",
-  "--dock-press": "brightness(0.92)",
+  "--dock-panel": "rgba(21, 43, 75, 0.82)",
+  "--dock-panel-edge": "rgba(160, 224, 239, 0.18)",
+  "--dock-panel-highlight": "rgba(160, 224, 239, 0.22)",
+  "--dock-panel-shadow": "0 22px 44px -22px rgba(0, 0, 0, 0.6), 0 6px 18px -10px rgba(0, 0, 0, 0.4)",
+  "--dock-tile": "linear-gradient(180deg, #2a4d7c 0%, #1f3d66 100%)",
+  "--dock-tile-edge": "rgba(160, 224, 239, 0.14)",
+  "--dock-tile-highlight": "rgba(160, 224, 239, 0.25)",
+  "--dock-tile-shadow": "0 4px 10px -5px rgba(0, 0, 0, 0.5)",
+  "--dock-ink": "#A0E0EF",
+  "--dock-label": "#60C1E5",
+  "--dock-label-ink": "#1B365D",
+  "--dock-dot": "#60C1E5",
+  "--dock-separator": "rgba(160, 224, 239, 0.2)",
+  "--dock-press": "brightness(1.15)",
 } as CSSProperties;
 
 function useMediaQuery(query: string, initial = true) {
@@ -125,14 +125,14 @@ export default function SiteDock() {
     <nav aria-label="Navigasi cepat" className="pointer-events-none fixed inset-x-0 bottom-0 z-40 h-28">
       <Dock
         items={items}
-        theme="light"
+        theme="dark"
         baseItemSize={46}
         magnification={68}
         distance={180}
         panelHeight={62}
         gap={8}
         roundness={0.55}
-        accentColor="#005A9C"
+        accentColor="#60C1E5"
         badgeColor="#60C1E5"
         className="pointer-events-auto"
         style={THEME}

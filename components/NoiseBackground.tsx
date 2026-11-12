@@ -9,8 +9,8 @@ import { useEffect, useRef } from "react";
  * Atur kekuatannya lewat konstanta di bawah.
  */
 
-const STRENGTH = 0.55; // 0 = putih polos, 1 = awan biru penuh
-const GRAIN = 0.06; // kekuatan butiran
+const STRENGTH = 0.6; // 0 = navy polos, 1 = awan biru penuh
+const GRAIN = 0.045; // kekuatan butiran
 const SPEED = 0.04; // kecepatan gerak awan
 const FRAME_MS = 1000 / 30;
 
@@ -42,11 +42,13 @@ void main(){
   vec2 q = vec2(fbm(uv * 1.6 + vec2(0.0, t)), fbm(uv * 1.6 + vec2(5.2, -t * 0.8)));
   float n = fbm(uv * 1.4 + 1.8 * q + vec2(t * 0.6, 0.0));
 
-  vec3 white = vec3(1.0);
-  vec3 ice = vec3(0.627, 0.878, 0.937);  // #A0E0EF
+  vec3 navy = vec3(0.106, 0.212, 0.365); // #1B365D
+  vec3 deep = vec3(0.082, 0.169, 0.294); // #152B4B
+  vec3 blue = vec3(0.0, 0.353, 0.612);   // #005A9C
   vec3 sky = vec3(0.376, 0.757, 0.898);  // #60C1E5
-  vec3 col = mix(white, ice, smoothstep(0.35, 0.75, n) * uStrength);
-  col = mix(col, sky, smoothstep(0.62, 0.95, n) * uStrength * 0.7);
+  vec3 col = mix(deep, navy, smoothstep(0.2, 0.5, n));
+  col = mix(col, blue, smoothstep(0.5, 0.85, n) * uStrength);
+  col = mix(col, sky, smoothstep(0.75, 1.0, n) * uStrength * 0.25);
 
   // butiran film (berubah tiap frame)
   float g = hash(gl_FragCoord.xy + fract(t * 37.0) * 311.0) - 0.5;
@@ -125,7 +127,7 @@ export default function NoiseBackground() {
   }, []);
 
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 bg-white">
+    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 bg-navy">
       <canvas ref={ref} className="block h-full w-full" />
     </div>
   );

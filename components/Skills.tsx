@@ -28,7 +28,7 @@ export default function Skills() {
           <p className="mb-3 mt-12 font-mono text-xs uppercase tracking-[0.18em] text-mute">[ Keahlian ]</p>
           <ul className="flex flex-wrap gap-2">
             {skills.expertise.map((s) => (
-              <li key={s} className="rounded-full bg-surface-2 px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.1em]">
+              <li key={s} className="rounded-full bg-panel px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.1em]">
                 {s}
               </li>
             ))}
@@ -59,7 +59,7 @@ export default function Skills() {
                     className="object-contain p-[6%] drop-shadow-[0_0_18px_rgba(0,90,156,0.45)]"
                   />
                 </div>
-                <span className="mt-3 text-center font-mono text-[10px] uppercase tracking-[0.14em] text-mute transition-colors group-hover:text-blue sm:text-xs">
+                <span className="mt-3 text-center font-mono text-[10px] uppercase tracking-[0.14em] text-mute transition-colors group-hover:text-ice sm:text-xs">
                   {l.name}
                 </span>
               </motion.li>
@@ -68,7 +68,7 @@ export default function Skills() {
         </div>
       </div>
 
-      <div className="rotate-1 border-y border-blue py-4 text-blue">
+      <div className="rotate-1 border-y border-sky py-4 text-sky">
         <Marquee items={[...new Set([...skills.logos.map((l) => l.name), ...skills.software])]} reverse duration={40} className="display text-[clamp(1.5rem,4vw,2.75rem)] [&_svg]:text-sky" />
       </div>
     </section>

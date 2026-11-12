@@ -29,7 +29,7 @@ export default function Hero() {
   return (
     <section id="top" aria-label="Perkenalan" className="relative overflow-hidden">
       {/* Layout Fearless (nama besar + foto lengkung + kotak ngebuka) dengan animasi piksel ala andreas.vision */}
-      <div ref={heroRef} className="relative bg-white">
+      <div ref={heroRef} className="relative bg-navy">
         {/* Langit piksel: awan hanya di tepi & sudut, tengah bersih untuk konten */}
         <PixelSky
           className="absolute inset-0"
@@ -44,7 +44,7 @@ export default function Hero() {
               initial={reduce ? false : { clipPath: "inset(100% 0 0 0 round 999px 999px 0 0)" }}
               animate={{ clipPath: "inset(0% 0 0 0 round 999px 999px 0 0)" }}
               transition={{ duration: 1.3, ease, delay: 0.1 }}
-              className="relative aspect-[3/4.4] overflow-hidden rounded-t-full bg-surface-2 lg:absolute lg:inset-0 lg:aspect-auto"
+              className="relative aspect-[3/4.4] overflow-hidden rounded-t-full bg-panel lg:absolute lg:inset-0 lg:aspect-auto"
             >
               <motion.div style={{ y: photoY }} className="absolute inset-[-6%]">
                 <Image
@@ -62,7 +62,7 @@ export default function Hero() {
 
           {/* Teks */}
           <div className="relative z-10 order-2 flex flex-col justify-end lg:order-1 lg:col-span-7">
-            <div className="mb-6 flex items-center gap-4 text-blue">
+            <div className="mb-6 flex items-center gap-4 text-sky">
               <span className="flex gap-1.5" aria-hidden>
                 <span className="h-2 w-2 bg-blue" />
                 <span className="h-2 w-2 bg-blue" />
@@ -77,7 +77,7 @@ export default function Hero() {
               delay={300}
               stagger={140}
               lineClassName="whitespace-nowrap"
-              className="display text-blue text-[clamp(3rem,15vw,9rem)] lg:-mr-[30%] lg:text-[clamp(4rem,10.5vw,11rem)]"
+              className="display text-sky text-[clamp(3rem,15vw,9rem)] lg:-mr-[30%] lg:text-[clamp(4rem,10.5vw,11rem)]"
             />
 
             {/* Tagline serif italic, muncul per kata setelah nama */}
@@ -86,11 +86,11 @@ export default function Hero() {
               lines={[profile.headline]}
               delay={850}
               stagger={70}
-              className="mt-4 font-serif text-[clamp(1.6rem,3.6vw,3rem)] italic leading-[1.1] tracking-[-0.02em] text-navy"
+              className="mt-4 font-serif text-[clamp(1.6rem,3.6vw,3rem)] italic leading-[1.1] tracking-[-0.02em] text-fg"
             />
 
             <OpenBox delay={1.3} className="-mx-[10px] mt-2 max-w-2xl">
-              <p className="font-mono text-[13px] uppercase leading-[1.4] text-navy sm:text-base sm:leading-[1.3]">{profile.heroIntro}</p>
+              <p className="font-mono text-[13px] uppercase leading-[1.4] text-fg sm:text-base sm:leading-[1.3]">{profile.heroIntro}</p>
             </OpenBox>
 
             <motion.ul
@@ -109,7 +109,7 @@ export default function Hero() {
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`${s.label}: ${s.handle}`}
-                      className="flex items-center gap-2 border-[0.8px] border-navy/25 bg-white/80 px-2 py-2 font-mono text-[13px] text-navy/80 transition-colors hover:border-blue hover:text-blue sm:text-sm"
+                      className="flex items-center gap-2 border-[0.8px] border-fg/25 bg-navy/80 px-2 py-2 font-mono text-[13px] text-fg/80 transition-colors hover:border-sky hover:text-ice sm:text-sm"
                     >
                       <Icon className="h-4 w-4 shrink-0" />
                       <span>{s.handle}</span>
@@ -127,14 +127,14 @@ export default function Hero() {
         <Reveal className="lg:col-span-7">
           <h2 className="display text-[clamp(3rem,10vw,8.5rem)]">
             {profile.statement.map((l, i) => (
-              <span key={l} className={`block ${i === 1 ? "text-outline" : "text-blue"}`}>
+              <span key={l} className={`block ${i === 1 ? "text-outline" : "text-sky"}`}>
                 {l}
               </span>
             ))}
           </h2>
         </Reveal>
         <Reveal delay={0.15} className="flex flex-col justify-end gap-8 lg:col-span-5">
-          <p className="font-mono text-sm uppercase leading-relaxed text-navy/85 sm:text-base">{profile.statementBody}</p>
+          <p className="font-mono text-sm uppercase leading-relaxed text-fg/85 sm:text-base">{profile.statementBody}</p>
           <div className="flex flex-wrap gap-3">
             <Pill href="#contact">
               {contact.ctas.primary}
@@ -145,7 +145,7 @@ export default function Hero() {
             </Pill>
           </div>
         </Reveal>
-        <Spark aria-hidden className="pointer-events-none absolute right-6 top-6 hidden h-12 w-12 text-blue motion-safe:animate-spin-slow md:block" />
+        <Spark aria-hidden className="pointer-events-none absolute right-6 top-6 hidden h-12 w-12 text-sky motion-safe:animate-spin-slow md:block" />
       </div>
 
       <div className="-rotate-2 scale-105 bg-blue py-4 text-white sm:py-5">

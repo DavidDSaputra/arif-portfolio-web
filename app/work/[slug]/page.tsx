@@ -41,32 +41,32 @@ export default async function WorkPage({ params }: Props) {
           <header className="mx-auto max-w-[1440px] px-4 pb-12 pt-8 sm:px-8 md:pb-16">
             <Link
               href="/#work"
-              className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-[0.16em] text-mute transition-colors hover:text-blue"
+              className="inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-[0.16em] text-mute transition-colors hover:text-ice"
             >
               <ArrowLeft className="h-4 w-4" /> Semua karya
             </Link>
 
             <p className="mt-10 font-mono text-xs font-semibold uppercase tracking-[0.18em] sm:text-sm">
-              <span className="text-blue">{w.category.toUpperCase()}</span>
+              <span className="text-sky">{w.category.toUpperCase()}</span>
               <span className="ml-3 text-mute">[{w.year ?? w.format.toUpperCase()}]</span>
             </p>
-            <h1 className="display mt-4 text-[clamp(3rem,11vw,10rem)] text-blue">{w.title}</h1>
+            <h1 className="display mt-4 text-[clamp(3rem,11vw,10rem)] text-sky">{w.title}</h1>
 
             <div className="mt-10 grid gap-10 lg:grid-cols-12">
-              <p className="font-mono text-base leading-relaxed text-navy/85 sm:text-lg lg:col-span-7">{w.summary}</p>
+              <p className="font-mono text-base leading-relaxed text-fg/85 sm:text-lg lg:col-span-7">{w.summary}</p>
               <dl className="grid grid-cols-1 gap-px self-start overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2 lg:col-span-5 lg:grid-cols-1">
                 {w.client && (
-                  <div className="bg-white p-4">
+                  <div className="bg-navy p-4">
                     <dt className="font-mono text-[11px] uppercase tracking-[0.16em] text-mute">Klien / Tempat</dt>
                     <dd className="mt-1 font-mono text-sm">{w.client}</dd>
                   </div>
                 )}
-                <div className="bg-white p-4">
+                <div className="bg-navy p-4">
                   <dt className="font-mono text-[11px] uppercase tracking-[0.16em] text-mute">Output</dt>
                   <dd className="mt-1 font-mono text-sm">{w.format}</dd>
                 </div>
                 {w.facts.map((f) => (
-                  <div key={f.label} className="bg-white p-4">
+                  <div key={f.label} className="bg-navy p-4">
                     <dt className="font-mono text-[11px] uppercase tracking-[0.16em] text-mute">{f.label}</dt>
                     <dd className="mt-1 font-mono text-sm">{f.value}</dd>
                   </div>
@@ -91,9 +91,9 @@ export default async function WorkPage({ params }: Props) {
           <Link href={`/work/${next.slug}`} className="group mx-auto grid max-w-[1440px] items-center gap-8 px-4 py-16 sm:px-8 md:grid-cols-12 md:py-24">
             <div className="md:col-span-8">
               <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-mute">
-                Karya berikutnya <span className="text-blue">[{next.category.toUpperCase()}]</span>
+                Karya berikutnya <span className="text-sky">[{next.category.toUpperCase()}]</span>
               </p>
-              <p className="display mt-4 flex items-center gap-4 text-[clamp(2.5rem,8vw,7rem)] text-navy transition-colors group-hover:text-blue">
+              <p className="display mt-4 flex items-center gap-4 text-[clamp(2.5rem,8vw,7rem)] text-fg transition-colors group-hover:text-ice">
                 {next.title}
                 <ArrowRight className="h-[0.6em] w-[0.6em] shrink-0 transition-transform duration-500 group-hover:translate-x-3" />
               </p>

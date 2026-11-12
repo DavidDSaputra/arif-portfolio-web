@@ -46,13 +46,13 @@ export default function DesignGraphics() {
               transition={{ duration: 0.9, delay: i * 0.07, ease: outExpo }}
             >
               <div
-                className="relative h-[380px] overflow-hidden shadow-[0_24px_60px_-24px_rgba(27,54,93,0.35)] transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:-translate-y-2 lg:h-auto lg:w-full"
+                className="relative h-[380px] overflow-hidden shadow-[0_24px_60px_-24px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] group-hover:-translate-y-2 lg:h-auto lg:w-full"
                 style={{ aspectRatio: `${p.w} / ${p.h}` }}
               >
                 <Image src={p.src} alt={p.alt} fill sizes="(min-width: 1024px) 22vw, 300px" className="object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
               </div>
               {p.caption && (
-                <p className="mt-3 font-mono text-[11px] uppercase leading-snug tracking-[0.12em] text-mute transition-colors group-hover:text-blue">
+                <p className="mt-3 font-mono text-[11px] uppercase leading-snug tracking-[0.12em] text-mute transition-colors group-hover:text-ice">
                   {p.caption}
                 </p>
               )}

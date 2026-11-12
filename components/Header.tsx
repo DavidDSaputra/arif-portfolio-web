@@ -27,14 +27,14 @@ export default function Header() {
       <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-3 px-4 py-4 sm:px-8">
         <Link
           href="/"
-          className="flex items-center gap-2 rounded-full border border-navy/15 bg-white/70 py-1.5 pl-1.5 pr-4 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] backdrop-blur-md transition-colors hover:border-blue hover:text-blue sm:text-xs"
+          className="flex items-center gap-2 rounded-full border border-fg/15 bg-navy/70 py-1.5 pl-1.5 pr-4 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] backdrop-blur-md transition-colors hover:border-sky hover:text-ice sm:text-xs"
         >
           <Logo size={24} className="rounded-[7px]" />
           My Portfolio
         </Link>
 
         <div className="flex items-center gap-3">
-          <span className="hidden rounded-full border border-navy/15 bg-white/70 px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.2em] backdrop-blur-md md:inline">
+          <span className="hidden rounded-full border border-fg/15 bg-navy/70 px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.2em] backdrop-blur-md md:inline">
             {profile.label}
           </span>
           <button
@@ -43,7 +43,7 @@ export default function Header() {
             aria-expanded={open}
             aria-controls="site-menu"
             aria-label="Buka menu"
-            className="grid h-11 w-11 place-items-center rounded-full bg-blue text-white ring-2 ring-white transition-transform hover:rotate-90"
+            className="grid h-11 w-11 place-items-center rounded-full bg-sky text-navy ring-2 ring-navy transition-transform hover:rotate-90"
           >
             <MenuDots className="h-5 w-5" />
           </button>
@@ -71,7 +71,7 @@ export default function Header() {
                 autoFocus
                 onClick={() => setOpen(false)}
                 aria-label="Tutup menu"
-                className="grid h-11 w-11 place-items-center rounded-full bg-white text-blue"
+                className="grid h-11 w-11 place-items-center rounded-full bg-navy text-sky"
               >
                 <Close className="h-5 w-5" />
               </button>

@@ -27,14 +27,14 @@ export default function Contact() {
             aria-label={`Let's talk — chat WhatsApp ${contact.whatsapp.display}`}
             className="group mt-6 inline-flex items-end gap-4"
           >
-            <h2 id="contact-title" className="display text-[clamp(4.5rem,19vw,16rem)] text-blue transition-colors duration-300 group-hover:text-navy">
+            <h2 id="contact-title" className="display text-[clamp(4.5rem,19vw,16rem)] text-sky transition-colors duration-300 group-hover:text-ice">
               {sectionCopy.contact.title}
             </h2>
-            <ArrowUpRight className="mb-[3%] h-[clamp(2.5rem,8vw,7rem)] w-[clamp(2.5rem,8vw,7rem)] shrink-0 text-blue transition-transform duration-500 group-hover:rotate-45" />
+            <ArrowUpRight className="mb-[3%] h-[clamp(2.5rem,8vw,7rem)] w-[clamp(2.5rem,8vw,7rem)] shrink-0 text-sky transition-transform duration-500 group-hover:rotate-45" />
           </a>
           <CircleBadge
             text="HUBUNGI SAYA • GET IN TOUCH • "
-            className="absolute -top-6 right-0 hidden h-36 w-36 text-navy/70 motion-safe:animate-spin-slow lg:block"
+            className="absolute -top-6 right-0 hidden h-36 w-36 text-fg/70 motion-safe:animate-spin-slow lg:block"
           />
         </Reveal>
 
@@ -46,9 +46,9 @@ export default function Contact() {
                   href={href}
                   target={href.startsWith("http") ? "_blank" : undefined}
                   rel={href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="group flex items-center gap-4 py-5 transition-colors hover:text-blue sm:gap-6"
+                  className="group flex items-center gap-4 py-5 transition-colors hover:text-ice sm:gap-6"
                 >
-                  <Icon className="h-7 w-7 shrink-0 text-blue" />
+                  <Icon className="h-7 w-7 shrink-0 text-sky" />
                   <span className="w-24 shrink-0 font-mono text-xs uppercase tracking-[0.16em] text-mute">{label}</span>
                   <span className="min-w-0 break-all font-mono text-base sm:text-xl">{value}</span>
                   <ArrowUpRight className="ml-auto h-5 w-5 shrink-0 opacity-0 transition-opacity group-hover:opacity-100" />

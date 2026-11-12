@@ -44,7 +44,7 @@ export default function IdLanyard({ className = "" }: { className?: string }) {
           damping={0.55}
         />
       ) : (
-        <div aria-hidden className="absolute left-1/2 top-[18%] h-[56%] w-[40%] -translate-x-1/2 animate-pulse rounded-3xl bg-surface-2" />
+        <div aria-hidden className="absolute left-1/2 top-[18%] h-[56%] w-[40%] -translate-x-1/2 animate-pulse rounded-3xl bg-panel" />
       )}
     </div>
   );

@@ -58,7 +58,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#ffffff",
+  themeColor: "#1B365D",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -85,7 +85,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* React Bits — Crosshair di seluruh halaman (tanpa containerRef = menutupi viewport).
             Navy agar tetap terlihat di latar putih maupun blok biru; pointer-events none, jadi tidak menghalangi klik. */}
         <Crosshair
-          color="#1B365D"
+          color="#A0E0EF"
           targetEffect="lock"
           thickness={1}
           opacity={0.5}

@@ -2,14 +2,17 @@
 
 /* ── Design tokens — palet colorhunt.co/palette/1b365d005a9c60c1e5a0e0ef, latar putih ── */
 @theme {
-  --color-navy: #1b365d; /* teks utama */
-  --color-blue: #005a9c; /* aksen utama: judul, tombol */
-  --color-sky: #60c1e5; /* aksen kedua: glow, dekorasi */
+  --color-navy: #1b365d; /* latar utama (tema gelap) */
+  --color-blue: #005a9c; /* blok aksen: band, tombol */
+  --color-sky: #60c1e5; /* aksen utama di atas navy: judul, link */
   --color-ice: #a0e0ef; /* tint terang: hover, sorotan */
-  --color-surface: #f2f9fc; /* permukaan sangat terang */
-  --color-surface-2: #e4f3f9;
-  --color-line: #d5e5ef; /* garis/border */
-  --color-mute: #4a5f7e; /* teks sekunder (kontras AA di putih & di atas pola piksel pastel) */
+  --color-fg: #f4fafd; /* teks utama (putih kebiruan) */
+  --color-deep: #152b4b; /* permukaan lebih gelap dari latar */
+  --color-panel: #23436f; /* permukaan sedikit lebih terang (kartu, hover) */
+  --color-surface: #152b4b;
+  --color-surface-2: #23436f;
+  --color-line: rgba(160, 224, 239, 0.16); /* garis/border */
+  --color-mute: #a9c3d8; /* teks sekunder (kontras AA di navy) */
 
   --font-display: var(--font-archivo), "Arial Black", sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
@@ -240,13 +243,13 @@ html:not([data-loaded]) .pw-mark { animation-play-state: paused; }
 }
 
 :root {
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 html {
   overflow-x: clip;
-  background: #ffffff;
-  color: var(--color-navy);
+  background: var(--color-navy);
+  color: var(--color-fg);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -259,12 +262,12 @@ body {
 }
 
 ::selection {
-  background: var(--color-blue);
-  color: #ffffff;
+  background: var(--color-sky);
+  color: var(--color-navy);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-blue);
+  outline: 2px solid var(--color-sky);
   outline-offset: 3px;
 }
 
@@ -292,12 +295,12 @@ body {
 .script-glow {
   font-family: var(--font-script);
   font-weight: 400;
-  color: var(--color-navy);
-  text-shadow: 0 0 18px rgba(96, 193, 229, 0.65), 0 0 2px rgba(96, 193, 229, 0.6);
+  color: #ffffff;
+  text-shadow: 0 0 18px rgba(96, 193, 229, 0.8), 0 0 2px rgba(96, 193, 229, 0.7);
 }
 
 .text-outline {
-  -webkit-text-stroke: 1.5px var(--color-blue);
+  -webkit-text-stroke: 1.5px var(--color-sky);
   color: transparent;
 }
 

@@ -19,7 +19,7 @@ function ReelScreen({ m }: { m: VideoMedia }) {
   const toggle = () => (ref.current?.paused ? play() : pause());
 
   return (
-    <div className="relative aspect-[9/16] w-full bg-surface" onMouseEnter={m.src ? play : undefined} onMouseLeave={m.src ? pause : undefined}>
+    <div className="relative aspect-[9/16] w-full bg-deep" onMouseEnter={m.src ? play : undefined} onMouseLeave={m.src ? pause : undefined}>
       {m.src ? (
         <video
           ref={ref}
@@ -48,7 +48,7 @@ function ReelScreen({ m }: { m: VideoMedia }) {
       {m.src ? (
         <button type="button" onClick={toggle} className="absolute inset-0" aria-label={`${playing ? "Jeda" : "Putar"} video: ${m.poster.alt}`} />
       ) : (
-        <span className="absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-white/85 px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-blue">
+        <span className="absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-navy/85 px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-sky">
           Video menyusul
         </span>
       )}

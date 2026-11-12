@@ -22,7 +22,7 @@ export default function OpengraphImage() {
   const lc = 30; // piksel logo
   return new ImageResponse(
     (
-      <div style={{ width: "100%", height: "100%", display: "flex", position: "relative", background: "#ffffff", fontFamily: "sans-serif" }}>
+      <div style={{ width: "100%", height: "100%", display: "flex", position: "relative", background: C.navy, fontFamily: "sans-serif" }}>
         {CLOUDS.map(([x, y, w, h, c], i) => (
           <div key={i} style={{ position: "absolute", left: x * cell, top: y * cell, width: w * cell, height: h * cell, background: c }} />
         ))}
@@ -39,11 +39,11 @@ export default function OpengraphImage() {
           </div>
 
           <div style={{ display: "flex", flexDirection: "column" }}>
-            <div style={{ fontSize: 26, letterSpacing: 6, color: C.bg, fontWeight: 700 }}>{`[ ${profile.label.toUpperCase()} ]`}</div>
-            <div style={{ fontSize: 92, fontWeight: 900, color: C.navy, lineHeight: 1, marginTop: 14 }}>{profile.firstName}</div>
-            <div style={{ fontSize: 92, fontWeight: 900, color: C.bg, lineHeight: 1 }}>{profile.lastName}</div>
-            <div style={{ fontSize: 32, color: C.navy, marginTop: 22 }}>{profile.role}</div>
-            <div style={{ fontSize: 24, color: "#4a5f7e", marginTop: 10 }}>{`@${profile.handle} · arsmthhh.vercel.app`}</div>
+            <div style={{ fontSize: 26, letterSpacing: 6, color: C.sky, fontWeight: 700 }}>{`[ ${profile.label.toUpperCase()} ]`}</div>
+            <div style={{ fontSize: 92, fontWeight: 900, color: "#ffffff", lineHeight: 1, marginTop: 14 }}>{profile.firstName}</div>
+            <div style={{ fontSize: 92, fontWeight: 900, color: C.sky, lineHeight: 1 }}>{profile.lastName}</div>
+            <div style={{ fontSize: 32, color: "#ffffff", marginTop: 22 }}>{profile.role}</div>
+            <div style={{ fontSize: 24, color: C.ice, marginTop: 10 }}>{`@${profile.handle} · arsmthhh.vercel.app`}</div>
           </div>
         </div>
       </div>

@@ -29,8 +29,8 @@ function Clock() {
   }, []);
   return (
     <p className="font-mono text-xs uppercase tracking-[0.14em] text-mute">
-      <span className="text-blue">●</span> Waktu sekarang{" "}
-      <time suppressHydrationWarning className="text-navy">
+      <span className="text-sky">●</span> Waktu sekarang{" "}
+      <time suppressHydrationWarning className="text-fg">
         {now ? `${clockFmt.format(now)} WIB` : "--:--:-- WIB"}
       </time>
       <span className="mt-1 block" suppressHydrationWarning>
@@ -49,9 +49,9 @@ export default function Footer() {
       <div className="mx-auto max-w-[1440px] px-4 pb-48 pt-16 sm:px-8 md:pb-32">
         <div className="grid gap-12 md:grid-cols-12">
           <div className="md:col-span-5">
-            <p className="display text-[clamp(2.5rem,7vw,5rem)] text-blue">
+            <p className="display text-[clamp(2.5rem,7vw,5rem)] text-sky">
               {profile.firstName}
-              <Spark className="ml-2 inline h-[0.5em] w-[0.5em] align-middle text-navy" />
+              <Spark className="ml-2 inline h-[0.5em] w-[0.5em] align-middle text-fg" />
             </p>
             <p className="mt-3 font-mono text-xs uppercase tracking-[0.14em] text-mute">
               {profile.role} — [{profile.label}]
@@ -63,11 +63,11 @@ export default function Footer() {
 
           <nav aria-label="Footer" className="grid grid-cols-2 gap-8 md:col-span-7 md:grid-cols-3">
             <div>
-              <p className="mb-4 font-mono text-xs uppercase tracking-[0.18em] text-blue">[ Menu ]</p>
+              <p className="mb-4 font-mono text-xs uppercase tracking-[0.18em] text-sky">[ Menu ]</p>
               <ul className="space-y-2 font-mono text-sm uppercase">
                 {nav.map((n) => (
                   <li key={n.href}>
-                    <Link href={n.href} className="hover:text-blue">
+                    <Link href={n.href} className="hover:text-ice">
                       {n.label}
                     </Link>
                   </li>
@@ -75,11 +75,11 @@ export default function Footer() {
               </ul>
             </div>
             <div>
-              <p className="mb-4 font-mono text-xs uppercase tracking-[0.18em] text-blue">[ Sosial ]</p>
+              <p className="mb-4 font-mono text-xs uppercase tracking-[0.18em] text-sky">[ Sosial ]</p>
               <ul className="space-y-2 font-mono text-sm uppercase">
                 {socials.map((s) => (
                   <li key={s.label}>
-                    <a href={s.href} target="_blank" rel="noopener noreferrer" className="hover:text-blue">
+                    <a href={s.href} target="_blank" rel="noopener noreferrer" className="hover:text-ice">
                       {s.label}
                     </a>
                   </li>
@@ -87,15 +87,15 @@ export default function Footer() {
               </ul>
             </div>
             <div>
-              <p className="mb-4 font-mono text-xs uppercase tracking-[0.18em] text-blue">[ Lainnya ]</p>
+              <p className="mb-4 font-mono text-xs uppercase tracking-[0.18em] text-sky">[ Lainnya ]</p>
               <ul className="space-y-2 font-mono text-sm uppercase">
                 <li>
-                  <a href={profile.cv.href} download className="hover:text-blue">
+                  <a href={profile.cv.href} download className="hover:text-ice">
                     Unduh PDF
                   </a>
                 </li>
                 <li>
-                  <a href="#main" className="hover:text-blue">
+                  <a href="#main" className="hover:text-ice">
                     Kembali ke atas ↑
                   </a>
                 </li>

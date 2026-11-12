@@ -73,7 +73,7 @@ export default function EventProject() {
                     width={m.w}
                     height={m.h}
                     sizes="(min-width: 1024px) 16vw, 45vw"
-                    className="h-auto w-full shadow-[0_24px_60px_-20px_rgba(27,54,93,0.35)]"
+                    className="h-auto w-full shadow-[0_24px_60px_-20px_rgba(0,0,0,0.45)]"
                   />
                 </motion.div>
               ))}

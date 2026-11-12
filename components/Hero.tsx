@@ -1,202 +1,170 @@
 "use client";
 
 import Image from "next/image";
-import { Fragment, useRef, type CSSProperties } from "react";
+import { useRef, type CSSProperties } from "react";
 import { motion, useInView, useReducedMotion, useScroll, useTransform } from "motion/react";
-import { contact, marquee, profile, skills, socials } from "@/lib/content";
-import { ArrowRight, Instagram, Mail, WhatsApp } from "./icons";
-import { Marquee, OpenBox, Pill, Reveal, outExpo } from "./ui";
-import PixelSky from "./PixelSky";
+import { contact, profile, skills, socials } from "@/lib/content";
+import { ArrowUpRight, Instagram, Mail, WhatsApp } from "./icons";
+import { FlickerText, Scramble, WaveText } from "./ui";
+import Logo from "./Logo";
 
-const ease = [0.22, 1, 0.36, 1] as const;
 const socialIcons = { Instagram, WhatsApp, Email: Mail } as const;
 
-// rotasi awal tiap huruf saat meletup (deterministik, supaya SSR = client)
-const ROT = [-14, 10, -8, 16, -12, 7, -16, 12, -6, 14, -10, 8];
+/** Baris info "LABEL  NILAI" ala tabel spesifikasi. */
+const facts = [
+  { label: "Role", value: profile.role },
+  { label: "Handle", value: `@${profile.handle}` },
+  { label: "Tools", value: skills.software.slice(0, 4).join(" / ") },
+  { label: "Untuk", value: skills.fields.join(", ") },
+];
 
-/** Satu baris huruf yang meletup satu per satu (CSS .pop-* di globals.css). */
-function PopLine({ text, start, className = "" }: { text: string; start: number; className?: string }) {
+/** Logo besar yang miring mengikuti mouse (pengganti badge 3D). */
+function TiltBadge() {
+  const ref = useRef<HTMLDivElement>(null);
+  const onMove = (e: React.PointerEvent) => {
+    const el = ref.current;
+    if (!el || e.pointerType !== "mouse") return;
+    const r = el.getBoundingClientRect();
+    const nx = (e.clientX - r.left) / r.width - 0.5;
+    const ny = (e.clientY - r.top) / r.height - 0.5;
+    el.style.setProperty("--tx", `${(nx * 28).toFixed(1)}deg`);
+    el.style.setProperty("--ty", `${(-ny * 28).toFixed(1)}deg`);
+  };
+  const reset = () => {
+    ref.current?.style.setProperty("--tx", "0deg");
+    ref.current?.style.setProperty("--ty", "0deg");
+  };
   return (
-    <span aria-hidden className={`block whitespace-nowrap ${className}`}>
-      {[...text].map((ch, i) => (
-        <span
-          key={i}
-          className="pop-ch"
-          style={{ "--d": `${start + i * 70}ms`, "--r": `${ROT[(Math.round(start / 70) + i) % ROT.length]}deg` } as CSSProperties}
-        >
-          <span className="pop-hv">{ch}</span>
-        </span>
-      ))}
-    </span>
+    <div
+      ref={ref}
+      onPointerMove={onMove}
+      onPointerLeave={reset}
+      data-cursor={profile.handle}
+      className="relative grid aspect-square w-40 place-items-center sm:w-52 lg:w-60 [perspective:700px]"
+      style={{ "--tx": "0deg", "--ty": "0deg" } as CSSProperties}
+    >
+      <div className="transition-transform duration-300 ease-out [transform:rotateX(var(--ty))_rotateY(var(--tx))]">
+        <Logo size={170} className="h-auto w-32 drop-shadow-[0_18px_30px_rgba(0,0,0,0.45)] sm:w-40 lg:w-44" />
+      </div>
+      <p className="absolute -bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap font-pixel text-[10px] uppercase text-mute">
+        Est. {profile.handle}
+      </p>
+    </div>
   );
 }
 
-/** Stiker kecil yang ikut meletup di sekitar nama. */
-const stickers = [
-  { text: skills.fields[0], pos: "left-[4%] top-[22%] sm:left-[10%] sm:top-[24%]", rot: -8, delay: 1500 },
-  { text: skills.fields[1], pos: "right-[4%] top-[18%] sm:right-[12%] sm:top-[22%]", rot: 7, delay: 1650 },
-  { text: skills.fields[2], pos: "left-[5%] top-[50%] hidden sm:block lg:left-[12%]", rot: 6, delay: 1800 },
-  { text: `@${profile.handle}`, pos: "right-[5%] top-[46%] hidden sm:block lg:right-[11%]", rot: -6, delay: 1950 },
-];
-
 export default function Hero() {
   const heroRef = useRef<HTMLDivElement>(null);
-  const photoRef = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion();
-
-  // nama sedikit turun & memudar saat hero di-scroll
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-  const nameY = useTransform(scrollYProgress, [0, 1], ["0%", reduce ? "0%" : "28%"]);
-  const nameOpacity = useTransform(scrollYProgress, [0, 0.8], [1, reduce ? 1 : 0.2]);
-
-  const { scrollYProgress: photoProgress } = useScroll({ target: photoRef, offset: ["start end", "end start"] });
-  // dipantau di pembungkus (bukan elemen ber-clip-path, yang luas terlihatnya 0 saat masih tertutup)
-  const photoIn = useInView(photoRef, { once: true, amount: 0.2 });
-  const photoY = useTransform(photoProgress, [0, 1], reduce ? ["0%", "0%"] : ["-8%", "8%"]);
+  const headY = useTransform(scrollYProgress, [0, 1], ["0%", reduce ? "0%" : "-12%"]);
+  // dipantau di pembungkus: elemen ber-clip-path yang masih tertutup dianggap tidak terlihat oleh IntersectionObserver
+  const photoRef = useRef<HTMLDivElement>(null);
+  const photoIn = useInView(photoRef, { once: true, amount: 0.15 });
 
   return (
     <section id="top" aria-label="Perkenalan" className="relative overflow-hidden">
-      {/* Hero tipografi: pola piksel di tepi, nama besar di tengah yang meletup per huruf */}
-      <div ref={heroRef} className="relative bg-paper">
-        <PixelSky
-          className="absolute inset-0"
-          clear={{ cx: 0.5, cy: 0.5, rx: 0.46, ry: 0.42 }}
-          clearNarrow={{ cx: 0.5, cy: 0.5, rx: 0.7, ry: 0.42 }}
-        />
-
-        {stickers.map((s) => (
-          <span
-            key={s.text}
-            aria-hidden
-            className={`pop-sticker absolute z-10 rounded-full border-2 border-blue bg-cream px-4 py-1.5 font-mono text-xs font-bold uppercase tracking-[0.14em] text-blue shadow-[3px_3px_0_var(--color-blue)] sm:text-sm ${s.pos}`}
-            style={{ "--d": `${s.delay}ms`, "--rot": `${s.rot}deg` } as CSSProperties}
-          >
-            {s.text}
-          </span>
-        ))}
-
-        <div className="relative mx-auto flex min-h-[100svh] max-w-[1440px] flex-col items-center justify-center px-4 pb-32 pt-28 text-center sm:px-8">
-          <motion.p
-            className="font-mono text-xs font-bold uppercase tracking-[0.3em] text-blue sm:text-sm"
-            initial={reduce ? false : { opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2, duration: 0.8, ease: outExpo }}
-          >
-            [ {profile.label} ]
-          </motion.p>
-
-          <motion.h1 style={{ y: nameY, opacity: nameOpacity }} className="display mt-4 text-blue">
-            <span className="sr-only">{profile.fullName}</span>
-            <PopLine text={profile.firstName} start={150} className="text-[clamp(5.5rem,27vw,17rem)] leading-[0.8]" />
-            <PopLine text={profile.lastName} start={150 + profile.firstName.length * 70} className="text-[clamp(5.5rem,27vw,17rem)] leading-[0.8]" />
-          </motion.h1>
-
-          <motion.p
-            className="mt-5 font-mono text-sm font-extrabold uppercase tracking-[0.32em] text-navy sm:text-lg"
-            initial={reduce ? false : { opacity: 0, letterSpacing: "0.6em" }}
-            animate={{ opacity: 1, letterSpacing: "0.32em" }}
-            transition={{ delay: 1.1, duration: 1, ease: outExpo }}
-          >
-            {profile.role}
-          </motion.p>
-
-          <p className="mt-6 max-w-3xl font-mono text-[clamp(1.35rem,3.4vw,2.4rem)] font-semibold leading-[1.15] tracking-[-0.01em] text-navy">
-            {profile.headline.split(" ").map((w, i) => (
-              <Fragment key={i}>
-                <span className="pop-word" style={{ "--d": `${1250 + i * 90}ms` } as CSSProperties}>
-                  {w}
-                </span>{" "}
-              </Fragment>
-            ))}
+      {/* ── Hero: judul raksasa (padat + outline) ala yeahright.co ── */}
+      <div ref={heroRef} className="relative mx-auto flex min-h-[100svh] max-w-[1600px] flex-col justify-between px-4 pb-32 pt-28 sm:px-8 lg:pt-32">
+        <motion.div style={{ y: headY }}>
+          <h1 className="sr-only">
+            {profile.fullName} — {profile.role}
+          </h1>
+          <WaveText lines={["Social Media"]} delay={100} className="display block text-[clamp(3rem,16.5vw,17rem)] text-fg" />
+          <FlickerText as="span" lines={["Specialist"]} delay={500} className="display block text-[clamp(3rem,16.5vw,17rem)] text-blue" />
+          <p className="mt-4 text-right font-mono text-sm uppercase text-fg sm:text-lg lg:text-xl">
+            <Scramble text={`[${profile.headline}]`} delay={900} />
           </p>
+        </motion.div>
 
-          <OpenBox delay={1.9} className="mt-6 w-full max-w-2xl">
-            <p className="font-mono text-[13px] font-semibold uppercase leading-[1.5] text-navy sm:text-[15px]">{profile.heroIntro}</p>
-          </OpenBox>
-
-          <motion.ul
-            className="mt-2 flex flex-wrap justify-center gap-3"
-            aria-label="Kontak & sosial media"
-            initial={reduce ? false : { opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 3.1, duration: 0.8, ease: outExpo }}
-          >
-            {socials.map((s) => {
-              const Icon = socialIcons[s.label];
-              return (
-                <li key={s.label}>
-                  <a
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={`${s.label}: ${s.handle}`}
-                    className="flex items-center gap-2 rounded-full border-2 border-blue/40 bg-paper/80 px-3 py-2 font-mono text-[13px] font-semibold text-navy transition-colors hover:border-blue hover:bg-blue hover:text-cream sm:text-sm"
-                  >
-                    <Icon className="h-4 w-4 shrink-0" />
-                    <span>{s.handle}</span>
-                  </a>
-                </li>
-              );
-            })}
-          </motion.ul>
+        <div className="mt-14 flex flex-col gap-10 sm:flex-row sm:items-end sm:justify-between">
+          <div className="font-mono text-xs uppercase sm:text-sm">
+            <p className="mb-3 text-blue">
+              <Scramble text={`[${profile.fullName}]`} delay={1100} />
+            </p>
+            <dl className="grid grid-cols-[5.5rem_1fr] gap-x-4 gap-y-1.5">
+              {facts.map((f, i) => (
+                <div key={f.label} className="contents">
+                  <dt className="text-mute">
+                    <Scramble text={f.label} delay={1200 + i * 90} />
+                  </dt>
+                  <dd className="text-fg">
+                    <Scramble text={f.value} delay={1250 + i * 90} />
+                  </dd>
+                </div>
+              ))}
+            </dl>
+            <ul className="mt-6 flex flex-wrap gap-2" aria-label="Kontak & sosial media">
+              {socials.map((s) => {
+                const Icon = socialIcons[s.label];
+                return (
+                  <li key={s.label}>
+                    <a
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${s.label}: ${s.handle}`}
+                      data-cursor={s.label}
+                      className="flex items-center gap-2 border border-fg/20 px-3 py-2 normal-case text-fg/85 transition-colors hover:border-blue hover:text-blue"
+                    >
+                      <Icon className="h-4 w-4 shrink-0" />
+                      <span>{s.handle}</span>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+          <div className="self-center sm:self-auto">
+            <TiltBadge />
+          </div>
         </div>
       </div>
 
-      {/* Statement + foto (dipindah dari hero) */}
-      <div className="relative mx-auto grid max-w-[1440px] items-end gap-10 px-4 py-20 sm:px-8 md:py-28 lg:grid-cols-12 lg:gap-12">
-        <div ref={photoRef} className="relative mx-auto w-[72%] max-w-[380px] lg:col-span-4 lg:w-full lg:max-w-none">
-          <motion.div
-            initial={reduce ? false : { clipPath: "inset(100% 0 0 0 round 999px 999px 0 0)" }}
-            animate={photoIn || reduce ? { clipPath: "inset(0% 0 0 0 round 999px 999px 0 0)" } : undefined}
-            transition={{ duration: 1.3, ease }}
-            className="relative aspect-[3/4.2] overflow-hidden rounded-t-full border-2 border-blue bg-cream"
-          >
-            <motion.div style={{ y: photoY }} className="absolute inset-[-8%]">
+      {/* ── Pembuka: pengalaman + foto + ajakan ── */}
+      <div className="relative mx-auto max-w-[1600px] px-4 py-20 sm:px-8 md:py-28">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
+          <div className="lg:col-span-9">
+            <WaveText lines={["2+ Tahun", "Pengalaman"]} className="display text-[clamp(4rem,13vw,12.5rem)] text-fg" />
+          </div>
+          <div className="hidden items-end justify-end lg:col-span-3 lg:flex">
+            {/* panah bergaya tangan */}
+            <svg viewBox="0 0 110 210" aria-hidden className="h-40 w-auto text-blue">
+              <path d="M30 6c50 30 62 92 34 156" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
+              <path d="M44 150l18 22 22-16" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+
+          <div ref={photoRef} className="lg:col-span-5 lg:col-start-2">
+            <motion.div
+              initial={reduce ? false : { clipPath: "inset(0 0 100% 0)" }}
+              animate={photoIn || reduce ? { clipPath: "inset(0 0 0% 0)" } : undefined}
+              transition={{ duration: 1.1, ease: [0.76, 0, 0.24, 1] }}
+              data-cursor={profile.firstName}
+              className="group relative aspect-square w-full max-w-[460px] overflow-hidden border border-fg/20 bg-deep scanlines"
+            >
               <Image
                 src={profile.photos.hero.src}
                 alt={profile.photos.hero.alt}
                 fill
-                sizes="(min-width: 1024px) 30vw, 72vw"
-                className="object-cover object-[50%_35%] grayscale"
+                sizes="(min-width: 1024px) 34vw, 92vw"
+                className="object-cover object-[50%_30%] grayscale contrast-125 transition-transform duration-700 group-hover:scale-105"
               />
+              {/* nada warna aksen (duotone) — memudar saat di-hover */}
+              <div className="absolute inset-0 bg-blue opacity-70 mix-blend-multiply transition-opacity duration-500 group-hover:opacity-30" />
+              <p className="absolute bottom-3 left-3 font-pixel text-[10px] uppercase text-fg">Fig. 01 — {profile.fullName}</p>
             </motion.div>
-            <div className="absolute inset-0 bg-gradient-to-t from-blue/55 via-sky/10 to-transparent mix-blend-multiply" />
-          </motion.div>
-          <span
-            aria-hidden
-            className="absolute -right-2 bottom-8 rotate-6 rounded-full border-2 border-blue bg-cream px-4 py-1.5 font-mono text-xs font-bold uppercase tracking-[0.14em] text-blue shadow-[3px_3px_0_var(--color-blue)]"
-          >
-            {profile.fullName}
-          </span>
-        </div>
+          </div>
 
-        <div className="grid gap-8 lg:col-span-8">
-          <Reveal>
-            <h2 className="display text-[clamp(3.5rem,12vw,10rem)]">
-              {profile.statement.map((l, i) => (
-                <span key={l} className={`block ${i === 1 ? "text-outline" : "text-blue"}`}>
-                  {l}
-                </span>
-              ))}
-            </h2>
-          </Reveal>
-          <Reveal delay={0.15} className="flex flex-col gap-8 lg:max-w-2xl">
-            <p className="font-mono text-base font-medium leading-relaxed text-navy sm:text-lg">{profile.statementBody}</p>
-            <div className="flex flex-wrap gap-3">
-              <Pill href="#contact">
-                {contact.ctas.primary}
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </Pill>
-              <Pill href="#work" variant="ghost">
-                {contact.ctas.secondary}
-              </Pill>
-            </div>
-          </Reveal>
+          <div className="flex flex-col justify-end gap-6 lg:col-span-6">
+            <FlickerText lines={profile.statement} className="display text-[clamp(3.25rem,9vw,8.5rem)] text-blue" />
+            <a href="#contact" data-cursor="Kontak" className="group inline-flex w-fit items-center gap-2 font-mono text-base uppercase text-fg sm:text-xl">
+              <Scramble text={`[${contact.ctas.primary}]`} />
+              <ArrowUpRight className="h-5 w-5 text-blue transition-transform duration-300 group-hover:rotate-45" />
+            </a>
+            <p className="max-w-xl font-mono text-sm leading-relaxed text-fg/80 sm:text-base">{profile.heroIntro}</p>
+          </div>
         </div>
-      </div>
-
-      <div className="-rotate-2 scale-105 bg-blue py-4 text-cream sm:py-5">
-        <Marquee items={marquee} className="display text-[clamp(2rem,6vw,4.25rem)]" duration={28} />
       </div>
     </section>
   );

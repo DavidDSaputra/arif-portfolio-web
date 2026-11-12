@@ -11,7 +11,7 @@ type VideoMedia = Extract<Media, { kind: "video" }>;
 function Monitor({ children }: { children: React.ReactNode }) {
   return (
     <div className="mx-auto w-full max-w-[760px]">
-      <div className="rounded-t-[1.4rem] bg-black p-[2.6%] pb-[4%] shadow-[0_40px_120px_-30px_rgba(0,90,156,0.5)] ring-1 ring-fg/10">
+      <div className="rounded-t-[1.4rem] bg-black p-[2.6%] pb-[4%] shadow-[0_40px_120px_-30px_rgba(0,0,0,0.6)] ring-1 ring-fg/10">
         <div className="relative aspect-video overflow-hidden rounded-[0.3rem] bg-deep">{children}</div>
       </div>
       <div className="h-[clamp(26px,6vw,58px)] rounded-b-[1.4rem] bg-gradient-to-b from-[#efefef] to-[#d4d4d4]" />
@@ -38,12 +38,12 @@ function CinemaScreen({ m }: { m: VideoMedia }) {
   return (
     <>
       <Image src={m.poster.src} alt={m.poster.alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="animate-kenburns object-cover" />
-      <div className="absolute inset-0 grid place-items-center bg-gradient-to-t from-navy/50 via-transparent to-transparent">
+      <div className="absolute inset-0 grid place-items-center bg-gradient-to-t from-black/60 via-transparent to-transparent">
         <span className="grid h-16 w-16 place-items-center rounded-full bg-blue text-white shadow-lg">
           <Play className="ml-1 h-7 w-7" />
         </span>
       </div>
-      <span className="absolute bottom-3 left-3 rounded-full bg-navy/85 px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-cream">
+      <span className="absolute bottom-3 left-3 rounded-full bg-paper/85 px-3 py-1 font-mono text-[11px] uppercase text-fg">
         Video menyusul
       </span>
     </>
@@ -73,7 +73,7 @@ export default function CinematicVideo() {
               </span>
             ))}
           </p>
-          <p className="mt-3 font-mono text-xs uppercase tracking-[0.16em] text-mute sm:text-sm">{s.tag}</p>
+          <p className="mt-3 font-mono text-xs uppercase text-mute sm:text-sm">{s.tag}</p>
           <p className="mt-8 max-w-md font-mono text-sm leading-relaxed text-fg/80 sm:text-base">{work.summary}</p>
           <div className="mt-10">
             <DetailLink href={`/work/${s.slug}`} />

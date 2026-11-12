@@ -15,7 +15,7 @@ export default function About() {
         {/* Kartu ID 3D (React Bits — Lanyard); tali menggantung dari tepi atas section */}
         <div className="relative mx-auto -mt-24 w-full max-w-md md:-mt-32 lg:col-span-5 lg:max-w-none">
           <IdLanyard className="h-[560px] sm:h-[640px] lg:h-[720px]" />
-          <p className="pointer-events-none mt-2 text-center font-mono text-[11px] uppercase tracking-[0.18em] text-mute">
+          <p className="pointer-events-none mt-2 text-center font-mono text-[11px] uppercase text-mute">
             [ Tarik kartunya · klik untuk membalik ]
           </p>
         </div>
@@ -27,7 +27,7 @@ export default function About() {
             <h2 id="about-title" className="display mt-4 text-[clamp(3.5rem,17vw,10.5rem)] text-blue lg:text-[clamp(3.5rem,10.5vw,10.5rem)]">
               {profile.firstName}
             </h2>
-            <p className="mt-2 font-mono text-xs font-semibold uppercase tracking-[0.14em] text-mute sm:text-sm">
+            <p className="mt-2 font-mono text-xs uppercase text-mute sm:text-sm">
               {sectionCopy.about.tag}
             </p>
           </Reveal>
@@ -43,10 +43,10 @@ export default function About() {
           </div>
 
           <Reveal delay={0.2} className="mt-10">
-            <p className="mb-3 font-mono text-xs uppercase tracking-[0.18em] text-mute">[ Proyek untuk ]</p>
+            <p className="mb-3 font-mono text-xs uppercase text-mute">[ Proyek untuk ]</p>
             <ul className="flex flex-wrap gap-2">
               {skills.fields.map((f) => (
-                <li key={f} className="rounded-full border border-blue/60 px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-blue">
+                <li key={f} className="rounded-full border border-blue/60 px-4 py-2 font-mono text-xs uppercase text-blue">
                   {f}
                 </li>
               ))}
@@ -72,12 +72,12 @@ export default function About() {
                 transition={{ duration: 0.7, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
                 className="group grid grid-cols-[3rem_1fr] items-baseline gap-4 border-b border-line py-6 transition-colors hover:bg-panel sm:grid-cols-[5rem_1fr_auto] sm:px-4 sm:py-8"
               >
-                <span className="font-mono text-sm font-semibold text-blue sm:text-base">{e.no}</span>
+                <span className="font-mono text-sm text-blue sm:text-base">{e.no}</span>
                 <span className="display text-[clamp(1.6rem,5vw,3.75rem)] transition-all duration-300 group-hover:translate-x-2 group-hover:text-navy">
                   {e.company}
                 </span>
                 {(e.role || e.period) && (
-                  <span className="col-start-2 font-mono text-xs uppercase tracking-[0.14em] text-mute sm:col-start-3">
+                  <span className="col-start-2 font-mono text-xs uppercase text-mute sm:col-start-3">
                     {[e.role, e.period].filter(Boolean).join(" · ")}
                   </span>
                 )}

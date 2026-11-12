@@ -35,19 +35,19 @@ export default function MediaItem({ m, index }: { m: Media; index: number }) {
         ) : (
           <>
             <Image src={m.poster.src} alt={m.poster.alt} fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover opacity-70" />
-            <div className="absolute inset-0 grid place-items-center bg-gradient-to-t from-navy/50 via-transparent to-transparent">
+            <div className="absolute inset-0 grid place-items-center bg-gradient-to-t from-black/60 via-transparent to-transparent">
               <span className="grid h-16 w-16 place-items-center rounded-full bg-blue text-white">
                 <Play className="ml-1 h-7 w-7" />
               </span>
             </div>
-            <span className="absolute bottom-3 left-3 rounded-full bg-navy/85 px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-cream">
+            <span className="absolute bottom-3 left-3 rounded-full bg-paper/85 px-3 py-1 font-mono text-[11px] uppercase text-fg">
               Video menyusul
             </span>
           </>
         )}
       </div>
       {m.caption && (
-        <figcaption className="mt-3 font-mono text-xs uppercase tracking-[0.14em] text-mute">
+        <figcaption className="mt-3 font-mono text-xs uppercase text-mute">
           <span className="text-blue">{String(index + 1).padStart(2, "0")}</span> — {m.caption}
         </figcaption>
       )}

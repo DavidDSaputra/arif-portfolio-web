@@ -18,22 +18,22 @@ const SECTIONS = {
 } as const;
 type Key = keyof typeof SECTIONS;
 
-/** Warna dock disesuaikan dengan palet portofolio (navy / biru / biru langit / biru es). */
+/** Warna dock mengikuti palet aktif (token CSS), jadi ikut berganti saat tombol "Bosan?" ditekan. */
 const THEME = {
-  "--dock-panel": "rgba(254, 251, 173, 0.92)",
-  "--dock-panel-edge": "rgba(0, 90, 156, 0.55)",
-  "--dock-panel-highlight": "rgba(255, 255, 255, 0.7)",
-  "--dock-panel-shadow": "0 22px 44px -22px rgba(0, 90, 156, 0.45), 0 6px 18px -10px rgba(0, 90, 156, 0.25)",
-  "--dock-tile": "linear-gradient(180deg, #ffffff 0%, #fdfbe0 100%)",
-  "--dock-tile-edge": "rgba(0, 90, 156, 0.3)",
-  "--dock-tile-highlight": "#ffffff",
-  "--dock-tile-shadow": "0 4px 10px -5px rgba(0, 90, 156, 0.4)",
-  "--dock-ink": "#005A9C",
-  "--dock-label": "#005A9C",
-  "--dock-label-ink": "#FEFBAD",
-  "--dock-dot": "#005A9C",
-  "--dock-separator": "rgba(0, 90, 156, 0.25)",
-  "--dock-press": "brightness(0.94)",
+  "--dock-panel": "color-mix(in srgb, var(--color-paper) 82%, transparent)",
+  "--dock-panel-edge": "var(--color-line)",
+  "--dock-panel-highlight": "transparent",
+  "--dock-panel-shadow": "0 22px 44px -22px rgba(0, 0, 0, 0.7)",
+  "--dock-tile": "var(--color-deep)",
+  "--dock-tile-edge": "var(--color-line)",
+  "--dock-tile-highlight": "transparent",
+  "--dock-tile-shadow": "none",
+  "--dock-ink": "var(--color-fg)",
+  "--dock-label": "var(--color-blue)",
+  "--dock-label-ink": "var(--color-cream)",
+  "--dock-dot": "var(--color-blue)",
+  "--dock-separator": "var(--color-line)",
+  "--dock-press": "brightness(1.2)",
 } as CSSProperties;
 
 function useMediaQuery(query: string, initial = true) {
@@ -125,14 +125,14 @@ export default function SiteDock() {
     <nav aria-label="Navigasi cepat" className="pointer-events-none fixed inset-x-0 bottom-0 z-40 h-28">
       <Dock
         items={items}
-        theme="light"
+        theme="dark"
         baseItemSize={46}
         magnification={68}
         distance={180}
         panelHeight={62}
         gap={8}
-        roundness={0.55}
-        accentColor="#005A9C"
+        roundness={0.08}
+        accentColor="var(--color-blue)"
         badgeColor="#60C1E5"
         className="pointer-events-auto"
         style={THEME}

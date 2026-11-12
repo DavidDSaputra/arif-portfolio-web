@@ -1,25 +1,32 @@
 import type { Metadata, Viewport } from "next";
-import { Fustat, Ranga } from "next/font/google";
+import { Anton, Share_Tech_Mono, Silkscreen } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import ScrollToTop from "@/components/ScrollToTop";
 import SiteDock from "@/components/SiteDock";
-import Crosshair from "@/components/reactbits/Crosshair";
+import Cursor from "@/components/Cursor";
 import Loader from "@/components/Loader";
 import { site, profile } from "@/lib/content";
 
-// Font ala pontofuba.com: Ranga (judul, condensed) + Fustat (teks)
-const ranga = Ranga({
+// Font ala yeahright.co: condensed super tebal (pengganti Druk) + mono + piksel
+const anton = Anton({
   subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-ranga",
+  weight: "400",
+  variable: "--font-anton",
   display: "swap",
 });
 
-const fustat = Fustat({
+const shareTech = Share_Tech_Mono({
   subsets: ["latin"],
-  weight: "variable",
-  variable: "--font-fustat",
+  weight: "400",
+  variable: "--font-share-tech",
+  display: "swap",
+});
+
+const silkscreen = Silkscreen({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-silkscreen",
   display: "swap",
 });
 
@@ -42,12 +49,12 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#DCEDF5",
+  themeColor: "#0A0D1F",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="id" className={`${ranga.variable} ${fustat.variable}`}>
+    <html lang="id" className={`${anton.variable} ${shareTech.variable} ${silkscreen.variable}`}>
       <body className="grain min-h-dvh">
         <noscript>
           <style>{"#site-loader{display:none}"}</style>
@@ -55,7 +62,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Loader />
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-blue focus:px-4 focus:py-2 focus:text-cream"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-blue focus:px-4 focus:py-2 focus:text-cream" 
         >
           Lompat ke konten
         </a>
@@ -64,18 +71,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SiteDock />
           <ScrollToTop />
         </SmoothScroll>
-        {/* React Bits — Crosshair di seluruh halaman (tanpa containerRef = menutupi viewport).
-            Biru agar terlihat di latar pastel; pointer-events none, jadi tidak menghalangi klik. */}
-        <Crosshair
-          color="#005A9C"
-          targetEffect="lock"
-          thickness={1}
-          opacity={0.5}
-          smoothing={0.35}
-          gap={8}
-          fade={0.35}
-          showCoordinates
-        />
+        {/* Kursor kustom (kotak kecil, membesar di atas link) */}
+        <Cursor />
       </body>
     </html>
   );

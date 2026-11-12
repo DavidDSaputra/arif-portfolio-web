@@ -1,6 +1,6 @@
-import { LOGO_ACCENTS, LOGO_CELLS, LOGO_COLORS } from "@/lib/logo";
+import { LOGO_ACCENTS, LOGO_CELLS } from "@/lib/logo";
 
-/** Logo "S" berpiksel dalam kotak biru membulat. */
+/** Logo "S" berpiksel; warnanya ikut palet aktif (aksen + latar). */
 export default function Logo({ size = 32, className = "", title }: { size?: number; className?: string; title?: string }) {
   const cell = 3;
   const off = 5;
@@ -15,12 +15,12 @@ export default function Logo({ size = 32, className = "", title }: { size?: numb
       aria-label={title}
       aria-hidden={title ? undefined : true}
     >
-      <rect width="32" height="32" rx="7" fill={LOGO_COLORS.bg} />
+      <rect width="32" height="32" rx="7" style={{ fill: "var(--color-blue)" }} />
       {LOGO_CELLS.map(({ x, y }) => (
-        <rect key={`${x}-${y}`} x={off + x * cell} y={off + y * cell} width={cell} height={cell} fill={LOGO_COLORS.fg} />
+        <rect key={`${x}-${y}`} x={off + x * cell} y={off + y * cell} width={cell} height={cell} style={{ fill: "var(--color-paper)" }} />
       ))}
-      {LOGO_ACCENTS.map(({ x, y, color }) => (
-        <rect key={`a${x}-${y}`} x={off + x * cell} y={off + y * cell} width={cell} height={cell} fill={color} />
+      {LOGO_ACCENTS.map(({ x, y }) => (
+        <rect key={`a${x}-${y}`} x={off + x * cell} y={off + y * cell} width={cell} height={cell} style={{ fill: "var(--color-paper)", opacity: 0.55 }} />
       ))}
     </svg>
   );

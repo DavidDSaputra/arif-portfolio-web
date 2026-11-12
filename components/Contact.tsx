@@ -49,7 +49,7 @@ export default function Contact() {
                   className="group flex items-center gap-4 py-5 transition-colors hover:text-navy sm:gap-6"
                 >
                   <Icon className="h-7 w-7 shrink-0 text-blue" />
-                  <span className="w-24 shrink-0 font-mono text-xs uppercase tracking-[0.16em] text-mute">{label}</span>
+                  <span className="w-24 shrink-0 font-mono text-xs uppercase text-mute">{label}</span>
                   <span className="min-w-0 break-all font-mono text-base sm:text-xl">{value}</span>
                   <ArrowUpRight className="ml-auto h-5 w-5 shrink-0 opacity-0 transition-opacity group-hover:opacity-100" />
                 </a>

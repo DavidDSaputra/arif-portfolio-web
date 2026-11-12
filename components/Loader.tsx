@@ -1,118 +1,273 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { LOGO_ACCENTS, LOGO_CELLS, LOGO_COLORS } from "@/lib/logo";
-import { profile, site } from "@/lib/content";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import { profile } from "@/lib/content";
 
 /**
- * Layar loading (konsep terinspirasi intro webdrift.be, desain & palet Samsul):
- * layar navy + label teknis di sudut → logo "S" berpiksel muncul → nama naik per huruf dari tipis
- * biru langit ke tebal putih → garis biru bercahaya membentang di tengah (TV CRT menyala) →
- * layar terbelah dari garis itu dan halaman terlihat.
- * Kunjungan berikutnya di sesi yang sama: versi singkat. Selesai → <html data-loaded>.
+ * Layar loading interaktif (konsep "lift" ala yeahright.co):
+ * angka 000 → 100 berisi warna yang naik dari bawah, label tahap di sampingnya, timer T+ di atasnya.
+ * Interaksi: tahan klik / spasi untuk mempercepat, gerakkan mouse untuk memiringkan angka,
+ * nyalakan suara (bunyi "tik" tiap 10 + "ding" saat masuk), lalu klik / Enter untuk masuk → "HALO!" → layar terbuka.
+ * Kunjungan berikutnya di sesi yang sama: versi singkat tanpa klik. Selesai → <html data-loaded>.
  */
 
-type Phase = "intro" | "slit" | "open" | "done";
+type Phase = "count" | "ready" | "hello" | "exit" | "done";
 
-// urutan acak tapi tetap (sama di server & browser)
-const ORDER = LOGO_CELLS.map((c, i) => ({ ...c, d: ((i * 7) % LOGO_CELLS.length) * 30 }));
-const ACCENT_DELAY = LOGO_CELLS.length * 30 + 40;
-const NAME = profile.fullName.toUpperCase();
+const STEPS = ["Brief", "Konsep", "Produksi", "Editing", "Siap tayang"];
+const BASE_MS = 3200; // durasi 0 → 100 tanpa dipercepat
+const BOOST = 3.5; // kelipatan kecepatan saat ditahan
+const HELLO = "HALO!";
 
-const clockFmt = new Intl.DateTimeFormat(site.locale, { timeZone: site.timeZone, hour: "2-digit", minute: "2-digit", hour12: false });
+/* ── suara kecil tanpa file (WebAudio) ── */
+function useBeeper() {
+  const ctxRef = useRef<AudioContext | null>(null);
+  const ensure = () => {
+    if (!ctxRef.current) {
+      const AC = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+      if (!AC) return null;
+      ctxRef.current = new AC();
+    }
+    if (ctxRef.current.state === "suspended") void ctxRef.current.resume();
+    return ctxRef.current;
+  };
+  const tone = (freq: number, dur = 0.06, type: OscillatorType = "square", gain = 0.035, at = 0) => {
+    const ctx = ensure();
+    if (!ctx) return;
+    const t0 = ctx.currentTime + at;
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.type = type;
+    o.frequency.value = freq;
+    g.gain.setValueAtTime(gain, t0);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g).connect(ctx.destination);
+    o.start(t0);
+    o.stop(t0 + dur + 0.02);
+  };
+  return { ensure, tone };
+}
 
 export default function Loader() {
-  const [phase, setPhase] = useState<Phase>("intro");
+  const [phase, setPhase] = useState<Phase>("count");
   const [short, setShort] = useState(false);
-  const [clock, setClock] = useState("");
+  const [sound, setSound] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
   const countRef = useRef<HTMLSpanElement>(null);
+  const timerRef = useRef<HTMLSpanElement>(null);
+  const stepRef = useRef<HTMLSpanElement>(null);
+  const stepNoRef = useRef<HTMLSpanElement>(null);
+  const boostRef = useRef(false);
+  const soundRef = useRef(false);
+  const phaseRef = useRef<Phase>("count");
+  const beeper = useBeeper();
 
+  phaseRef.current = phase;
+  soundRef.current = sound;
+
+  // kunci scroll selama loader tampil
+  useEffect(() => {
+    if (phase === "done") return;
+    const html = document.documentElement;
+    const prev = html.style.overflow;
+    html.style.overflow = "hidden";
+    return () => {
+      html.style.overflow = prev;
+    };
+  }, [phase]);
+
+  // penghitung
   useEffect(() => {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     let seen = false;
     try {
       seen = sessionStorage.getItem("loader-seen") === "1";
       sessionStorage.setItem("loader-seen", "1");
+      setSound(localStorage.getItem("loader-sound") === "1");
     } catch {}
     setShort(seen);
-    setClock(`${clockFmt.format(new Date())} WIB`);
 
-    // urutan waktu (ms)
-    const t = reduce
-      ? { slit: 250, open: 260, done: 560 }
-      : seen
-        ? { slit: 380, open: 700, done: 1400 }
-        : { slit: 1550, open: 1900, done: 2650 };
-
-    // penghitung 000 → 100
-    const start = performance.now();
+    const total = reduce ? 1 : seen ? 650 : BASE_MS;
+    let value = 0; // 0..1
+    let last = performance.now();
+    const t0 = last;
+    let lastTen = 0;
     let raf = 0;
+
+    const render = (p: number, now: number) => {
+      const n = Math.round(p * 100);
+      if (countRef.current) {
+        countRef.current.textContent = String(n).padStart(3, "0");
+        countRef.current.style.setProperty("--p", `${Math.round(p * 100)}%`);
+      }
+      if (timerRef.current) timerRef.current.textContent = `T+${((now - t0) / 1000).toFixed(2).padStart(5, "0")}`;
+      const s = Math.min(STEPS.length - 1, Math.floor(p * STEPS.length));
+      if (stepRef.current) stepRef.current.textContent = STEPS[s];
+      if (stepNoRef.current) stepNoRef.current.textContent = `${String(s + 1).padStart(2, "0")}/${String(STEPS.length).padStart(2, "0")}`;
+      const ten = Math.floor(n / 10);
+      if (ten > lastTen) {
+        lastTen = ten;
+        if (soundRef.current) beeper.tone(320 + ten * 60, 0.05);
+      }
+    };
+
     const tick = (now: number) => {
-      const p = Math.min(1, (now - start) / (t.slit - 60));
-      const eased = 1 - Math.pow(1 - p, 2.2);
-      if (countRef.current) countRef.current.textContent = String(Math.round(eased * 100)).padStart(3, "0");
-      if (p < 1) raf = requestAnimationFrame(tick);
+      const dt = now - last;
+      last = now;
+      value = Math.min(1, value + (dt / total) * (boostRef.current ? BOOST : 1));
+      // sedikit "tersendat" seperti lift: melambat menjelang 100
+      const eased = value < 1 ? 1 - Math.pow(1 - value, 1.6) : 1;
+      render(eased, now);
+      if (value < 1) raf = requestAnimationFrame(tick);
+      else if (seen) {
+        // kunjungan berikutnya: langsung buka tanpa klik
+        setPhase("exit");
+        document.documentElement.setAttribute("data-loaded", "");
+      } else setPhase("ready");
     };
     raf = requestAnimationFrame(tick);
-
-    const timers = [
-      window.setTimeout(() => setPhase("slit"), t.slit),
-      window.setTimeout(() => {
-        setPhase("open");
-        document.documentElement.setAttribute("data-loaded", "");
-      }, t.open),
-      window.setTimeout(() => setPhase("done"), t.done),
-    ];
-    return () => {
-      cancelAnimationFrame(raf);
-      timers.forEach((id) => window.clearTimeout(id));
-    };
+    return () => cancelAnimationFrame(raf);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // urutan keluar
+  useEffect(() => {
+    if (phase === "hello") {
+      const id = window.setTimeout(() => {
+        document.documentElement.setAttribute("data-loaded", "");
+        setPhase("exit");
+      }, 1100);
+      return () => window.clearTimeout(id);
+    }
+    if (phase === "exit") {
+      const id = window.setTimeout(() => setPhase("done"), 950);
+      return () => window.clearTimeout(id);
+    }
+  }, [phase]);
+
+  const enter = useCallback(() => {
+    if (phaseRef.current !== "ready") return;
+    if (soundRef.current) {
+      // "ding" lift
+      beeper.tone(880, 0.5, "sine", 0.06);
+      beeper.tone(1320, 0.7, "sine", 0.04, 0.12);
+    }
+    setPhase("hello");
+  }, [beeper]);
+
+  // keyboard: tahan spasi = percepat, Enter/spasi saat siap = masuk
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === " " || e.key === "Enter") {
+        if (phaseRef.current === "ready") {
+          e.preventDefault();
+          enter();
+        } else if (e.key === " ") {
+          e.preventDefault();
+          boostRef.current = true;
+        }
+      }
+    };
+    const up = (e: KeyboardEvent) => {
+      if (e.key === " ") boostRef.current = false;
+    };
+    window.addEventListener("keydown", down);
+    window.addEventListener("keyup", up);
+    return () => {
+      window.removeEventListener("keydown", down);
+      window.removeEventListener("keyup", up);
+    };
+  }, [enter]);
+
+  const onMove = (e: React.PointerEvent) => {
+    const el = rootRef.current;
+    if (!el || e.pointerType !== "mouse") return;
+    const nx = e.clientX / window.innerWidth - 0.5;
+    const ny = e.clientY / window.innerHeight - 0.5;
+    el.style.setProperty("--rx", `${(nx * 18).toFixed(2)}deg`);
+    el.style.setProperty("--ry", `${(-ny * 14).toFixed(2)}deg`);
+  };
+
+  const toggleSound = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const next = !sound;
+    setSound(next);
+    try {
+      localStorage.setItem("loader-sound", next ? "1" : "0");
+    } catch {}
+    if (next) {
+      beeper.ensure();
+      beeper.tone(660, 0.08);
+    }
+  };
 
   if (phase === "done") return null;
 
   return (
-    <div id="site-loader" role="status" aria-label="Memuat portofolio" data-phase={phase} data-short={short ? "" : undefined} className="ld">
-      <div className="ld-cover">
-        {/* label teknis di sudut */}
-        <div className="ld-meta ld-meta-tl">
-          <span className="ld-dot" /> {profile.handle.toUpperCase()}
-        </div>
-        <div className="ld-meta ld-meta-tr" suppressHydrationWarning>
-          {clock || " "}
-        </div>
-        <div className="ld-meta ld-meta-bl">
-          <span ref={countRef}>000</span> / 100
-        </div>
-        <div className="ld-meta ld-meta-br">Fig. 01 · Portfolio</div>
+    <div
+      id="site-loader"
+      ref={rootRef}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Layar pembuka portofolio"
+      data-phase={phase}
+      data-short={short ? "" : undefined}
+      data-lenis-prevent
+      className="ld"
+      onPointerMove={onMove}
+      onPointerDown={() => {
+        if (phaseRef.current === "count") boostRef.current = true;
+      }}
+      onPointerUp={() => (boostRef.current = false)}
+      onPointerCancel={() => (boostRef.current = false)}
+      onClick={enter}
+    >
+      <p className="ld-meta ld-meta-tl">[{profile.handle.toUpperCase()}]</p>
+      <p className="ld-meta ld-meta-tr">Portofolio — {profile.role}</p>
 
-        <div className="ld-center">
-          <svg viewBox="0 0 32 32" className="ld-logo" shapeRendering="crispEdges" aria-hidden>
-            <rect width="32" height="32" rx="7" fill={LOGO_COLORS.bg} className="loader-bg" />
-            {ORDER.map(({ x, y, d }) => (
-              <rect key={`${x}-${y}`} x={5 + x * 3} y={5 + y * 3} width={3} height={3} fill={LOGO_COLORS.fg} className="loader-px" style={{ "--d": `${d}ms` } as CSSProperties} />
-            ))}
-            {LOGO_ACCENTS.map(({ x, y, color }) => (
-              <rect key={`a${x}-${y}`} x={5 + x * 3} y={5 + y * 3} width={3} height={3} fill={color} className="loader-px" style={{ "--d": `${ACCENT_DELAY}ms` } as CSSProperties} />
-            ))}
-          </svg>
-
-          {/* nama: tiap huruf naik & menebal (tipis biru langit → tebal putih) */}
-          <p className="ld-name" aria-hidden>
-            {[...NAME].map((ch, i) => (
-              <span key={i} className="ld-ch" style={{ "--i": i } as CSSProperties}>
-                {ch === " " ? " " : ch}
-              </span>
-            ))}
-          </p>
-          <p className="ld-sub">
-            [ {profile.role} — {profile.label} ]
-          </p>
+      <div className="ld-stage">
+        <div className="ld-count-wrap">
+          <span ref={timerRef} className="ld-timer">
+            T+00.00
+          </span>
+          <span ref={countRef} className="ld-count" aria-hidden style={{ "--p": "0%" } as CSSProperties}>
+            000
+          </span>
+          <span className="ld-step">
+            <span ref={stepRef}>{STEPS[0]}</span>
+          </span>
+          <span className="ld-hint">[Tahan untuk mempercepat]</span>
         </div>
       </div>
 
-      {/* garis bercahaya di tengah */}
-      <span className="ld-slit" aria-hidden />
+      {/* "HALO!" setelah klik masuk */}
+      <div className="ld-hello" aria-hidden>
+        <p>
+          {[...HELLO].map((ch, i) => (
+            <span key={i} className="wv-c">
+              <span className="wv-i" style={{ "--i": i } as CSSProperties}>
+                {ch}
+              </span>
+            </span>
+          ))}
+        </p>
+      </div>
+
+      <button type="button" className="ld-meta ld-meta-bl ld-sound" aria-pressed={sound} onClick={toggleSound}>
+        <span className="ld-sound-bars" aria-hidden>
+          <i />
+          <i />
+          <i />
+        </span>
+        Suara {sound ? "on" : "off"}
+      </button>
+
+      <p className="ld-meta ld-meta-bc" aria-live="polite">
+        {phase === "ready" ? <span className="ld-enter">[Klik untuk masuk]</span> : phase === "count" ? "[Memuat…]" : "[Selamat datang]"}
+      </p>
+
+      <span ref={stepNoRef} className="ld-meta ld-meta-br">
+        01/05
+      </span>
     </div>
   );
 }

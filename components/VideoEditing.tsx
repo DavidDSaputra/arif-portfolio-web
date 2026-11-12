@@ -38,7 +38,7 @@ function ReelScreen({ m }: { m: VideoMedia }) {
       )}
 
       {!playing && (
-        <div className="pointer-events-none absolute inset-0 grid place-items-center bg-gradient-to-t from-navy/50 via-transparent to-transparent">
+        <div className="pointer-events-none absolute inset-0 grid place-items-center bg-gradient-to-t from-black/60 via-transparent to-transparent">
           <span className="grid h-12 w-12 place-items-center rounded-full bg-blue text-white shadow-lg transition-transform duration-300 group-hover:scale-110">
             <Play className="ml-0.5 h-5 w-5" />
           </span>
@@ -48,7 +48,7 @@ function ReelScreen({ m }: { m: VideoMedia }) {
       {m.src ? (
         <button type="button" onClick={toggle} className="absolute inset-0" aria-label={`${playing ? "Jeda" : "Putar"} video: ${m.poster.alt}`} />
       ) : (
-        <span className="absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-navy/85 px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-cream">
+        <span className="absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-paper/85 px-3 py-1 font-mono text-[10px] uppercase text-fg">
           Video menyusul
         </span>
       )}
@@ -88,7 +88,7 @@ export default function VideoEditing() {
               <PhoneFrame>
                 <ReelScreen m={m} />
               </PhoneFrame>
-              {m.caption && <p className="mt-4 text-center font-mono text-xs uppercase tracking-[0.14em] text-mute">{m.caption}</p>}
+              {m.caption && <p className="mt-4 text-center font-mono text-xs uppercase text-mute">{m.caption}</p>}
             </motion.li>
           ))}
         </ul>

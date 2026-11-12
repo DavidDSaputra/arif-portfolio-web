@@ -4,12 +4,47 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { nav, profile, socials } from "@/lib/content";
-import { Close, MenuDots } from "./icons";
+import { Close } from "./icons";
+import { Scramble } from "./ui";
 import Logo from "./Logo";
+
+const PALETTES = ["Malam", "Hijau", "Biru", "Mawar"];
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [palette, setPalette] = useState(0);
+  const [doors, setDoors] = useState(false);
   const reduce = useReducedMotion();
+
+  // palet tersimpan per pengunjung
+  useEffect(() => {
+    try {
+      const saved = Number(localStorage.getItem("palette") ?? 0);
+      if (saved > 0 && saved < PALETTES.length) {
+        setPalette(saved);
+        document.documentElement.setAttribute("data-palette", String(saved));
+      }
+    } catch {}
+  }, []);
+
+  /** "BOSAN?" → pintu menutup, palet berganti, pintu membuka. */
+  const nextPalette = () => {
+    const next = (palette + 1) % PALETTES.length;
+    const apply = () => {
+      if (next === 0) document.documentElement.removeAttribute("data-palette");
+      else document.documentElement.setAttribute("data-palette", String(next));
+      setPalette(next);
+      try {
+        localStorage.setItem("palette", String(next));
+      } catch {}
+    };
+    if (reduce) return apply();
+    setDoors(true);
+    window.setTimeout(() => {
+      apply();
+      window.setTimeout(() => setDoors(false), 120);
+    }, 480);
+  };
 
   useEffect(() => {
     if (!open) return;
@@ -24,30 +59,48 @@ export default function Header() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-50">
-      <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-3 px-4 py-4 sm:px-8">
-        <Link
-          href="/"
-          className="flex items-center gap-2 rounded-full border border-fg/15 bg-paper/80 py-1.5 pl-1.5 pr-4 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] backdrop-blur-md transition-colors hover:border-blue hover:text-navy sm:text-xs"
-        >
-          <Logo size={24} className="rounded-[7px]" />
-          My Portfolio
+      <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-3 px-4 py-4 font-mono text-xs uppercase sm:px-8 sm:text-sm">
+        <Link href="/" className="flex items-center gap-2 mix-blend-difference" data-cursor="Beranda">
+          <Logo size={22} className="rounded-[5px]" />
+          <span>
+            {profile.handle.toUpperCase()}
+            <span className="blink text-blue">_</span>
+          </span>
         </Link>
 
-        <div className="flex items-center gap-3">
-          <span className="hidden rounded-full border border-fg/15 bg-paper/80 px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.2em] backdrop-blur-md md:inline">
-            {profile.label}
-          </span>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <button
+            type="button"
+            onClick={nextPalette}
+            data-cursor="Ganti warna"
+            className="group flex items-center gap-2 border border-fg/25 bg-paper/70 px-3 py-2 backdrop-blur-md transition-colors hover:border-blue hover:text-blue"
+            aria-label={`Ganti palet warna (sekarang ${PALETTES[palette]})`}
+          >
+            <span className="grid grid-cols-2 gap-[2px]" aria-hidden>
+              <i className="h-1.5 w-1.5 bg-fg" />
+              <i className="h-1.5 w-1.5 bg-blue" />
+              <i className="h-1.5 w-1.5 bg-blue" />
+              <i className="h-1.5 w-1.5 bg-mute" />
+            </span>
+            <Scramble text="Bosan?" />
+          </button>
           <button
             type="button"
             onClick={() => setOpen(true)}
             aria-expanded={open}
             aria-controls="site-menu"
             aria-label="Buka menu"
-            className="grid h-11 w-11 place-items-center rounded-full bg-blue text-cream ring-2 ring-paper transition-transform hover:rotate-90"
+            className="flex items-center gap-2 border border-blue bg-blue px-3 py-2 text-cream transition-colors hover:bg-transparent hover:text-blue"
           >
-            <MenuDots className="h-5 w-5" />
+            [<span>Menu</span>]
           </button>
         </div>
+      </div>
+
+      {/* pintu ganti palet */}
+      <div className="pal-doors" aria-hidden data-closed={doors ? "" : undefined}>
+        <i />
+        <i />
       </div>
 
       <AnimatePresence>
@@ -65,13 +118,13 @@ export default function Header() {
             transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
           >
             <div className="mx-auto flex w-full max-w-[1440px] items-center justify-between px-4 py-4 sm:px-8">
-              <span className="font-mono text-xs font-semibold uppercase tracking-[0.2em]">[ MENU ]</span>
+              <span className="font-mono text-xs uppercase">[ MENU ]</span>
               <button
                 type="button"
                 autoFocus
                 onClick={() => setOpen(false)}
                 aria-label="Tutup menu"
-                className="grid h-11 w-11 place-items-center rounded-full bg-cream text-blue"
+                className="grid h-11 w-11 place-items-center border border-cream text-cream transition-colors hover:bg-cream hover:text-blue"
               >
                 <Close className="h-5 w-5" />
               </button>
@@ -92,7 +145,7 @@ export default function Header() {
                       onClick={() => setOpen(false)}
                       className="group flex items-baseline gap-4 border-b border-cream/30 py-2 sm:py-3"
                     >
-                      <span className="font-mono text-xs font-semibold">0{i + 1}</span>
+                      <span className="font-mono text-xs">0{i + 1}</span>
                       {/* ukuran ikut lebar DAN tinggi layar → muat di laptop lebar-pendek (zoom 100%) */}
                       <span className="display text-[clamp(2.25rem,min(12vw,11vh),7.5rem)] transition-transform duration-300 group-hover:translate-x-4">
                         {n.label}
@@ -103,7 +156,7 @@ export default function Header() {
               </ul>
             </nav>
 
-            <div className="mx-auto flex w-full max-w-[1440px] flex-wrap gap-x-6 gap-y-2 px-4 pb-8 font-mono text-xs font-semibold uppercase tracking-[0.14em] sm:px-8">
+            <div className="mx-auto flex w-full max-w-[1440px] flex-wrap gap-x-6 gap-y-2 px-4 pb-8 font-mono text-xs uppercase sm:px-8">
               {socials.map((s) => (
                 <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" className="underline-offset-4 hover:underline">
                   {s.label} — {s.handle}

@@ -50,7 +50,7 @@ export default function Brief() {
           <h2 id="brief-title" className="display text-[clamp(2.5rem,6.5vw,5.25rem)]">
             {sectionCopy.brief.title}
           </h2>
-          <p className="mt-6 max-w-md font-mono text-sm font-medium uppercase leading-relaxed">{sectionCopy.brief.body}</p>
+          <p className="mt-6 max-w-md font-mono text-sm uppercase leading-relaxed">{sectionCopy.brief.body}</p>
           <LongArrow className="mt-10 hidden w-56 rotate-[8deg] lg:block" />
         </div>
 
@@ -58,7 +58,7 @@ export default function Brief() {
           <div className="grid gap-x-6 gap-y-8 sm:grid-cols-2">
             {fieldsDef.map((d, i) => (
               <div key={d.key} className={i === 2 ? "sm:col-span-2" : ""}>
-                <label htmlFor={`brief-${d.key}`} className="font-mono text-xs font-semibold uppercase tracking-[0.16em]">
+                <label htmlFor={`brief-${d.key}`} className="font-mono text-xs uppercase">
                   {d.label} *
                 </label>
                 <input
@@ -74,7 +74,7 @@ export default function Brief() {
                   className="mt-2 w-full border-b-2 border-cream/70 bg-transparent py-3 font-mono text-lg outline-none placeholder:text-cream/60 focus:border-white"
                 />
                 {errors[d.key] && (
-                  <p id={`brief-${d.key}-err`} className="mt-2 font-mono text-xs font-semibold">
+                  <p id={`brief-${d.key}-err`} className="mt-2 font-mono text-xs">
                     ✕ {errors[d.key]}
                   </p>
                 )}
@@ -84,7 +84,7 @@ export default function Brief() {
 
           <button
             type="submit"
-            className="group mt-10 inline-flex items-center gap-3 rounded-full bg-cream px-7 py-4 font-mono text-sm font-bold uppercase tracking-[0.14em] text-blue transition-colors hover:bg-white"
+            className="group mt-10 inline-flex items-center gap-3 rounded-full bg-cream px-7 py-4 font-mono text-sm uppercase text-blue transition-colors hover:bg-white"
           >
             Kirim via WhatsApp
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -98,7 +98,7 @@ export default function Brief() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
-                  className="rounded-xl bg-navy px-5 py-4 font-mono text-sm text-cream"
+                  className="border border-cream/40 bg-cream/10 px-5 py-4 font-mono text-sm text-cream"
                 >
                   ✓ Mantap, {f.name.trim()}! WhatsApp sudah dibuka di tab baru. Tidak terbuka?{" "}
                   <a href={status.link} target="_blank" rel="noopener noreferrer" className="text-cream underline underline-offset-4">
@@ -108,7 +108,7 @@ export default function Brief() {
                 </motion.p>
               )}
               {status.type === "error" && (
-                <motion.p key="err" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="font-mono text-sm font-semibold">
+                <motion.p key="err" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="font-mono text-sm">
                   Ups — cek lagi kolom yang ditandai ya.
                 </motion.p>
               )}

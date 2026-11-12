@@ -1,21 +1,174 @@
 "use client";
 
 import Link from "next/link";
-import { useRef } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { motion, useInView, useReducedMotion, type HTMLMotionProps } from "motion/react";
 import { ArrowUpRight, Spark } from "./icons";
 
-/** Kicker ala Fearless: "SELECTED WORK [WITH THE FINEST TOUCH]" */
+/* ── Animasi teks ala yeahright.co ── */
+
+/** Hook kecil: true sekali saat elemen masuk layar. */
+function useOnce<T extends Element>(margin = "0px 0px -10% 0px") {
+  const ref = useRef<T>(null);
+  const inView = useInView(ref, { once: true, margin: margin as never });
+  return [ref, inView] as const;
+}
+
+/**
+ * Teks gelombang: tiap huruf naik dari bawah (terpotong) bergiliran saat terlihat;
+ * di-hover hurufnya melompat bergelombang. `lines` = tiap string satu baris.
+ */
+export function WaveText({
+  lines,
+  as: Tag = "span",
+  className = "",
+  lineClassName = "",
+  delay = 0,
+  id,
+}: {
+  lines: string[];
+  as?: "h1" | "h2" | "h3" | "p" | "span";
+  className?: string;
+  lineClassName?: string;
+  delay?: number;
+  id?: string;
+}) {
+  const [ref, on] = useOnce<HTMLElement>();
+  let i = 0;
+  return (
+    <Tag
+      ref={ref as never}
+      id={id}
+      data-on={on ? "" : undefined}
+      className={`wv ${className}`}
+      style={{ "--wv-delay": `${delay}ms` } as CSSProperties}
+    >
+      <span className="sr-only">{lines.join(" ")}</span>
+      {lines.map((line, li) => (
+        <span key={li} aria-hidden className={`block whitespace-nowrap ${lineClassName}`}>
+          {[...line].map((ch, ci) =>
+            ch === " " ? (
+              <span key={ci}> </span>
+            ) : (
+              <span key={ci} className="wv-c">
+                <span className="wv-i" style={{ "--i": i++ } as CSSProperties}>
+                  {ch}
+                </span>
+              </span>
+            ),
+          )}
+        </span>
+      ))}
+    </Tag>
+  );
+}
+
+/** Teks outline yang menyala berkedip seperti neon rusak saat terlihat. */
+export function FlickerText({
+  lines,
+  as: Tag = "p",
+  className = "",
+  delay = 0,
+}: {
+  lines: string[];
+  as?: "h2" | "h3" | "p" | "span";
+  className?: string;
+  delay?: number;
+}) {
+  const [ref, on] = useOnce<HTMLElement>();
+  let i = 0;
+  return (
+    <Tag
+      ref={ref as never}
+      data-on={on ? "" : undefined}
+      className={`flicker text-outline ${className}`}
+      style={{ "--wv-delay": `${delay}ms` } as CSSProperties}
+    >
+      <span className="sr-only">{lines.join(" ")}</span>
+      {lines.map((line, li) => (
+        <span key={li} aria-hidden className="block whitespace-nowrap">
+          {[...line].map((ch, ci) => (
+            <span key={ci} className="flicker-c" style={{ "--i": i++ } as CSSProperties}>
+              {ch === " " ? " " : ch}
+            </span>
+          ))}
+        </span>
+      ))}
+    </Tag>
+  );
+}
+
+const GLYPHS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#%&*+/<>_";
+
+/**
+ * Teks mono yang "teracak" lalu tersusun dari kiri ke kanan saat terlihat (dan lagi saat di-hover).
+ * Panjang teks tetap sama, jadi tata letak tidak bergeser.
+ */
+export function Scramble({ text, className = "", delay = 0 }: { text: string; className?: string; delay?: number }) {
+  const [ref, on] = useOnce<HTMLSpanElement>();
+  const [out, setOut] = useState(text);
+  const raf = useRef(0);
+  const reduce = useReducedMotion();
+
+  const run = useCallback(
+    (wait: number) => {
+      if (reduce) return;
+      cancelAnimationFrame(raf.current);
+      const start = performance.now() + wait;
+      const dur = Math.min(900, 280 + text.length * 22);
+      const step = (now: number) => {
+        const p = Math.max(0, (now - start) / dur);
+        const fixed = Math.floor(p * text.length);
+        let s = "";
+        for (let k = 0; k < text.length; k++) {
+          const c = text[k];
+          s += k < fixed || c === " " || c === "[" || c === "]" ? c : GLYPHS[(Math.random() * GLYPHS.length) | 0];
+        }
+        setOut(s);
+        if (p < 1) raf.current = requestAnimationFrame(step);
+        else setOut(text);
+      };
+      raf.current = requestAnimationFrame(step);
+    },
+    [text, reduce],
+  );
+
+  useEffect(() => {
+    if (!on) return;
+    // tunggu layar loading selesai
+    const go = () => run(delay);
+    if (document.documentElement.hasAttribute("data-loaded")) go();
+    else {
+      const mo = new MutationObserver(() => {
+        if (document.documentElement.hasAttribute("data-loaded")) {
+          mo.disconnect();
+          go();
+        }
+      });
+      mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-loaded"] });
+      return () => mo.disconnect();
+    }
+    return () => cancelAnimationFrame(raf.current);
+  }, [on, run, delay]);
+
+  return (
+    <span ref={ref} className={className} onMouseEnter={() => run(0)} aria-label={text}>
+      <span aria-hidden>{out}</span>
+    </span>
+  );
+}
+
+/** Kicker: "JUDUL [TAG]" dengan efek acak huruf. */
 export function Kicker({ title, tag, className = "" }: { title: string; tag?: string; className?: string }) {
   return (
-    <p className={`font-mono text-xs font-semibold uppercase tracking-[0.18em] sm:text-sm ${className}`}>
-      <span className="text-blue">{title}</span>
+    <p className={`font-mono text-xs uppercase sm:text-sm ${className}`}>
+      <Scramble text={title} className="text-blue" />
       {tag && <span className="mt-1 block text-mute sm:ml-3 sm:mt-0 sm:inline">{tag}</span>}
     </p>
   );
 }
 
-/** Judul display (Ranga, huruf besar, biru) */
+/** Judul display besar dengan animasi gelombang. */
 export function ScriptTitle({
   words,
   as: Tag = "h2",
@@ -27,22 +180,18 @@ export function ScriptTitle({
   id?: string;
   className?: string;
 }) {
-  return (
-    <Tag id={id} className={`display text-blue ${className}`}>
-      {words.join(" ")}
-    </Tag>
-  );
+  return <WaveText as={Tag} id={id} lines={[words.join(" ")]} className={`display text-fg ${className}`} />;
 }
 
-/* ── Bagian bersama untuk section "slide" (gaya slide PDF) ── */
+/* ── Bagian bersama untuk section "slide" ── */
 
-/** Header slide: judul ber-huruf script + subjudul putih bercahaya + tag. */
+/** Header slide: judul gelombang + subjudul outline berkedip + tag. */
 export function SlideHeader({
   id,
   words,
   subtitle,
   tag,
-  titleClassName = "text-[clamp(3rem,9vw,7.5rem)]",
+  titleClassName = "text-[clamp(3.5rem,11vw,9rem)]",
 }: {
   id: string;
   words: string[];
@@ -52,26 +201,24 @@ export function SlideHeader({
 }) {
   const lines = Array.isArray(subtitle) ? subtitle : [subtitle];
   return (
-    <Reveal className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+    <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
       <ScriptTitle id={id} words={words} className={titleClassName} />
-      <div className="lg:max-w-[46%] lg:shrink-0 lg:pb-3 lg:text-right">
-        <p className="display text-[clamp(1.5rem,3.6vw,3rem)] text-navy">
-          {lines.map((l) => (
-            <span key={l} className="block">
-              {l}
-            </span>
-          ))}
-        </p>
-        {tag && <p className="mt-2 font-mono text-xs uppercase tracking-[0.16em] text-mute sm:text-sm">{tag}</p>}
+      <div className="lg:max-w-[46%] lg:shrink-0 lg:pb-2 lg:text-right">
+        <FlickerText lines={lines} className="display text-[clamp(1.75rem,4vw,3.5rem)] text-blue" delay={200} />
+        {tag && (
+          <p className="mt-3 font-mono text-xs uppercase text-mute sm:text-sm">
+            <Scramble text={tag} />
+          </p>
+        )}
       </div>
-    </Reveal>
+    </div>
   );
 }
 
 /** Label kecil bernomor: "[01] BANNER" */
 export function NumLabel({ no, children }: { no: string; children: React.ReactNode }) {
   return (
-    <p className="mb-4 flex items-baseline gap-2 font-mono text-xs font-semibold uppercase tracking-[0.2em] sm:text-sm">
+    <p className="mb-4 flex items-baseline gap-2 font-mono text-xs uppercase sm:text-sm">
       <span className="text-blue">[{no}]</span>
       <span>{children}</span>
     </p>
@@ -83,7 +230,7 @@ export function DetailLink({ href, label = "Lihat detail project" }: { href: str
   return (
     <Link
       href={href}
-      className="group inline-flex items-center gap-2 rounded-full border-2 border-blue bg-cream px-6 py-3 font-mono text-xs font-bold uppercase tracking-[0.14em] text-blue transition-colors duration-300 hover:bg-blue hover:text-cream sm:text-sm"
+      className="group inline-flex items-center gap-2 border border-blue bg-blue px-6 py-3 font-mono text-xs uppercase text-cream transition-colors duration-300 hover:bg-transparent hover:text-blue sm:text-sm"
     >
       {label}
       <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:rotate-45" />
@@ -94,7 +241,7 @@ export function DetailLink({ href, label = "Lihat detail project" }: { href: str
 /** Bingkai HP (gaya mockup di PDF). */
 export function PhoneFrame({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   return (
-    <div className={`rounded-[2.2rem] border-[3px] border-fg/25 bg-black p-[7px] shadow-[0_30px_80px_-24px_rgba(0,90,156,0.5)] ${className}`}>
+    <div className={`rounded-[2.2rem] border-[3px] border-fg/20 bg-black p-[7px] shadow-[0_30px_80px_-24px_rgba(0,0,0,0.6)] ${className}`}>
       <div className="relative overflow-hidden rounded-[1.75rem]">
         <span aria-hidden className="absolute left-1/2 top-1.5 z-10 h-3.5 w-[32%] -translate-x-1/2 rounded-full bg-black" />
         {children}
@@ -148,7 +295,7 @@ export function OpenBox({
         transition={{ delay, duration: 0.4, ease: outExpo }}
       >
         <motion.div
-          className="absolute left-0 top-0 border-[1.6px] border-blue/60 bg-cream/85"
+          className="absolute left-0 top-0 border border-blue/50 bg-deep/80"
           initial={reduce ? false : { width: "0%", height: "0%" }}
           animate={on ? { width: "100%", height: "100%" } : { width: "0%", height: "0%" }}
           transition={{
@@ -159,7 +306,7 @@ export function OpenBox({
           {boxCorners.map((pos) => (
             <motion.span
               key={pos}
-              className={`absolute size-3 border-[1.6px] border-blue bg-cream ${pos}`}
+              className={`absolute size-3 border border-blue bg-paper ${pos}`}
               initial={reduce ? false : { scale: 0 }}
               animate={{ scale: on ? 1 : 0 }}
               transition={{ delay, duration: 0.4, ease: outExpo }}
@@ -261,15 +408,15 @@ export function Pill({
 }) {
   const styles =
     variant === "solid"
-      ? "border-2 border-blue bg-cream text-blue hover:bg-blue hover:text-cream"
-      : "border-2 border-blue/40 text-blue hover:border-blue hover:bg-blue hover:text-cream";
+      ? "border border-blue bg-blue text-cream hover:bg-transparent hover:text-blue"
+      : "border border-fg/30 text-fg hover:border-blue hover:text-blue";
   return (
     <a
       href={href}
       aria-label={ariaLabel}
       download={download || undefined}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className={`group inline-flex items-center gap-2 rounded-full px-5 py-3 font-mono text-xs font-semibold uppercase tracking-[0.14em] transition-colors duration-300 sm:text-sm ${styles} ${className}`}
+      className={`group inline-flex items-center gap-2 px-5 py-3 font-mono text-xs uppercase transition-colors duration-300 sm:text-sm ${styles} ${className}`}
     >
       {children}
     </a>

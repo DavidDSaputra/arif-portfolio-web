@@ -16,7 +16,7 @@ export default function Skills() {
           <Kicker title={sectionCopy.skills.kicker} tag={sectionCopy.skills.tag} />
           <ScriptTitle id="skills-title" words={["Software", "Skills"]} className="mt-6 text-[clamp(2.75rem,7vw,6rem)]" />
 
-          <ul className="mt-10 grid grid-cols-2 gap-x-6 gap-y-3 font-mono text-sm uppercase tracking-[0.08em] sm:text-base">
+          <ul className="mt-10 grid grid-cols-2 gap-x-6 gap-y-3 font-mono text-sm uppercase sm:text-base">
             {skills.software.map((s) => (
               <li key={s} className="flex items-center gap-3">
                 <span aria-hidden className="h-1.5 w-1.5 shrink-0 rounded-full bg-blue" />
@@ -25,10 +25,10 @@ export default function Skills() {
             ))}
           </ul>
 
-          <p className="mb-3 mt-12 font-mono text-xs uppercase tracking-[0.18em] text-mute">[ Keahlian ]</p>
+          <p className="mb-3 mt-12 font-mono text-xs uppercase text-mute">[ Keahlian ]</p>
           <ul className="flex flex-wrap gap-2">
             {skills.expertise.map((s) => (
-              <li key={s} className="rounded-full bg-panel px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.1em]">
+              <li key={s} className="rounded-full bg-panel px-4 py-2 font-mono text-xs uppercase">
                 {s}
               </li>
             ))}
@@ -56,10 +56,10 @@ export default function Skills() {
                     alt={`Logo ${l.name}`}
                     fill
                     sizes="(min-width: 640px) 150px, 28vw"
-                    className="object-contain p-[6%] drop-shadow-[0_0_18px_rgba(0,90,156,0.45)]"
+                    className="object-contain p-[6%] drop-shadow-[0_0_18px_rgba(169,184,255,0.25)]"
                   />
                 </div>
-                <span className="mt-3 text-center font-mono text-[10px] uppercase tracking-[0.14em] text-mute transition-colors group-hover:text-navy sm:text-xs">
+                <span className="mt-3 text-center font-mono text-[10px] uppercase text-mute transition-colors group-hover:text-navy sm:text-xs">
                   {l.name}
                 </span>
               </motion.li>

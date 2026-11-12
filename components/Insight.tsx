@@ -49,7 +49,7 @@ export default function Insight() {
         <dl className="mt-14 grid grid-cols-2 border-l border-t border-line lg:grid-cols-4">
           {stats.map((s, i) => (
             <Reveal key={s.label} delay={i * 0.08} className="flex min-w-0 flex-col-reverse justify-end gap-3 border-b border-r border-line p-4 sm:p-8">
-              <dt className="font-mono text-[11px] uppercase leading-snug tracking-[0.12em] text-mute sm:text-xs">{s.label}</dt>
+              <dt className="font-mono text-[11px] uppercase leading-snug text-mute sm:text-xs">{s.label}</dt>
               <dd className="display whitespace-nowrap text-[clamp(1.75rem,8vw,4.5rem)] text-blue lg:text-[clamp(2rem,3.6vw,4.5rem)]">
                 <CountUp value={s.value} format={s.fmt} />
               </dd>

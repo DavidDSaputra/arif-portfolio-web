@@ -7,7 +7,7 @@ import { profile } from "@/lib/content";
  * Layar loading interaktif (konsep "lift" ala yeahright.co):
  * angka 000 → 100 berisi warna yang naik dari bawah, label tahap di sampingnya, timer T+ di atasnya.
  * Interaksi: tahan klik / spasi untuk mempercepat, gerakkan mouse untuk memiringkan angka,
- * nyalakan suara (bunyi "tik" tiap 10 + "ding" saat masuk), lalu klik / Enter untuk masuk → "HALO!" → layar terbuka.
+ * nyalakan suara (bunyi "tik" tiap 10 + "ding" saat masuk), lalu klik / Enter untuk masuk → "HALO!" → tirai terbelah dari tengah.
  * Kunjungan berikutnya di sesi yang sama: versi singkat tanpa klik. Selesai → <html data-loaded>.
  */
 
@@ -139,7 +139,7 @@ export default function Loader() {
       return () => window.clearTimeout(id);
     }
     if (phase === "exit") {
-      const id = window.setTimeout(() => setPhase("done"), 950);
+      const id = window.setTimeout(() => setPhase("done"), 1150);
       return () => window.clearTimeout(id);
     }
   }, [phase]);
@@ -221,6 +221,21 @@ export default function Loader() {
       onPointerCancel={() => (boostRef.current = false)}
       onClick={enter}
     >
+      {/* tirai dua daun; "HALO!" muncul di atasnya lalu ikut terbelah saat tirai terbuka */}
+      {(["l", "r"] as const).map((side) => (
+        <div key={side} className={`ld-door ld-door-${side}`} aria-hidden>
+          <p className="ld-hello">
+            {[...HELLO].map((ch, i) => (
+              <span key={i} className="wv-c">
+                <span className="wv-i" style={{ "--i": i } as CSSProperties}>
+                  {ch}
+                </span>
+              </span>
+            ))}
+          </p>
+        </div>
+      ))}
+
       <p className="ld-meta ld-meta-tl">[{profile.handle.toUpperCase()}]</p>
       <p className="ld-meta ld-meta-tr">Portofolio — {profile.role}</p>
 
@@ -237,19 +252,6 @@ export default function Loader() {
           </span>
           <span className="ld-hint">[Tahan untuk mempercepat]</span>
         </div>
-      </div>
-
-      {/* "HALO!" setelah klik masuk */}
-      <div className="ld-hello" aria-hidden>
-        <p>
-          {[...HELLO].map((ch, i) => (
-            <span key={i} className="wv-c">
-              <span className="wv-i" style={{ "--i": i } as CSSProperties}>
-                {ch}
-              </span>
-            </span>
-          ))}
-        </p>
       </div>
 
       <button type="button" className="ld-meta ld-meta-bl ld-sound" aria-pressed={sound} onClick={toggleSound}>

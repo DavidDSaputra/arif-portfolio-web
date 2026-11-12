@@ -204,19 +204,33 @@ html:not([data-loaded]) .flicker-c { opacity: 0; }
   position: fixed;
   inset: 0;
   z-index: 200;
-  background: var(--color-paper);
   color: var(--color-fg);
   font-family: var(--font-mono);
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  clip-path: inset(0 0 0 0);
-  transition: clip-path 0.9s cubic-bezier(0.76, 0, 0.24, 1);
   /* pengaman: kalau JavaScript gagal total, layar tetap hilang sendiri */
   animation: loader-failsafe 0.4s ease 25s forwards;
 }
 .ld[data-phase="ready"] { cursor: pointer; }
-.ld[data-phase="exit"] { clip-path: inset(0 0 100% 0); pointer-events: none; }
+.ld[data-phase="exit"] { pointer-events: none; }
+
+/* Tirai: latar loader = dua daun pintu (kiri & kanan) yang masing-masing memuat setengah layar.
+   Saat keluar, keduanya bergeser menjauh dari garis tengah — "HALO!" ikut terbelah. */
+.ld-door {
+  position: absolute;
+  inset: 0;
+  background: var(--color-paper);
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  transition: transform 1.05s cubic-bezier(0.76, 0, 0.24, 1);
+  will-change: transform;
+}
+.ld-door-l { clip-path: inset(0 50% 0 0); }
+.ld-door-r { clip-path: inset(0 0 0 50%); }
+.ld[data-phase="exit"] .ld-door-l { transform: translateX(-51%); }
+.ld[data-phase="exit"] .ld-door-r { transform: translateX(51%); }
 
 .ld-meta {
   position: absolute;
@@ -225,6 +239,8 @@ html:not([data-loaded]) .flicker-c { opacity: 0; }
   text-transform: uppercase;
   color: var(--color-fg);
 }
+.ld[data-phase="hello"] .ld-meta,
+.ld[data-phase="exit"] .ld-meta { opacity: 0; transition: opacity 0.3s ease; }
 .ld-meta-bl { bottom: 22px; left: 22px; }
 .ld-meta-br { bottom: 22px; right: 22px; font-variant-numeric: tabular-nums; }
 .ld-meta-bc { bottom: 22px; left: 50%; translate: -50% 0; color: var(--color-blue); white-space: nowrap; }
@@ -309,13 +325,6 @@ html:not([data-loaded]) .flicker-c { opacity: 0; }
 .ld-enter { animation: blink 1.1s steps(1, end) infinite; }
 
 .ld-hello {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  pointer-events: none;
-}
-.ld-hello p {
   font-family: var(--font-display);
   font-size: clamp(5rem, 20vw, 14rem);
   line-height: 0.9;
@@ -327,6 +336,10 @@ html:not([data-loaded]) .flicker-c { opacity: 0; }
 .ld[data-phase="exit"] .ld-hello .wv-i { transform: translateY(0) !important; }
 
 .ld[data-short] .ld-hello { display: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ld[data-phase="exit"] .ld-door { opacity: 0; }
+}
 
 @keyframes loader-failsafe {
   to { opacity: 0; visibility: hidden; }

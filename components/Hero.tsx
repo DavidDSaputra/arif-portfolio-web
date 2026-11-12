@@ -5,7 +5,7 @@ import { useRef, type CSSProperties } from "react";
 import { motion, useInView, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { contact, profile, skills, socials } from "@/lib/content";
 import { ArrowUpRight, Instagram, Mail, WhatsApp } from "./icons";
-import { FlickerText, Scramble, WaveText } from "./ui";
+import { FlickerText, OpenBox, Scramble, WaveText } from "./ui";
 import Logo from "./Logo";
 
 const socialIcons = { Instagram, WhatsApp, Email: Mail } as const;
@@ -75,6 +75,11 @@ export default function Hero() {
           <p className="mt-4 text-right font-mono text-sm uppercase text-fg sm:text-lg lg:text-xl">
             <Scramble text={`[${profile.headline}]`} delay={900} />
           </p>
+
+          {/* kotak "ngebuka" (titik → garis → membuka ke bawah → teks naik) */}
+          <OpenBox delay={0.9} className="-mx-[10px] mt-6 max-w-2xl sm:ml-auto sm:mr-[-10px]">
+            <p className="font-mono text-[13px] uppercase leading-[1.5] text-fg sm:text-[15px]">{profile.heroIntro}</p>
+          </OpenBox>
         </motion.div>
 
         <div className="mt-14 flex flex-col gap-10 sm:flex-row sm:items-end sm:justify-between">
@@ -162,7 +167,7 @@ export default function Hero() {
               <Scramble text={`[${contact.ctas.primary}]`} />
               <ArrowUpRight className="h-5 w-5 text-blue transition-transform duration-300 group-hover:rotate-45" />
             </a>
-            <p className="max-w-xl font-mono text-sm leading-relaxed text-fg/80 sm:text-base">{profile.heroIntro}</p>
+            <p className="max-w-xl font-mono text-sm leading-relaxed text-fg/80 sm:text-base">{profile.statementBody}</p>
           </div>
         </div>
       </div>

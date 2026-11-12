@@ -257,6 +257,27 @@ export function PhoneFrame({ children, className = "" }: { children: React.React
 /** Easing "outExpo" — sama dengan animasi Webflow di template Fearless. */
 export const outExpo = [0.19, 1, 0.22, 1] as const;
 
+/** true setelah layar loading selesai (Loader memberi <html data-loaded>). */
+export function usePageLoaded() {
+  const [loaded, setLoaded] = useState(false);
+  useEffect(() => {
+    const html = document.documentElement;
+    if (html.hasAttribute("data-loaded")) {
+      setLoaded(true);
+      return;
+    }
+    const mo = new MutationObserver(() => {
+      if (html.hasAttribute("data-loaded")) {
+        setLoaded(true);
+        mo.disconnect();
+      }
+    });
+    mo.observe(html, { attributes: true, attributeFilter: ["data-loaded"] });
+    return () => mo.disconnect();
+  }, []);
+  return loaded;
+}
+
 /** Posisi 4 kotak sudut (sengaja sedikit tidak rata, persis referensi). */
 const boxCorners = [
   "-left-[5px] -top-[7px]",
@@ -285,7 +306,9 @@ export function OpenBox({
   const reduce = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-12% 0px" });
-  const on = reduce || trigger === "load" || inView;
+  const loaded = usePageLoaded();
+  // tunggu layar loading selesai, supaya animasinya tidak terlewat di balik loader
+  const on = reduce || (loaded && (trigger === "load" || inView));
   const lineDone = delay + 0.8;
 
   return (

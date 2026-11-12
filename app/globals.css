@@ -245,7 +245,8 @@ html:not([data-loaded]) .flicker-c { opacity: 0; }
   display: grid;
   place-items: center;
   pointer-events: none;
-  transition: transform 1.05s cubic-bezier(0.76, 0, 0.24, 1);
+  /* pelan & halus (samakan dengan CURTAIN_MS di Loader.tsx) */
+  transition: transform 1.7s cubic-bezier(0.65, 0, 0.25, 1);
   will-change: transform;
 }
 .ld-door-l { clip-path: inset(0 50% 0 0); }
@@ -286,7 +287,7 @@ html:not([data-loaded]) .flicker-c { opacity: 0; }
   inset: 0;
   display: grid;
   place-items: center;
-  transition: opacity 0.3s ease, transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: opacity 0.5s ease, transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
 }
 .ld[data-phase="hello"] .ld-stage,
 .ld[data-phase="exit"] .ld-stage { opacity: 0; transform: scale(0.94); }
@@ -344,20 +345,80 @@ html:not([data-loaded]) .flicker-c { opacity: 0; }
   transition: opacity 0.3s ease;
 }
 .ld[data-phase="ready"] .ld-hint { opacity: 0; }
+
+/* angka "bernapas" pelan saat siap dibuka */
+.ld[data-phase="ready"] .ld-count { animation: ld-breathe 2.4s ease-in-out infinite; }
+@keyframes ld-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.025); }
+}
+
+/* indikator "Klik untuk membuka" */
+.ld-cta {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 1.6rem);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border: 1px solid var(--color-blue);
+  background: var(--color-blue);
+  color: var(--color-cream);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  opacity: 0;
+  translate: -50% 12px;
+  pointer-events: none;
+  transition: opacity 0.6s ease, translate 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.ld[data-phase="ready"] .ld-cta { opacity: 1; translate: -50% 0; pointer-events: auto; cursor: pointer; }
+.ld[data-phase="hello"] .ld-cta,
+.ld[data-phase="exit"] .ld-cta { opacity: 0; transition-duration: 0.3s; }
+/* cincin berdenyut di sekeliling tombol */
+.ld-cta::before,
+.ld-cta::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border: 1px solid var(--color-blue);
+  opacity: 0;
+  pointer-events: none;
+}
+.ld[data-phase="ready"] .ld-cta::before { animation: ld-ring 1.8s cubic-bezier(0.19, 1, 0.22, 1) infinite; }
+.ld[data-phase="ready"] .ld-cta::after { animation: ld-ring 1.8s cubic-bezier(0.19, 1, 0.22, 1) 0.9s infinite; }
+@keyframes ld-ring {
+  0% { opacity: 0.8; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.35, 1.9); }
+}
+.ld-cta-hand { width: 18px; height: 18px; }
+.ld[data-phase="ready"] .ld-cta-hand { animation: ld-tap 1.2s ease-in-out infinite; }
+@keyframes ld-tap {
+  0%, 100% { transform: translateY(0) scale(1); }
+  40% { transform: translateY(2px) scale(0.9); }
+  55% { transform: translateY(0) scale(1); }
+}
+.ld-cta:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 4px; }
 .ld-enter { animation: blink 1.1s steps(1, end) infinite; }
 
 .ld-hello {
   font-family: var(--font-display);
-  font-size: clamp(5rem, 20vw, 14rem);
-  line-height: 0.9;
+  font-size: clamp(3.75rem, 16vw, 12.5rem);
+  line-height: 0.88;
+  text-align: center;
   text-transform: uppercase;
   color: var(--color-blue);
 }
-.ld-hello .wv-i { transform: translateY(105%); }
+.ld-hello .wv-i {
+  transform: translateY(105%);
+  /* huruf naik satu per satu, lebih lambat dari judul biasa */
+  transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1) calc(var(--i) * 55ms + 120ms);
+}
 .ld[data-phase="hello"] .ld-hello .wv-i,
 .ld[data-phase="exit"] .ld-hello .wv-i { transform: translateY(0) !important; }
 
-.ld[data-short] .ld-hello { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
   .ld[data-phase="exit"] .ld-door { opacity: 0; }

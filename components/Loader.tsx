@@ -7,8 +7,9 @@ import { profile } from "@/lib/content";
  * Layar loading interaktif (konsep "lift" ala yeahright.co):
  * angka 000 → 100 berisi warna yang naik dari bawah, label tahap di sampingnya, timer T+ di atasnya.
  * Interaksi: tahan klik / spasi untuk mempercepat, gerakkan mouse untuk memiringkan angka,
- * nyalakan suara (bunyi "tik" tiap 10 + "ding" saat masuk), lalu klik / Enter untuk masuk → "HALO!" → tirai terbelah dari tengah.
- * Kunjungan berikutnya di sesi yang sama: versi singkat tanpa klik. Selesai → <html data-loaded>.
+ * nyalakan suara (bunyi "tik" tiap 10 + "ding" saat masuk). Di 100% muncul tombol "Klik untuk membuka" →
+ * "YO, WHAT'S UP!" → tirai terbelah dari tengah, pelan & halus. Selalu menunggu klik (juga di kunjungan berikutnya).
+ * Kunjungan berikutnya di sesi yang sama: lift lebih cepat, tetap menunggu klik. Selesai → <html data-loaded>.
  */
 
 type Phase = "count" | "ready" | "hello" | "exit" | "done";
@@ -16,7 +17,9 @@ type Phase = "count" | "ready" | "hello" | "exit" | "done";
 const STEPS = ["Brief", "Konsep", "Produksi", "Editing", "Siap tayang"];
 const BASE_MS = 3200; // durasi 0 → 100 tanpa dipercepat
 const BOOST = 3.5; // kelipatan kecepatan saat ditahan
-const HELLO = "HALO!";
+const HELLO_MS = 2000; // lama "YO, WHAT'S UP!" tampil sebelum tirai terbuka
+const CURTAIN_MS = 1700; // durasi tirai terbuka (samakan dengan .ld-door di globals.css)
+const HELLO = ["YO,", "WHAT'S UP!"];
 
 /* ── suara kecil tanpa file (WebAudio) ── */
 function useBeeper() {
@@ -49,7 +52,6 @@ function useBeeper() {
 
 export default function Loader() {
   const [phase, setPhase] = useState<Phase>("count");
-  const [short, setShort] = useState(false);
   const [sound, setSound] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const countRef = useRef<HTMLSpanElement>(null);
@@ -59,6 +61,10 @@ export default function Loader() {
   const boostRef = useRef(false);
   const soundRef = useRef(false);
   const phaseRef = useRef<Phase>("count");
+  // klik hanya dihitung bila tombol ditekan SETELAH angka mencapai 100 (tahan-untuk-mempercepat tidak langsung membuka)
+  const readyAtRef = useRef(Infinity);
+  const downAtRef = useRef(0);
+  const ctaRef = useRef<HTMLButtonElement>(null);
   const beeper = useBeeper();
 
   phaseRef.current = phase;
@@ -84,9 +90,9 @@ export default function Loader() {
       sessionStorage.setItem("loader-seen", "1");
       setSound(localStorage.getItem("loader-sound") === "1");
     } catch {}
-    setShort(seen);
 
-    const total = reduce ? 1 : seen ? 650 : BASE_MS;
+    // kunjungan berikutnya: lift lebih cepat, tapi tetap menunggu klik
+    const total = reduce ? 1 : seen ? 1600 : BASE_MS;
     let value = 0; // 0..1
     let last = performance.now();
     const t0 = last;
@@ -118,16 +124,21 @@ export default function Loader() {
       const eased = value < 1 ? 1 - Math.pow(1 - value, 1.6) : 1;
       render(eased, now);
       if (value < 1) raf = requestAnimationFrame(tick);
-      else if (seen) {
-        // kunjungan berikutnya: langsung buka tanpa klik
-        setPhase("exit");
-        document.documentElement.setAttribute("data-loaded", "");
-      } else setPhase("ready");
+      else {
+        readyAtRef.current = performance.now();
+        if (soundRef.current) beeper.tone(1040, 0.12, "triangle", 0.05);
+        setPhase("ready");
+      }
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // fokus keyboard ke tombol "Klik untuk membuka" saat siap
+  useEffect(() => {
+    if (phase === "ready") ctaRef.current?.focus({ preventScroll: true });
+  }, [phase]);
 
   // urutan keluar
   useEffect(() => {
@@ -135,11 +146,11 @@ export default function Loader() {
       const id = window.setTimeout(() => {
         document.documentElement.setAttribute("data-loaded", "");
         setPhase("exit");
-      }, 1100);
+      }, HELLO_MS);
       return () => window.clearTimeout(id);
     }
     if (phase === "exit") {
-      const id = window.setTimeout(() => setPhase("done"), 1150);
+      const id = window.setTimeout(() => setPhase("done"), CURTAIN_MS + 150);
       return () => window.clearTimeout(id);
     }
   }, [phase]);
@@ -210,31 +221,45 @@ export default function Loader() {
       aria-modal="true"
       aria-label="Layar pembuka portofolio"
       data-phase={phase}
-      data-short={short ? "" : undefined}
       data-lenis-prevent
       className="ld"
       onPointerMove={onMove}
       onPointerDown={() => {
+        downAtRef.current = performance.now();
         if (phaseRef.current === "count") boostRef.current = true;
       }}
       onPointerUp={() => (boostRef.current = false)}
       onPointerCancel={() => (boostRef.current = false)}
-      onClick={enter}
+      onClick={() => {
+        if (downAtRef.current >= readyAtRef.current) enter();
+      }}
+      data-cursor={phase === "ready" ? "Klik untuk membuka" : undefined}
     >
-      {/* tirai dua daun; "HALO!" muncul di atasnya lalu ikut terbelah saat tirai terbuka */}
-      {(["l", "r"] as const).map((side) => (
-        <div key={side} className={`ld-door ld-door-${side}`} aria-hidden>
-          <p className="ld-hello">
-            {[...HELLO].map((ch, i) => (
-              <span key={i} className="wv-c">
-                <span className="wv-i" style={{ "--i": i } as CSSProperties}>
-                  {ch}
+      {/* tirai dua daun; "YO, WHAT'S UP!" muncul di atasnya lalu ikut terbelah saat tirai terbuka */}
+      {(["l", "r"] as const).map((side) => {
+        let i = 0;
+        return (
+          <div key={side} className={`ld-door ld-door-${side}`} aria-hidden>
+            <p className="ld-hello">
+              {HELLO.map((line) => (
+                <span key={line} className="block whitespace-nowrap">
+                  {[...line].map((ch, ci) =>
+                    ch === " " ? (
+                      <span key={ci}> </span>
+                    ) : (
+                      <span key={ci} className="wv-c">
+                        <span className="wv-i" style={{ "--i": i++ } as CSSProperties}>
+                          {ch}
+                        </span>
+                      </span>
+                    ),
+                  )}
                 </span>
-              </span>
-            ))}
-          </p>
-        </div>
-      ))}
+              ))}
+            </p>
+          </div>
+        );
+      })}
 
       <p className="ld-meta ld-meta-tl">[{profile.handle.toUpperCase()}]</p>
       <p className="ld-meta ld-meta-tr">Portofolio — {profile.role}</p>
@@ -251,6 +276,20 @@ export default function Loader() {
             <span ref={stepRef}>{STEPS[0]}</span>
           </span>
           <span className="ld-hint">[Tahan untuk mempercepat]</span>
+          {/* indikator: muncul saat 100% */}
+          <button ref={ctaRef} type="button" className="ld-cta" tabIndex={phase === "ready" ? 0 : -1} aria-hidden={phase !== "ready"}>
+            <svg viewBox="0 0 24 24" className="ld-cta-hand" aria-hidden>
+              <path
+                d="M9 11V5.5a1.5 1.5 0 0 1 3 0V10m0-.5V8a1.5 1.5 0 0 1 3 0v2m0-.5a1.5 1.5 0 0 1 3 0V14a6 6 0 0 1-6 6h-.6a6 6 0 0 1-4.6-2.2L4.6 15a1.5 1.5 0 0 1 2.2-2L9 15"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            Klik untuk membuka
+          </button>
         </div>
       </div>
 
@@ -264,7 +303,7 @@ export default function Loader() {
       </button>
 
       <p className="ld-meta ld-meta-bc" aria-live="polite">
-        {phase === "ready" ? <span className="ld-enter">[Klik untuk masuk]</span> : phase === "count" ? "[Memuat…]" : "[Selamat datang]"}
+        {phase === "ready" ? <span className="ld-enter">[Klik di mana saja / Enter]</span> : phase === "count" ? "[Memuat…]" : "[Selamat datang]"}
       </p>
 
       <span ref={stepNoRef} className="ld-meta ld-meta-br">

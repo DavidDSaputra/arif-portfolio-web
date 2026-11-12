@@ -48,7 +48,7 @@ function ReelScreen({ m }: { m: VideoMedia }) {
       {m.src ? (
         <button type="button" onClick={toggle} className="absolute inset-0" aria-label={`${playing ? "Jeda" : "Putar"} video: ${m.poster.alt}`} />
       ) : (
-        <span className="absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-navy/85 px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-sky">
+        <span className="absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-navy/85 px-3 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-cream">
           Video menyusul
         </span>
       )}

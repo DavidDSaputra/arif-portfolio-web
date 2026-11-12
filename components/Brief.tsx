@@ -44,7 +44,7 @@ export default function Brief() {
   const errors = status.type === "error" ? status.errors : {};
 
   return (
-    <section id="brief" aria-labelledby="brief-title" className="relative scroll-mt-20 overflow-hidden bg-blue text-white">
+    <section id="brief" aria-labelledby="brief-title" className="relative scroll-mt-20 overflow-hidden bg-blue text-cream">
       <div className="mx-auto grid max-w-[1440px] gap-12 px-4 py-20 sm:px-8 md:py-28 lg:grid-cols-12">
         <div className="lg:col-span-5">
           <h2 id="brief-title" className="display text-[clamp(2.5rem,6.5vw,5.25rem)]">
@@ -71,7 +71,7 @@ export default function Brief() {
                   onChange={(e) => setF((p) => ({ ...p, [d.key]: e.target.value }))}
                   aria-invalid={!!errors[d.key]}
                   aria-describedby={errors[d.key] ? `brief-${d.key}-err` : undefined}
-                  className="mt-2 w-full border-b-2 border-white/70 bg-transparent py-3 font-mono text-lg outline-none placeholder:text-white/50 focus:border-ice"
+                  className="mt-2 w-full border-b-2 border-cream/70 bg-transparent py-3 font-mono text-lg outline-none placeholder:text-cream/60 focus:border-white"
                 />
                 {errors[d.key] && (
                   <p id={`brief-${d.key}-err`} className="mt-2 font-mono text-xs font-semibold">
@@ -84,7 +84,7 @@ export default function Brief() {
 
           <button
             type="submit"
-            className="group mt-10 inline-flex items-center gap-3 rounded-full bg-navy px-7 py-4 font-mono text-sm font-semibold uppercase tracking-[0.14em] text-fg transition-colors hover:bg-sky hover:text-navy"
+            className="group mt-10 inline-flex items-center gap-3 rounded-full bg-cream px-7 py-4 font-mono text-sm font-bold uppercase tracking-[0.14em] text-blue transition-colors hover:bg-white"
           >
             Kirim via WhatsApp
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -98,10 +98,10 @@ export default function Brief() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0 }}
-                  className="rounded-xl bg-navy px-5 py-4 font-mono text-sm text-white"
+                  className="rounded-xl bg-navy px-5 py-4 font-mono text-sm text-cream"
                 >
                   ✓ Mantap, {f.name.trim()}! WhatsApp sudah dibuka di tab baru. Tidak terbuka?{" "}
-                  <a href={status.link} target="_blank" rel="noopener noreferrer" className="text-ice underline underline-offset-4">
+                  <a href={status.link} target="_blank" rel="noopener noreferrer" className="text-cream underline underline-offset-4">
                     Klik di sini
                   </a>
                   .

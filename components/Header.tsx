@@ -27,14 +27,14 @@ export default function Header() {
       <div className="mx-auto flex max-w-[1440px] items-center justify-between gap-3 px-4 py-4 sm:px-8">
         <Link
           href="/"
-          className="flex items-center gap-2 rounded-full border border-fg/15 bg-navy/70 py-1.5 pl-1.5 pr-4 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] backdrop-blur-md transition-colors hover:border-sky hover:text-ice sm:text-xs"
+          className="flex items-center gap-2 rounded-full border border-fg/15 bg-paper/80 py-1.5 pl-1.5 pr-4 font-mono text-[11px] font-semibold uppercase tracking-[0.2em] backdrop-blur-md transition-colors hover:border-blue hover:text-navy sm:text-xs"
         >
           <Logo size={24} className="rounded-[7px]" />
           My Portfolio
         </Link>
 
         <div className="flex items-center gap-3">
-          <span className="hidden rounded-full border border-fg/15 bg-navy/70 px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.2em] backdrop-blur-md md:inline">
+          <span className="hidden rounded-full border border-fg/15 bg-paper/80 px-4 py-2 font-mono text-xs font-semibold uppercase tracking-[0.2em] backdrop-blur-md md:inline">
             {profile.label}
           </span>
           <button
@@ -43,7 +43,7 @@ export default function Header() {
             aria-expanded={open}
             aria-controls="site-menu"
             aria-label="Buka menu"
-            className="grid h-11 w-11 place-items-center rounded-full bg-sky text-navy ring-2 ring-navy transition-transform hover:rotate-90"
+            className="grid h-11 w-11 place-items-center rounded-full bg-blue text-cream ring-2 ring-paper transition-transform hover:rotate-90"
           >
             <MenuDots className="h-5 w-5" />
           </button>
@@ -58,7 +58,7 @@ export default function Header() {
             aria-modal="true"
             aria-label="Menu navigasi"
             data-lenis-prevent
-            className="fixed inset-0 z-50 flex flex-col overflow-y-auto overscroll-contain bg-blue text-white"
+            className="fixed inset-0 z-50 flex flex-col overflow-y-auto overscroll-contain bg-blue text-cream"
             initial={reduce ? { opacity: 0 } : { clipPath: "circle(0% at 95% 4%)" }}
             animate={reduce ? { opacity: 1 } : { clipPath: "circle(150% at 95% 4%)" }}
             exit={reduce ? { opacity: 0 } : { clipPath: "circle(0% at 95% 4%)" }}
@@ -71,7 +71,7 @@ export default function Header() {
                 autoFocus
                 onClick={() => setOpen(false)}
                 aria-label="Tutup menu"
-                className="grid h-11 w-11 place-items-center rounded-full bg-navy text-sky"
+                className="grid h-11 w-11 place-items-center rounded-full bg-cream text-blue"
               >
                 <Close className="h-5 w-5" />
               </button>
@@ -90,7 +90,7 @@ export default function Header() {
                     <Link
                       href={n.href}
                       onClick={() => setOpen(false)}
-                      className="group flex items-baseline gap-4 border-b border-white/25 py-2 sm:py-3"
+                      className="group flex items-baseline gap-4 border-b border-cream/30 py-2 sm:py-3"
                     >
                       <span className="font-mono text-xs font-semibold">0{i + 1}</span>
                       {/* ukuran ikut lebar DAN tinggi layar → muat di laptop lebar-pendek (zoom 100%) */}

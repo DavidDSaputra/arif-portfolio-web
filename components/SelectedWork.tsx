@@ -27,10 +27,10 @@ export default function SelectedWork() {
     <section id="work" aria-labelledby="work-title" className="relative scroll-mt-20 bg-deep text-fg">
       <div className="mx-auto max-w-[1440px] px-4 py-24 sm:px-8 md:py-32">
         <Reveal className="grid gap-6 md:grid-cols-12 md:items-end">
-          <p className="display text-[clamp(3rem,9vw,7.5rem)] text-sky md:col-span-7">{sectionCopy.work.range}</p>
+          <p className="display text-[clamp(3rem,9vw,7.5rem)] text-blue md:col-span-7">{sectionCopy.work.range}</p>
           <div className="md:col-span-5 md:pb-3 md:text-right">
             <h2 id="work-title" className="font-mono text-xs font-semibold uppercase tracking-[0.18em] sm:text-sm">
-              <span className="text-sky">{sectionCopy.work.kicker}</span>{" "}
+              <span className="text-blue">{sectionCopy.work.kicker}</span>{" "}
               <span className="mt-1 block text-mute sm:inline">{sectionCopy.work.tag}</span>
             </h2>
           </div>
@@ -64,7 +64,7 @@ export default function SelectedWork() {
                 <span className="display col-span-2 text-[clamp(2rem,6.5vw,5.25rem)] transition-transform duration-500 group-hover:translate-x-3 md:col-span-1">
                   {w.title}
                 </span>
-                <span className="col-start-2 row-start-1 grid h-11 w-11 place-items-center rounded-full border-2 border-fg transition-all duration-300 group-hover:rotate-45 group-hover:bg-sky group-hover:text-ice md:col-start-4 md:h-14 md:w-14">
+                <span className="col-start-2 row-start-1 grid h-11 w-11 place-items-center rounded-full border-2 border-fg transition-all duration-300 group-hover:rotate-45 group-hover:bg-blue group-hover:text-cream md:col-start-4 md:h-14 md:w-14">
                   <ArrowUpRight className="h-5 w-5" />
                 </span>
                 {/* thumbnail mobile */}

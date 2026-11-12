@@ -9,13 +9,13 @@ import { ArrowUpRight, Spark } from "./icons";
 export function Kicker({ title, tag, className = "" }: { title: string; tag?: string; className?: string }) {
   return (
     <p className={`font-mono text-xs font-semibold uppercase tracking-[0.18em] sm:text-sm ${className}`}>
-      <span className="text-sky">{title}</span>
+      <span className="text-blue">{title}</span>
       {tag && <span className="mt-1 block text-mute sm:ml-3 sm:mt-0 sm:inline">{tag}</span>}
     </p>
   );
 }
 
-/** Judul display dengan huruf awal script bercahaya (gaya PDF) */
+/** Judul display (Ranga, huruf besar, biru) */
 export function ScriptTitle({
   words,
   as: Tag = "h2",
@@ -28,16 +28,8 @@ export function ScriptTitle({
   className?: string;
 }) {
   return (
-    <Tag id={id} className={`display text-sky ${className}`}>
-      {words.map((w, i) => (
-        <span key={i} className="mr-[0.25em] inline-block whitespace-nowrap last:mr-0">
-          <span aria-hidden className="script-glow -mr-[0.08em] inline-block translate-y-[0.08em] text-[1.15em] normal-case">
-            {w[0]}
-          </span>
-          <span aria-hidden>{w.slice(1)}</span>
-        </span>
-      ))}
-      <span className="sr-only">{words.join(" ")}</span>
+    <Tag id={id} className={`display text-blue ${className}`}>
+      {words.join(" ")}
     </Tag>
   );
 }
@@ -63,7 +55,7 @@ export function SlideHeader({
     <Reveal className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
       <ScriptTitle id={id} words={words} className={titleClassName} />
       <div className="lg:max-w-[46%] lg:shrink-0 lg:pb-3 lg:text-right">
-        <p className="display text-[clamp(1.5rem,3.6vw,3rem)] text-fg [text-shadow:0_0_28px_rgba(96,193,229,0.55)]">
+        <p className="display text-[clamp(1.5rem,3.6vw,3rem)] text-navy">
           {lines.map((l) => (
             <span key={l} className="block">
               {l}
@@ -80,7 +72,7 @@ export function SlideHeader({
 export function NumLabel({ no, children }: { no: string; children: React.ReactNode }) {
   return (
     <p className="mb-4 flex items-baseline gap-2 font-mono text-xs font-semibold uppercase tracking-[0.2em] sm:text-sm">
-      <span className="text-sky">[{no}]</span>
+      <span className="text-blue">[{no}]</span>
       <span>{children}</span>
     </p>
   );
@@ -91,7 +83,7 @@ export function DetailLink({ href, label = "Lihat detail project" }: { href: str
   return (
     <Link
       href={href}
-      className="group inline-flex items-center gap-2 rounded-full bg-sky px-6 py-3 font-mono text-xs font-semibold uppercase tracking-[0.14em] text-navy transition-colors duration-300 hover:bg-ice sm:text-sm"
+      className="group inline-flex items-center gap-2 rounded-full border-2 border-blue bg-cream px-6 py-3 font-mono text-xs font-bold uppercase tracking-[0.14em] text-blue transition-colors duration-300 hover:bg-blue hover:text-cream sm:text-sm"
     >
       {label}
       <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:rotate-45" />
@@ -156,7 +148,7 @@ export function OpenBox({
         transition={{ delay, duration: 0.4, ease: outExpo }}
       >
         <motion.div
-          className="absolute left-0 top-0 border-[1.6px] border-sky/50 bg-deep/70"
+          className="absolute left-0 top-0 border-[1.6px] border-blue/60 bg-cream/85"
           initial={reduce ? false : { width: "0%", height: "0%" }}
           animate={on ? { width: "100%", height: "100%" } : { width: "0%", height: "0%" }}
           transition={{
@@ -167,7 +159,7 @@ export function OpenBox({
           {boxCorners.map((pos) => (
             <motion.span
               key={pos}
-              className={`absolute size-3 border-[1.6px] border-sky bg-navy ${pos}`}
+              className={`absolute size-3 border-[1.6px] border-blue bg-cream ${pos}`}
               initial={reduce ? false : { scale: 0 }}
               animate={{ scale: on ? 1 : 0 }}
               transition={{ delay, duration: 0.4, ease: outExpo }}
@@ -230,7 +222,7 @@ export function Marquee({
       {items.map((t) => (
         <li key={t} className="flex items-center">
           <span className="px-6 sm:px-10">{t}</span>
-          <Spark className="h-[0.5em] w-[0.5em] shrink-0 text-white" />
+          <Spark className="h-[0.5em] w-[0.5em] shrink-0 text-cream" />
         </li>
       ))}
     </ul>
@@ -269,8 +261,8 @@ export function Pill({
 }) {
   const styles =
     variant === "solid"
-      ? "bg-sky text-navy hover:bg-ice"
-      : "border border-fg/25 text-fg hover:border-sky hover:text-ice";
+      ? "border-2 border-blue bg-cream text-blue hover:bg-blue hover:text-cream"
+      : "border-2 border-blue/40 text-blue hover:border-blue hover:bg-blue hover:text-cream";
   return (
     <a
       href={href}

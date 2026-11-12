@@ -40,7 +40,7 @@ export default function MediaItem({ m, index }: { m: Media; index: number }) {
                 <Play className="ml-1 h-7 w-7" />
               </span>
             </div>
-            <span className="absolute bottom-3 left-3 rounded-full bg-navy/85 px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-sky">
+            <span className="absolute bottom-3 left-3 rounded-full bg-navy/85 px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-cream">
               Video menyusul
             </span>
           </>
@@ -48,7 +48,7 @@ export default function MediaItem({ m, index }: { m: Media; index: number }) {
       </div>
       {m.caption && (
         <figcaption className="mt-3 font-mono text-xs uppercase tracking-[0.14em] text-mute">
-          <span className="text-sky">{String(index + 1).padStart(2, "0")}</span> — {m.caption}
+          <span className="text-blue">{String(index + 1).padStart(2, "0")}</span> — {m.caption}
         </figcaption>
       )}
     </motion.figure>

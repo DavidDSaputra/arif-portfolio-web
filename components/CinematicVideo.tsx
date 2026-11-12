@@ -43,7 +43,7 @@ function CinemaScreen({ m }: { m: VideoMedia }) {
           <Play className="ml-1 h-7 w-7" />
         </span>
       </div>
-      <span className="absolute bottom-3 left-3 rounded-full bg-navy/85 px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-sky">
+      <span className="absolute bottom-3 left-3 rounded-full bg-navy/85 px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-[0.14em] text-cream">
         Video menyusul
       </span>
     </>

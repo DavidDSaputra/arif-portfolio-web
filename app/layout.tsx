@@ -1,41 +1,25 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, IBM_Plex_Mono, Instrument_Serif, Pinyon_Script } from "next/font/google";
+import { Fustat, Ranga } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import ScrollToTop from "@/components/ScrollToTop";
 import SiteDock from "@/components/SiteDock";
 import Crosshair from "@/components/reactbits/Crosshair";
-import NoiseBackground from "@/components/NoiseBackground";
 import Loader from "@/components/Loader";
 import { site, profile } from "@/lib/content";
 
-const archivo = Archivo({
+// Font ala pontofuba.com: Ranga (judul, condensed) + Fustat (teks)
+const ranga = Ranga({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-ranga",
+  display: "swap",
+});
+
+const fustat = Fustat({
   subsets: ["latin"],
   weight: "variable",
-  variable: "--font-archivo",
-  display: "swap",
-});
-
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-plex-mono",
-  display: "swap",
-});
-
-const script = Pinyon_Script({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-pinyon",
-  display: "swap",
-});
-
-// Serif italic untuk judul hero (gaya andreas.vision)
-const serif = Instrument_Serif({
-  subsets: ["latin"],
-  weight: "400",
-  style: ["italic"],
-  variable: "--font-instrument",
+  variable: "--font-fustat",
   display: "swap",
 });
 
@@ -58,22 +42,20 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#1B365D",
+  themeColor: "#DCEDF5",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="id" className={`${archivo.variable} ${plexMono.variable} ${script.variable} ${serif.variable}`}>
+    <html lang="id" className={`${ranga.variable} ${fustat.variable}`}>
       <body className="grain min-h-dvh">
         <noscript>
           <style>{"#site-loader{display:none}"}</style>
         </noscript>
         <Loader />
-        {/* Latar shader noise di belakang bagian setelah hero */}
-        <NoiseBackground />
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-blue focus:px-4 focus:py-2 focus:text-white"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-blue focus:px-4 focus:py-2 focus:text-cream"
         >
           Lompat ke konten
         </a>
@@ -83,9 +65,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ScrollToTop />
         </SmoothScroll>
         {/* React Bits — Crosshair di seluruh halaman (tanpa containerRef = menutupi viewport).
-            Navy agar tetap terlihat di latar putih maupun blok biru; pointer-events none, jadi tidak menghalangi klik. */}
+            Biru agar terlihat di latar pastel; pointer-events none, jadi tidak menghalangi klik. */}
         <Crosshair
-          color="#A0E0EF"
+          color="#005A9C"
           targetEffect="lock"
           thickness={1}
           opacity={0.5}

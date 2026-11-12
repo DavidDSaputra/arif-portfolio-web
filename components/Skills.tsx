@@ -59,7 +59,7 @@ export default function Skills() {
                     className="object-contain p-[6%] drop-shadow-[0_0_18px_rgba(0,90,156,0.45)]"
                   />
                 </div>
-                <span className="mt-3 text-center font-mono text-[10px] uppercase tracking-[0.14em] text-mute transition-colors group-hover:text-ice sm:text-xs">
+                <span className="mt-3 text-center font-mono text-[10px] uppercase tracking-[0.14em] text-mute transition-colors group-hover:text-navy sm:text-xs">
                   {l.name}
                 </span>
               </motion.li>
@@ -68,8 +68,8 @@ export default function Skills() {
         </div>
       </div>
 
-      <div className="rotate-1 border-y border-sky py-4 text-sky">
-        <Marquee items={[...new Set([...skills.logos.map((l) => l.name), ...skills.software])]} reverse duration={40} className="display text-[clamp(1.5rem,4vw,2.75rem)] [&_svg]:text-sky" />
+      <div className="rotate-1 border-y border-blue py-4 text-blue">
+        <Marquee items={[...new Set([...skills.logos.map((l) => l.name), ...skills.software])]} reverse duration={40} className="display text-[clamp(1.5rem,4vw,2.75rem)] [&_svg]:text-blue" />
       </div>
     </section>
   );

@@ -207,12 +207,12 @@ function drawStrap(mono: string) {
 }
 
 export async function buildIdCardImages(): Promise<IdCardImages> {
-  const display = fontVar("--font-archivo", "Arial Black, sans-serif");
-  const mono = fontVar("--font-plex-mono", "monospace");
-  const script = fontVar("--font-pinyon", "cursive");
+  const display = fontVar("--font-ranga", "Arial Narrow, sans-serif");
+  const mono = fontVar("--font-fustat", "sans-serif");
+  const script = fontVar("--font-ranga", "sans-serif");
 
   await Promise.all([
-    document.fonts.load(`900 100px ${display}`),
+    document.fonts.load(`700 100px ${display}`),
     document.fonts.load(`600 30px ${mono}`),
     document.fonts.load(`500 30px ${mono}`),
     document.fonts.load(`400 100px ${script}`),

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useReducedMotion, motion } from "motion/react";
 import type { Media } from "@/lib/content";
 import { Play } from "./icons";
+import AutoplayVideo from "./AutoplayVideo";
 
 /** Satu item media di halaman detail: gambar, video, atau slot video yang belum diisi. */
 export default function MediaItem({ m, index }: { m: Media; index: number }) {
@@ -22,6 +23,9 @@ export default function MediaItem({ m, index }: { m: Media; index: number }) {
       <div className="relative overflow-hidden rounded-xl bg-deep" style={{ aspectRatio: `${ratio}` }}>
         {m.kind === "image" ? (
           <Image src={m.src} alt={m.alt} fill sizes={wide ? "100vw" : "(min-width: 768px) 33vw, 100vw"} className="object-contain" />
+        ) : m.src && ratio < 1 ? (
+          // reels vertikal: preview tanpa suara yang main otomatis
+          <AutoplayVideo src={m.src} poster={m.poster.src} label={m.poster.alt} className="absolute inset-0 h-full w-full object-cover" />
         ) : m.src ? (
           <video
             src={m.src}

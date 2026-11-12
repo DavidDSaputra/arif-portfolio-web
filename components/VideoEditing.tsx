@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useState } from "react";
+import AutoplayVideo from "./AutoplayVideo";
 import { motion, useReducedMotion } from "motion/react";
 import { getWork, showcases, type Media } from "@/lib/content";
 import { Play } from "./icons";
@@ -9,28 +10,18 @@ import { DetailLink, PhoneFrame, SlideHeader, outExpo } from "./ui";
 
 type VideoMedia = Extract<Media, { kind: "video" }>;
 
-/** Layar HP: poster + "Video menyusul", atau video yang main saat di-hover / diketuk. */
+/** Layar HP: preview video yang otomatis main tanpa suara saat terlihat, atau poster + "Video menyusul". */
 function ReelScreen({ m }: { m: VideoMedia }) {
-  const ref = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
 
-  const play = () => ref.current?.play().catch(() => {});
-  const pause = () => ref.current?.pause();
-  const toggle = () => (ref.current?.paused ? play() : pause());
-
   return (
-    <div className="relative aspect-[9/16] w-full bg-deep" onMouseEnter={m.src ? play : undefined} onMouseLeave={m.src ? pause : undefined}>
+    <div className="relative aspect-[9/16] w-full bg-deep">
       {m.src ? (
-        <video
-          ref={ref}
+        <AutoplayVideo
           src={m.src}
           poster={m.poster.src}
-          muted
-          loop
-          playsInline
-          preload="none"
-          onPlay={() => setPlaying(true)}
-          onPause={() => setPlaying(false)}
+          label={m.poster.alt}
+          onPlayingChange={setPlaying}
           className="absolute inset-0 h-full w-full object-cover"
         />
       ) : (
@@ -45,11 +36,16 @@ function ReelScreen({ m }: { m: VideoMedia }) {
         </div>
       )}
 
-      {m.src ? (
-        <button type="button" onClick={toggle} className="absolute inset-0" aria-label={`${playing ? "Jeda" : "Putar"} video: ${m.poster.alt}`} />
-      ) : (
+      {!m.src && (
         <span className="absolute bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-paper/85 px-3 py-1 font-mono text-[10px] uppercase text-fg">
           Video menyusul
+        </span>
+      )}
+
+      {/* label kecil "preview" saat video sedang main */}
+      {m.src && playing && (
+        <span className="pointer-events-none absolute left-2 top-2 flex items-center gap-1.5 rounded-full bg-black/45 px-2 py-0.5 font-mono text-[9px] uppercase text-white backdrop-blur-sm">
+          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500" /> Preview
         </span>
       )}
     </div>

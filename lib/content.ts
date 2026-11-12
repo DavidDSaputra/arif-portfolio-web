@@ -300,10 +300,10 @@ export const works: Work[] = [
       { label: "Hook", value: "“Cuma 9 juta aja”, “Mau tampil keren tapi budget ga nyampe?”" },
     ],
     media: [
-      { kind: "video", poster: reelPoster(1, 1280, 2276, "Frame reels: MPV Kia hitam di jalan perumahan"), caption: "Reels 01" },
-      { kind: "video", poster: reelPoster(2, 1280, 2276, "Frame reels: “Mobil seharga Avanza tapi senyaman Innova”"), caption: "Reels 02" },
-      { kind: "video", poster: reelPoster(3, 406, 720, "Frame reels: BMW silver di showroom dengan teks “Cuma 9 juta aja”"), caption: "Reels 03" },
-      { kind: "video", poster: reelPoster(4, 1280, 2276, "Frame reels: sedan hitam modifikasi dengan teks “Mau tampil keren tapi budget ga nyampe?”"), caption: "Reels 04" },
+      { kind: "video", src: "/videos/reel-1.mp4", poster: reelPoster(1, 1280, 2276, "Frame reels: MPV Kia hitam di jalan perumahan"), caption: "Reels 01" },
+      { kind: "video", src: "/videos/reel-2.mp4", poster: reelPoster(2, 1280, 2276, "Frame reels: “Mobil seharga Avanza tapi senyaman Innova”"), caption: "Reels 02" },
+      { kind: "video", src: "/videos/reel-3.mp4", poster: reelPoster(3, 406, 720, "Frame reels: BMW silver di showroom dengan teks “Cuma 9 juta aja”"), caption: "Reels 03" },
+      { kind: "video", src: "/videos/reel-4.mp4", poster: reelPoster(4, 1280, 2276, "Frame reels: sedan hitam modifikasi dengan teks “Mau tampil keren tapi budget ga nyampe?”"), caption: "Reels 04" },
     ],
   },
   {

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRef } from "react";
 import { motion, useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { contact, marquee, profile, socials } from "@/lib/content";
-import { ArrowRight, Instagram, LongArrow, Mail, Spark, WhatsApp } from "./icons";
+import { ArrowRight, Instagram, LongArrow, Mail, WhatsApp } from "./icons";
 import { Marquee, OpenBox, Pill, Reveal, outExpo } from "./ui";
 import PixelSky from "./PixelSky";
 import PixelHeadline from "./PixelHeadline";
@@ -145,7 +145,6 @@ export default function Hero() {
             </Pill>
           </div>
         </Reveal>
-        <Spark aria-hidden className="pointer-events-none absolute right-6 top-6 hidden h-12 w-12 text-sky motion-safe:animate-spin-slow md:block" />
       </div>
 
       <div className="-rotate-2 scale-105 bg-blue py-4 text-white sm:py-5">

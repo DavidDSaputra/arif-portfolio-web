@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import { experience, profile, sectionCopy, skills } from "@/lib/content";
-import { CircleBadge, Squiggle } from "./icons";
+import { Squiggle } from "./icons";
 import { Kicker, Reveal, ScriptTitle } from "./ui";
 import IdLanyard from "./IdLanyard";
 
@@ -18,10 +18,6 @@ export default function About() {
           <p className="pointer-events-none mt-2 text-center font-mono text-[11px] uppercase tracking-[0.18em] text-mute">
             [ Tarik kartunya · klik untuk membalik ]
           </p>
-          <CircleBadge
-            text="ARSMTHHH • CREATIVE DESIGN • "
-            className="pointer-events-none absolute bottom-10 -right-2 h-28 w-28 text-sky motion-safe:animate-spin-slow sm:h-36 sm:w-36"
-          />
         </div>
 
         {/* Teks */}

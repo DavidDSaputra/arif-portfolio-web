@@ -90,11 +90,19 @@ export function FlickerText({
     >
       <span className="sr-only">{lines.join(" ")}</span>
       {lines.map((line, li) => (
-        <span key={li} aria-hidden className="block whitespace-nowrap">
-          {[...line].map((ch, ci) => (
-            <span key={ci} className="flicker-c" style={{ "--i": i++ } as CSSProperties}>
-              {ch === " " ? " " : ch}
-            </span>
+        <span key={li} aria-hidden className="block">
+          {line.split(" ").map((word, wi, arr) => (
+            <Fragment key={wi}>
+              {/* huruf dikelompokkan per kata → kalau tidak muat, pindah baris hanya di spasi */}
+              <span className="inline-block whitespace-nowrap">
+                {[...word].map((ch) => (
+                  <span key={i} className="flicker-c" style={{ "--i": i++ } as CSSProperties}>
+                    {ch}
+                  </span>
+                ))}
+              </span>
+              {wi < arr.length - 1 ? " " : null}
+            </Fragment>
           ))}
         </span>
       ))}
@@ -184,7 +192,7 @@ export function ScriptTitle({
   id?: string;
   className?: string;
 }) {
-  return <WaveText as={Tag} id={id} lines={[words.join(" ")]} className={`display text-fg ${className}`} />;
+  return <WaveText as={Tag} id={id} lines={[words.join(" ")]} className={`display min-w-0 text-fg ${className}`} lineClassName="!whitespace-normal" />;
 }
 
 /* ── Bagian bersama untuk section "slide" ── */

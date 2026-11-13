@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Anton, Share_Tech_Mono, Silkscreen } from "next/font/google";
+import { Anton, Silkscreen } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import ScrollToTop from "@/components/ScrollToTop";
@@ -16,10 +17,18 @@ const anton = Anton({
   display: "swap",
 });
 
-const shareTech = Share_Tech_Mono({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-share-tech",
+// Font teks utama: Poppins (file lokal, lisensi OFL di app/fonts/poppins/OFL.txt)
+const poppins = localFont({
+  src: [
+    { path: "./fonts/poppins/Poppins-Light.ttf", weight: "300", style: "normal" },
+    { path: "./fonts/poppins/Poppins-Regular.ttf", weight: "400", style: "normal" },
+    { path: "./fonts/poppins/Poppins-Italic.ttf", weight: "400", style: "italic" },
+    { path: "./fonts/poppins/Poppins-Medium.ttf", weight: "500", style: "normal" },
+    { path: "./fonts/poppins/Poppins-MediumItalic.ttf", weight: "500", style: "italic" },
+    { path: "./fonts/poppins/Poppins-SemiBold.ttf", weight: "600", style: "normal" },
+    { path: "./fonts/poppins/Poppins-Bold.ttf", weight: "700", style: "normal" },
+  ],
+  variable: "--font-poppins",
   display: "swap",
 });
 
@@ -54,7 +63,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="id" className={`${anton.variable} ${shareTech.variable} ${silkscreen.variable}`}>
+    <html lang="id" className={`${anton.variable} ${poppins.variable} ${silkscreen.variable}`}>
       <body className="grain min-h-dvh">
         <noscript>
           <style>{"#site-loader{display:none}"}</style>

@@ -82,13 +82,13 @@ export default function About() {
                   aria-expanded={isOpen}
                   aria-controls={`exp-${e.no}`}
                   data-cursor={isOpen ? "Tutup" : "Detail"}
-                  className="group grid w-full grid-cols-[2.5rem_1fr_auto] items-baseline gap-x-4 gap-y-2 py-6 text-left transition-colors hover:bg-panel sm:grid-cols-[4rem_1fr_auto_2rem] sm:px-4 sm:py-8"
+                  className="group grid w-full grid-cols-[2.5rem_minmax(0,1fr)_auto] items-baseline gap-x-4 gap-y-2 py-6 text-left transition-colors hover:bg-panel sm:grid-cols-[4rem_minmax(0,1fr)_auto_2rem] sm:px-4 sm:py-8"
                 >
                   <span className="font-mono text-sm text-blue sm:text-base">{e.no}</span>
-                  <span className="display text-[clamp(1.75rem,5vw,4rem)] transition-transform duration-300 group-hover:translate-x-2">
+                  <span className="display min-w-0 break-words text-[clamp(1.75rem,5vw,4rem)] transition-transform duration-300 group-hover:translate-x-2">
                     {e.company}
                   </span>
-                  <span className="col-start-2 font-mono text-xs uppercase text-mute sm:col-start-3 sm:text-sm">
+                  <span className="col-start-2 min-w-0 font-mono text-xs uppercase text-mute sm:col-start-3 sm:text-sm">
                     {e.role} · {e.period}
                   </span>
                   <span
